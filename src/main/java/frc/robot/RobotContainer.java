@@ -1,20 +1,17 @@
-
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
 
-import frc.robot.commands.CoralOuttake;
-import frc.robot.commands.DriveDynamic;
-import frc.robot.commands.DriveStatic;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.CoralSubsystem;
-import java.time.Clock;
-
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.Autos;
+import frc.robot.commands.AngleArmStaticCommand;
+import frc.robot.subsystems.AngleArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.AngleArmConstants;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -24,24 +21,28 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final DriveSubsystem m_Subsystem = new DriveSubsystem();
-  private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
-  CommandXboxController xcontroller = new CommandXboxController(0); 
-  private DriveDynamic m_dynCommand = new DriveDynamic(m_Subsystem, xcontroller :: getRightY, xcontroller :: getLeftY);
-  private DriveStatic m_StaticCommandSpeed25 = new DriveStatic(m_Subsystem,0.25);
-  private DriveStatic m_StaticCommandSpeed50 = new DriveStatic(m_Subsystem,0.5);
-  private CoralOuttake m_CoralOuttake = new CoralOuttake(m_CoralSubsystem);
+  private final AngleArmSubsystem m_AngleArmSubsystem = new AngleArmSubsystem();
+
+  private AngleArmStaticCommand m_FloorPosition = new AngleArmStaticCommand(m_AngleArmSubsystem, AngleArmConstants.setPositionFloor);
+  private AngleArmStaticCommand m_Stage1Position = new AngleArmStaticCommand(m_AngleArmSubsystem, AngleArmConstants.setPositionStage1);
+  private AngleArmStaticCommand m_Stage2Position = new AngleArmStaticCommand(m_AngleArmSubsystem, AngleArmConstants.setPositionStage2);
+  private AngleArmStaticCommand m_ClimbPosition = new AngleArmStaticCommand(m_AngleArmSubsystem, AngleArmConstants.setPositionClimb);
+
+  private final CommandXboxController m_OperatorController =
+      new CommandXboxController(OperatorConstants.kOperatorControllerPort);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Configure the trigger bindings
+    //Confiure the trigger bindings
     configureBindings();
   }
 
+
   private void configureBindings() {
-    xcontroller.a().whileTrue(m_StaticCommandSpeed25);
-    xcontroller.x().toggleOnTrue(m_CoralOuttake);
-    xcontroller.rightTrigger().whileTrue(m_StaticCommandSpeed50);
-    m_Subsystem.setDefaultCommand(m_dynCommand);
+    m_OperatorController.b().whileTrue(m_FloorPosition);
+    m_OperatorController.a().whileTrue(m_Stage1Position);
+    m_OperatorController.x().whileTrue(m_Stage2Position);
+    m_OperatorController.y().whileTrue(m_ClimbPosition);
   }
 
   /**
@@ -51,6 +52,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return null;
+    return Autos.exampleAuto(m_AngleArmSubsystem);
   }
 }

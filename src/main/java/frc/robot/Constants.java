@@ -13,11 +13,24 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  ///////////Clock Constants
-  public static final int MotorPort = 0;
-  public static final int MotorPortFR = 1;
-  public static final int MotorPortBR = 10;
-  public static final int MotorPortFL = 6;
-  public static final int MotorPortBL = 3;
-  public static final int coralMotorPort = 2;
+
+  public static class OperatorConstants {
+    public static final int kOperatorControllerPort = 0;
+  }
+
+  public static class AngleArmConstants {
+    public static final int angleArmMotorRightPort = 1;
+    public static final int angleArmMotorLeftPort = 1;
+
+    public static final double setPositionFloor = 1;
+    public static final double setPositionClimb = 1;
+    public static final double setPositionStage1 = 1;
+    public static final double setPositionStage2 = 1;
+
+    public static final double kAngleArmP = 1.0;
+    public static final double kAngleArmI = 0.0;
+    public static final double kAngleArmD = 0.0;
+    public static final double kAngleArmG = 0.3;
+  }
+
 }
