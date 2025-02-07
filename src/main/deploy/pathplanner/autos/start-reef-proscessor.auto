@@ -1,0 +1,25 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "start to reef"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "reef to proscessor"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "Reefscape autos",
+  "choreoAuto": false
+}
