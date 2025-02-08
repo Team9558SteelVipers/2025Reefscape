@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
+import frc.robot.commands.AngleArmDynamicCommand;
 import frc.robot.commands.AngleArmStaticCommand;
 import frc.robot.subsystems.AngleArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -20,16 +21,20 @@ import frc.robot.Constants.AngleArmConstants;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
+  // The robot's subsystems are defined here
   private final AngleArmSubsystem m_AngleArmSubsystem = new AngleArmSubsystem();
 
+  // The robot's controllers are defined here
+  private final CommandXboxController m_OperatorController =
+  new CommandXboxController(OperatorConstants.kOperatorControllerPort);
+  
+  // The robot's commands are defined here
   private AngleArmStaticCommand m_FloorPosition = new AngleArmStaticCommand(m_AngleArmSubsystem, AngleArmConstants.setPositionFloor);
   private AngleArmStaticCommand m_Stage1Position = new AngleArmStaticCommand(m_AngleArmSubsystem, AngleArmConstants.setPositionStage1);
   private AngleArmStaticCommand m_Stage2Position = new AngleArmStaticCommand(m_AngleArmSubsystem, AngleArmConstants.setPositionStage2);
   private AngleArmStaticCommand m_ClimbPosition = new AngleArmStaticCommand(m_AngleArmSubsystem, AngleArmConstants.setPositionClimb);
 
-  private final CommandXboxController m_OperatorController =
-      new CommandXboxController(OperatorConstants.kOperatorControllerPort);
+  public AngleArmDynamicCommand setArmSpeedMotorDyanmic = new AngleArmDynamicCommand(m_AngleArmSubsystem, m_OperatorController :: getLeftY, m_OperatorController ::getRightY);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -43,6 +48,8 @@ public class RobotContainer {
     m_OperatorController.a().whileTrue(m_Stage1Position);
     m_OperatorController.x().whileTrue(m_Stage2Position);
     m_OperatorController.y().whileTrue(m_ClimbPosition);
+
+    m_AngleArmSubsystem.setDefaultCommand(setArmSpeedMotorDyanmic);
   }
 
   /**
