@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "start to reef"
+            "pathName": "low start to reef"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "reef to proscessor"
+            "pathName": "reef to processor"
           }
         }
       ]

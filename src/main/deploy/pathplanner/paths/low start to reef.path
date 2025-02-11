@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.05376712328767,
-        "y": 6.74464897260274
+        "x": 8.00869006849315,
+        "y": 2.056635273972603
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.0019691780821915,
-        "y": 5.752953767123288
+        "x": 5.183861301369863,
+        "y": 2.8379708904109586
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.814940068493151,
-        "y": 4.040025684931507
+        "x": 5.213912671232877,
+        "y": 2.807919520547945
       },
       "prevControl": {
-        "x": 6.9568921232876715,
-        "y": 5.7379280821917815
+        "x": 8.00869006849315,
+        "y": 2.0716609589041095
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 173.65980825409017
+    "rotation": 122.27564431457765
   },
   "reversed": false,
   "folder": "Reefscape paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -177.61405596961123
   },
   "useDefaultConstraints": true
 }

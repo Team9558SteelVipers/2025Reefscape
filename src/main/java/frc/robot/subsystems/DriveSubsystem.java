@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import java.util.function.Supplier;
@@ -10,7 +11,7 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-
+// import com.pathplanner.lib.config.RobotConfig;
 
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -50,6 +51,36 @@ public class DriveSubsystem extends SubsystemBase{
         FrontL.set(-speedleft);
         BackL.set(-speedleft);
     }
-    
+   
+   
+    // RobotConfig config;
+    // try{ 
+    //     config = RobotConfig.fromGUISettings();
+    // } catch (Exception e) { 
+    //     e.printStackTrace();
+    // }
 
+    // AutoBuilder.configure(
+    //     this::getPose,
+    //     this::resetPose,
+    //     this::getRobotRelativeSpeeds,
+    //     (speeds, feedforwards) -> driveRobotRelative(speeds),
+    //     new PPHolonomicDriveController(
+    //         new PIDConstants(5.0,0.0,0.0),
+    //         new PIDConstants(5.0,0.0,0.0)
+    //     ),
+    //     config,
+    //     () -> {
+
+
+
+    //         var alliance = DriverStation.getAlliance();
+    //         if(alliance.isPresent()){ 
+    //             return alliance.get() == DriverStation.Alliance.red;
+    //         }
+    //         return false;
+    //     },
+    //     this 
+    // );
+    
 }
