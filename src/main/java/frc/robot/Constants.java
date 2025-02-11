@@ -14,10 +14,10 @@ public final class Constants {
     public static final int angleArmMotorRightPort = 1;
     public static final int angleArmMotorLeftPort = 1;
 
-    public static final double setPositionFloor = 1;
-    public static final double setPositionClimb = 1;
-    public static final double setPositionStage1 = 1;
-    public static final double setPositionStage2 = 1;
+    public static final double positionFloor = 1;
+    public static final double positionClimb = 1;
+    public static final double positionStage1 = 1;
+    public static final double positionStage2 = 1;
 
     public static final double kAngleArmP = 1.0;
     public static final double kAngleArmI = 0.0;

@@ -4,15 +4,14 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.Autos;
-import frc.robot.commands.AngleArmDynamicCommand;
-import frc.robot.commands.AngleArmStaticCommand;
-import frc.robot.subsystems.AngleArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.AngleArmConstants;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.AngleArmDynamicCommand;
+import frc.robot.commands.AngleArmStaticCommand;
+import frc.robot.commands.Autos;
+import frc.robot.subsystems.AngleArmSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -29,10 +28,10 @@ public class RobotContainer {
   new CommandXboxController(OperatorConstants.kOperatorControllerPort);
   
   // The robot's commands are defined here
-  private AngleArmStaticCommand m_FloorPosition = new AngleArmStaticCommand(m_AngleArmSubsystem, AngleArmConstants.setPositionFloor);
-  private AngleArmStaticCommand m_Stage1Position = new AngleArmStaticCommand(m_AngleArmSubsystem, AngleArmConstants.setPositionStage1);
-  private AngleArmStaticCommand m_Stage2Position = new AngleArmStaticCommand(m_AngleArmSubsystem, AngleArmConstants.setPositionStage2);
-  private AngleArmStaticCommand m_ClimbPosition = new AngleArmStaticCommand(m_AngleArmSubsystem, AngleArmConstants.setPositionClimb);
+  private final AngleArmStaticCommand m_FloorPosition = new AngleArmStaticCommand(m_AngleArmSubsystem, AngleArmConstants.positionFloor);
+  private final AngleArmStaticCommand m_Stage1Position = new AngleArmStaticCommand(m_AngleArmSubsystem, AngleArmConstants.positionStage1);
+  private final AngleArmStaticCommand m_Stage2Position = new AngleArmStaticCommand(m_AngleArmSubsystem, AngleArmConstants.positionStage2);
+  private final AngleArmStaticCommand m_ClimbPosition = new AngleArmStaticCommand(m_AngleArmSubsystem, AngleArmConstants.positionClimb);
 
   public AngleArmDynamicCommand setArmSpeedMotorDyanmic = new AngleArmDynamicCommand(m_AngleArmSubsystem, m_OperatorController :: getLeftY, m_OperatorController ::getRightY);
 
