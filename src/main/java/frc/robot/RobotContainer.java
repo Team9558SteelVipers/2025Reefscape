@@ -8,7 +8,9 @@ package frc.robot;
 import frc.robot.commands.CoralOuttake;
 import frc.robot.commands.DriveDynamic;
 import frc.robot.commands.DriveStatic;
+import frc.robot.commands.PIDExamplePositionCommand;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.PIDExample;
 import frc.robot.subsystems.CoralSubsystem;
 import java.time.Clock;
 
@@ -23,23 +25,30 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
+  // initializing subsystems
   private final DriveSubsystem m_Subsystem = new DriveSubsystem();
   private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
+  private final PIDExample m_PIDSubsystem = new PIDExample();
+  // initializing the controller
   CommandXboxController xcontroller = new CommandXboxController(0); 
+
+  // initializing commands
   private DriveDynamic m_dynCommand = new DriveDynamic(m_Subsystem, xcontroller :: getRightY, xcontroller :: getLeftY);
   private DriveStatic m_StaticCommandSpeed25 = new DriveStatic(m_Subsystem,0.25);
   private DriveStatic m_StaticCommandSpeed50 = new DriveStatic(m_Subsystem,0.5);
   private CoralOuttake m_CoralOuttake = new CoralOuttake(m_CoralSubsystem);
+  private PIDExamplePositionCommand m_Position = new PIDExamplePositionCommand(m_PIDSubsystem);
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
   }
 
+    // Setting controller bindings to start commands
   private void configureBindings() {
     xcontroller.a().whileTrue(m_StaticCommandSpeed25);
     xcontroller.x().toggleOnTrue(m_CoralOuttake);
+    xcontroller.b().whileTrue(m_Position);
     xcontroller.rightTrigger().whileTrue(m_StaticCommandSpeed50);
     m_Subsystem.setDefaultCommand(m_dynCommand);
   }

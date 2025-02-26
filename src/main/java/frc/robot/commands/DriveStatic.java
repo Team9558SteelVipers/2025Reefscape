@@ -9,9 +9,13 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.DriveSubsystem;
 public class DriveStatic extends Command {
 
-  
+  // One variable for speed, because all wheels will be set to it
   double speed;
+
+  // Subsystem variable
   DriveSubsystem m_MotorSubsystem;
+
+  // Initialize subsystem
   public DriveStatic(DriveSubsystem Subsystem, Double newSpeed){
     
     speed = newSpeed;
