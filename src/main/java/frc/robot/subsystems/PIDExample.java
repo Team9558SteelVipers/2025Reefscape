@@ -14,15 +14,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class PIDExample extends SubsystemBase {
+
+  // Initializing the Motor
   TalonFX MotorName;
 
   // Making a PID
   TalonFXConfiguration pidconfig = new TalonFXConfiguration().withSlot0(new Slot0Configs().withKP(1).withKI(0).withKD(0));
-  /** Creates a new ExampleSubsystem. */
   
-    
+  // Initializing the susbystem and setting motor variables to ports    
   public PIDExample() {
-    MotorName = new TalonFX(Constants.MotorPort);
+    MotorName = new TalonFX(Constants.MotorConstants.ExampleMotorPort);
     
     // Apllying PID to motor
     MotorName.getConfigurator().apply(pidconfig);
@@ -30,7 +31,7 @@ public class PIDExample extends SubsystemBase {
 
   public void PositionCommand() {
     // Inline construction of command goes here.
-    MotorName.setControl(new PositionVoltage(0));
+    MotorName.setControl(new PositionVoltage(0.75));
   }
 
   /**

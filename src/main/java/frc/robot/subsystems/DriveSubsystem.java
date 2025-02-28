@@ -23,17 +23,21 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
 
 public class DriveSubsystem extends SubsystemBase{
+    
+    // Initializing the Motors
     TalonFX FrontR;
     TalonFX BackR;
     TalonFX FrontL;
     TalonFX BackL;
  
     // TalonFXConfiguration pidconfig = new TalonFXConfiguration().withSlot0(new Slot0Configs().withKP(1).withKI(0).withKD(0));
+
+    // Initializing the susbystem and setting motor variables to ports
     public DriveSubsystem() {
-        FrontR = new TalonFX(Constants.MotorPortFR);
-        BackR = new TalonFX(Constants.MotorPortBR);
-        FrontL = new TalonFX(Constants.MotorPortFL);
-        BackL = new TalonFX(Constants.MotorPortBL);
+        FrontR = new TalonFX(Constants.MotorConstants.MotorPortFR);
+        BackR = new TalonFX(Constants.MotorConstants.MotorPortBR);
+        FrontL = new TalonFX(Constants.MotorConstants.MotorPortFL);
+        BackL = new TalonFX(Constants.MotorConstants.MotorPortBL);
 
         // Motor1.getConfigurator().apply(pidconfig);
         // Motor2.getConfigurator().apply(pidconfig);
