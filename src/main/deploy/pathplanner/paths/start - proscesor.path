@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.17917292954725,
-        "y": 2.7229262810117683
+        "x": 6.17916832579199,
+        "y": 2.7142705672872807
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.142725409836065,
-        "y": 2.84421106557377
+        "x": 5.130737704918032,
+        "y": 2.8561987704918033
       },
       "prevControl": {
-        "x": 6.232725827515024,
-        "y": 2.7780136887407885
+        "x": 6.215983930193566,
+        "y": 2.7831849046949393
       },
       "nextControl": null,
       "isLocked": false,
@@ -45,7 +45,7 @@
     "rotation": 119.74488129694225
   },
   "reversed": false,
-  "folder": "New Folder",
+  "folder": "reefscape paths",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 179.1574757392596
