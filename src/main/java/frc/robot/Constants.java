@@ -13,7 +13,6 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
- 
   public class MotorConstants{
   public static final int ExampleMotorPort = 0;
   public static final int MotorPortFR = 1;
@@ -22,4 +21,19 @@ public final class Constants {
   public static final int MotorPortBL = 3;
   public static final int coralMotorPort = 2;
   }
+
+    public static final int LIMELIGHT_PIPELINE = 0;
+    public static final int LIMELIGHT_CAM_MODE = 0;
+    public static final int LIMELIGHT_LED_MODE = 3;
+    public static final int kDriverControllerPort = 0;
+  public static final String LIMELIGHT_X_KEY = "tx"; // Horizontal offset from crosshair
+  public static final String LIMELIGHT_TABLE = "limelight";
+  public static final String LIMELIGHT_Y_KEY = "ty"; // Vertical offset from crosshair
+  public static final String LIMELIGHT_AREA_KEY = "ta"; // Target area (0 to 100%)
+  public static final String LIMELIGHT_VALID_TARGET_KEY = "tv"; // Whether a target is detected (0 or 1)
+  public static final String LIMELIGHT_LATENCY_KEY = "tl"; // Latency of camera
+  public static final double LIMELIGHT_HEIGHT = 24.0; // Height of the Limelight camera from the floor (in inches)
+  public static final double TARGET_HEIGHT = 98.0; // Height of the target from the floor (in inches)
+  public static final double LIMELIGHT_DISTANCE_CONSTANT = 0.25;
+  public static final double LIMELIGHT_MOUNT_ANGLE = 30.0; // Mounting angle of Limelight (degrees)
 }

@@ -1,22 +1,21 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-/**
- * The methods in this class are called automatically corresponding to each mode, as described in
- * the TimedRobot documentation. If you change the name of this class or the package after creating
- * this project, you must also update the Main.java file in the project.
- */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private final RobotContainer m_robotContainer;
+
+  private XboxController driverController; // Xbox controller for driver input
+  private NetworkTable limelightTable; // NetworkTable instance for Limelight data
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -28,20 +27,22 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
   }
 
-  /**
-   * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
-   * that you want ran during disabled, autonomous, teleoperated and test.
-   *
-   * <p>This runs after the mode specific periodic functions, but before LiveWindow and
-   * SmartDashboard integrated updating.
-   */
+  @Override
+    public void robotInit() {
+        // Initialize the Xbox controller on the specified port
+        driverController = new XboxController(Constants.kDriverControllerPort);
+        
+        // Connect to the Limelight NetworkTable
+        limelightTable = NetworkTableInstance.getDefault().getTable(Constants.LIMELIGHT_TABLE);
+    }
+  
   @Override
   public void robotPeriodic() {
-    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-    // commands, running already-scheduled commands, removing finished or interrupted commands,
-    // and running subsystem periodic() methods.  This must be called from the robot's periodic
-    // block in order for anything in the Command-based framework to work.
-    CommandScheduler.getInstance().run();
+      // Run the scheduler for command-based programming
+      CommandScheduler.getInstance().run();
+      
+      // Continuously update Limelight data on the SmartDashboard
+      updateLimelightData();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -77,9 +78,23 @@ public class Robot extends TimedRobot {
     }
   }
 
-  /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+      // Check if the 'A' button is pressed on the controller
+      if (driverController.getAButton()) {
+          // Retrieve Limelight data
+          double targetOffsetX = getLimelightValue(Constants.LIMELIGHT_X_KEY);
+          double targetOffsetY = getLimelightValue(Constants.LIMELIGHT_Y_KEY);
+          double targetArea = getLimelightValue(Constants.LIMELIGHT_AREA_KEY);
+          double targetValid = getLimelightValue(Constants.LIMELIGHT_VALID_TARGET_KEY);
+          
+          // Display Limelight data on the SmartDashboard
+          SmartDashboard.putNumber("Target Offset X", targetOffsetX);
+          SmartDashboard.putNumber("Target Offset Y", targetOffsetY);
+          SmartDashboard.putNumber("Target Area", targetArea);
+          SmartDashboard.putNumber("Target Valid", targetValid);
+      }
+  }
 
   @Override
   public void testInit() {
@@ -87,15 +102,21 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().cancelAll();
   }
 
-  /** This function is called periodically during test mode. */
-  @Override
-  public void testPeriodic() {}
-
-  /** This function is called once when the robot is first started up. */
-  @Override
-  public void simulationInit() {}
-
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
+
+    private void updateLimelightData() {
+        // Fetch and display Limelight values on the SmartDashboard
+        SmartDashboard.putNumber("Limelight X", getLimelightValue(Constants.LIMELIGHT_X_KEY)); //displays x value data 
+        SmartDashboard.putNumber("Limelight Y", getLimelightValue(Constants.LIMELIGHT_Y_KEY));  //displays y value data 
+        SmartDashboard.putNumber("Limelight Area", getLimelightValue(Constants.LIMELIGHT_AREA_KEY));  
+        SmartDashboard.putNumber("Limelight Valid Target", getLimelightValue(Constants.LIMELIGHT_VALID_TARGET_KEY)); //displays wether camera has a valid target value on smartdashboard
+    }
+
+    private double getLimelightValue(String key) {
+        // Retrieve a value from the Limelight NetworkTable using the given key
+        NetworkTableEntry entry = limelightTable.getEntry(key);
+        return entry.getDouble(0.0); // Return the value, or 0.0 if not found
+    }
 }
