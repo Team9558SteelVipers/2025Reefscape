@@ -4,20 +4,17 @@
 
 package frc.robot.commands;
 
-import java.util.function.Supplier;
-
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.AngleArmSubsystem;
+import java.util.function.Supplier;
 
 public class AngleArmDynamicCommand extends Command {
-  private final AngleArmSubsystem m_AngleArmSubsystem;
-  Supplier <Double> leftSpeed;
-  Supplier <Double> rightSpeed;
+  private final AngleArmSubsystem m_angleArmSubsystem;
+  Supplier <Double> m_speed;
 
-  public AngleArmDynamicCommand(AngleArmSubsystem angleArmSubsystem, Supplier <Double> m_LeftSpeed, Supplier <Double> m_RightSpeed) {
-    m_AngleArmSubsystem = angleArmSubsystem;
-    leftSpeed = m_LeftSpeed;
-    rightSpeed = m_RightSpeed;
+  public AngleArmDynamicCommand(AngleArmSubsystem angleArmSubsystem, Supplier <Double> speed) {
+    m_angleArmSubsystem = angleArmSubsystem;
+    m_speed = speed;
 
     addRequirements(angleArmSubsystem);
   }
@@ -29,7 +26,7 @@ public class AngleArmDynamicCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_AngleArmSubsystem.setArmSpeedDynamic(leftSpeed.get(),rightSpeed.get());
+    m_angleArmSubsystem.setArmSpeedDynamic(m_speed.get());
   }
 
   // Called once the command ends or is interrupted.

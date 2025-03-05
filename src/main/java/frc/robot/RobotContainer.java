@@ -4,14 +4,15 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.AngleArmConstants;
+import frc.robot.Constants.ArmAngleConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.Autos;
 import frc.robot.commands.AngleArmDynamicCommand;
 import frc.robot.commands.AngleArmStaticCommand;
-import frc.robot.commands.Autos;
 import frc.robot.subsystems.AngleArmSubsystem;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -20,35 +21,40 @@ import frc.robot.subsystems.AngleArmSubsystem;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems are defined here
-  private final AngleArmSubsystem m_AngleArmSubsystem = new AngleArmSubsystem();
+  // The robot's subsystems a 
+  private final AngleArmSubsystem m_angleArmSubsystem = new AngleArmSubsystem();
 
-  // The robot's controllers are defined here
-  private final CommandXboxController m_OperatorController =
-  new CommandXboxController(OperatorConstants.kOperatorControllerPort);
-  
-  // The robot's commands are defined here
-  private final AngleArmStaticCommand m_FloorPosition = new AngleArmStaticCommand(m_AngleArmSubsystem, AngleArmConstants.positionFloor);
-  private final AngleArmStaticCommand m_Stage1Position = new AngleArmStaticCommand(m_AngleArmSubsystem, AngleArmConstants.positionStage1);
-  private final AngleArmStaticCommand m_Stage2Position = new AngleArmStaticCommand(m_AngleArmSubsystem, AngleArmConstants.positionStage2);
-  private final AngleArmStaticCommand m_ClimbPosition = new AngleArmStaticCommand(m_AngleArmSubsystem, AngleArmConstants.positionClimb);
+  // Operator Controller defined here
+  private final CommandXboxController m_operatorController =
+      new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
-  public AngleArmDynamicCommand setArmSpeedMotorDyanmic = new AngleArmDynamicCommand(m_AngleArmSubsystem, m_OperatorController :: getLeftY, m_OperatorController ::getRightY);
+  private final AngleArmStaticCommand m_positionFloor = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionFloor);
+  private final AngleArmStaticCommand m_positionStage1 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionFloor);
+  private final AngleArmStaticCommand m_positionStage2 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionStage2);
+  private final AngleArmStaticCommand m_positionClimb = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionClimb);
+
+  private  AngleArmDynamicCommand setAngleArmDynamicCommand = new AngleArmDynamicCommand(m_angleArmSubsystem, m_operatorController ::getLeftY);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    //Confiure the trigger bindings
+    // Configure the trigger bindings
     configureBindings();
   }
 
-
+  /**
+   * Use this method to define your trigger->command mappings. Triggers can be created via the
+   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
+   * predicate, or via the named factories in {@link
+   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
+   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+   * joysticks}.
+   */
   private void configureBindings() {
-    m_OperatorController.b().whileTrue(m_FloorPosition);
-    m_OperatorController.a().whileTrue(m_Stage1Position);
-    m_OperatorController.x().whileTrue(m_Stage2Position);
-    m_OperatorController.y().whileTrue(m_ClimbPosition);
-
-    m_AngleArmSubsystem.setDefaultCommand(setArmSpeedMotorDyanmic);
+    m_operatorController.a().whileTrue(m_positionFloor);
+    m_operatorController.x().whileTrue(m_positionStage1);
+    m_operatorController.y().whileTrue(m_positionStage2);
+    m_operatorController.b().whileTrue(m_positionClimb);
   }
 
   /**
@@ -58,6 +64,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return Autos.exampleAuto(m_AngleArmSubsystem);
+    return null;
   }
 }

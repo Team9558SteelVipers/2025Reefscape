@@ -9,20 +9,20 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 
 public class AngleArmStaticCommand extends Command {
-  private final double m_Position;
-  private final AngleArmSubsystem m_AngleArmSubsystem;
+  private final double m_position;
+  private final AngleArmSubsystem m_anglearmsubsystem;
 
-  public AngleArmStaticCommand(AngleArmSubsystem angleArmSubsystem, double position) {
-    m_AngleArmSubsystem = angleArmSubsystem;
-    m_Position = position;
+  public AngleArmStaticCommand(AngleArmSubsystem anglearmsubsystem, double position) {
+    m_anglearmsubsystem = anglearmsubsystem;
+    m_position = position;
 
-    addRequirements(angleArmSubsystem);
+    addRequirements(anglearmsubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_AngleArmSubsystem.setArmPositionStatic(m_Position);
+    m_anglearmsubsystem.setArmPositionStatic(m_position);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
