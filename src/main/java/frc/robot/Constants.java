@@ -15,7 +15,21 @@ package frc.robot;
 public final class Constants {
   public static final int kTopIntakePort = 0;
   public static final int kBottomIntakePort = 1;
+  
+  public final class CoralMotorConstants{
+    public static final int coralMotorPort = 0;
+  }
 
+  public final class DriveMotorConstants{
+    public static final int MotorPortBL = 0;
+    public static final int MotorPortBR = 0;
+    public static final int MotorPortFL = 0;
+    public static final int MotorPortFR = 0;
+  }
+
+  public final class PIDMotorConstants{
+    public static final int ExampleMotorPort = 0;
+  }
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }

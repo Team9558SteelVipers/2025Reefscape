@@ -22,7 +22,7 @@ public class CoralSubsystem extends SubsystemBase{
 
     // Initializing the susbystem and setting motor variables to ports    
     public CoralSubsystem() {
-        CoralMotor = new TalonFX(Constants.MotorConstants.coralMotorPort);
+        CoralMotor = new TalonFX(Constants.CoralMotorConstants.coralMotorPort);
     }
 
     // Method to remove coral from the intake

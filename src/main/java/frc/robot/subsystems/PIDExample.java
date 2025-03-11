@@ -23,7 +23,7 @@ public class PIDExample extends SubsystemBase {
   
   // Initializing the susbystem and setting motor variables to ports    
   public PIDExample() {
-    MotorName = new TalonFX(Constants.MotorConstants.ExampleMotorPort);
+    MotorName = new TalonFX(Constants.PIDMotorConstants.ExampleMotorPort);
     
     // Apllying PID to motor
     MotorName.getConfigurator().apply(pidconfig);

@@ -34,10 +34,10 @@ public class DriveSubsystem extends SubsystemBase{
 
     // Initializing the susbystem and setting motor variables to ports
     public DriveSubsystem() {
-        FrontR = new TalonFX(Constants.MotorConstants.MotorPortFR);
-        BackR = new TalonFX(Constants.MotorConstants.MotorPortBR);
-        FrontL = new TalonFX(Constants.MotorConstants.MotorPortFL);
-        BackL = new TalonFX(Constants.MotorConstants.MotorPortBL);
+        FrontR = new TalonFX(Constants.DriveMotorConstants.MotorPortFR);
+        BackR = new TalonFX(Constants.DriveMotorConstants.MotorPortBR);
+        FrontL = new TalonFX(Constants.DriveMotorConstants.MotorPortFL);
+        BackL = new TalonFX(Constants.DriveMotorConstants.MotorPortBL);
     }
 
         // Motor1.getConfigurator().apply(pidconfig);
