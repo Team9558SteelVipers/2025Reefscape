@@ -1,19 +1,15 @@
-
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot;
 
-import frc.robot.commands.CoralOuttake;
-import frc.robot.commands.DriveDynamic;
-import frc.robot.commands.DriveStatic;
-import frc.robot.commands.PIDExamplePositionCommand;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.PIDExample;
-import frc.robot.subsystems.CoralSubsystem;
-import java.time.Clock;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.Autos;
 
+import frc.robot.commands.setSpeedCommand;
+
+import frc.robot.subsystems.InTakeOutTakesubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -25,32 +21,46 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // initializing subsystems
-  private final DriveSubsystem m_Subsystem = new DriveSubsystem();
-  private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
-  private final PIDExample m_PIDSubsystem = new PIDExample();
-  // initializing the controller
-  CommandXboxController xcontroller = new CommandXboxController(0); 
+  
+    final InTakeOutTakesubsystem m_InOuttakeSubsystem = new InTakeOutTakesubsystem();
 
-  // initializing commands
-  private DriveDynamic m_dynCommand = new DriveDynamic(m_Subsystem, xcontroller :: getRightY, xcontroller :: getLeftY);
-  private DriveStatic m_StaticCommandSpeed25 = new DriveStatic(m_Subsystem,0.25);
-  private DriveStatic m_StaticCommandSpeed50 = new DriveStatic(m_Subsystem,0.5);
-  private CoralOuttake m_CoralOuttake = new CoralOuttake(m_CoralSubsystem);
-  private PIDExamplePositionCommand m_Position = new PIDExamplePositionCommand(m_PIDSubsystem);
+    public CommandXboxController inOutController = new CommandXboxController(0);
+
+    public setSpeedCommand m_SpeedCommand = new setSpeedCommand(0, m_InOuttakeSubsystem);
+    public setSpeedCommand m_ReverseSpeed = new setSpeedCommand(-0.5, m_InOuttakeSubsystem);
+    
+  // The robot's subsystems and commands are defined here...
+  
+
+  // Replace with CommandPS4Controller or CommandJoystick if needed
+  
+    private final CommandXboxController contrllerx =  new CommandXboxController(OperatorConstants.kDriverControllerPort);
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
   }
 
-    // Setting controller bindings to start commands
+  /**
+   * Use this method to define your trigger->command mappings. Triggers can be created via the
+   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
+   * predicate, or via the named factories in {@link
+   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
+   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
+   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
+   * joysticks}.
+   */
   private void configureBindings() {
-    xcontroller.a().whileTrue(m_StaticCommandSpeed25);
-    xcontroller.x().toggleOnTrue(m_CoralOuttake);
-    xcontroller.b().whileTrue(m_Position);
-    xcontroller.rightTrigger().whileTrue(m_StaticCommandSpeed50);
-    m_Subsystem.setDefaultCommand(m_dynCommand);
+    inOutController.rightBumper().whileTrue(m_SpeedCommand);
+    inOutController.leftBumper().whileTrue(m_ReverseSpeed);
+    // Schedule `ExampleColmmand` when `exampleCondition` changes to `true`
+    // new Trigger(m_exampleSubsystem::exampleCondition)
+    //     .onTrue(new ExampleCommand(m_exampleSubsystem));
+
+    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
+    // cancelling on release.
+    
   }
 
   /**
