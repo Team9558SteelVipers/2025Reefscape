@@ -45,7 +45,7 @@ public class RobotContainer {
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   
-    private final CommandXboxController contrllerx =  new CommandXboxController(OperatorConstants.kDriverControllerPort);
+    private final CommandXboxController controllerx =  new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -65,6 +65,12 @@ public class RobotContainer {
   private void configureBindings() {
     inOutController.rightBumper().whileTrue(m_SpeedCommand);
     inOutController.leftBumper().whileTrue(m_ReverseSpeed);
+
+    m_operatorController.a().whileTrue(m_positionFloor);
+    m_operatorController.x().whileTrue(m_positionStage1);
+    m_operatorController.y().whileTrue(m_positionStage2);
+    m_operatorController.b().whileTrue(m_positionClimb);
+
     // Schedule `ExampleColmmand` when `exampleCondition` changes to `true`
     // new Trigger(m_exampleSubsystem::exampleCondition)
     //     .onTrue(new ExampleCommand(m_exampleSubsystem));

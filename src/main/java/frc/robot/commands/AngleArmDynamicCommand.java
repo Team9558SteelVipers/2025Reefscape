@@ -11,12 +11,10 @@ import java.util.function.Supplier;
 public class AngleArmDynamicCommand extends Command {
   private final AngleArmSubsystem m_AngleArmSubsystem;
   Supplier <Double> setSpeedLeft;
-  Supplier <Double> setSpeedRight;
 
-  public AngleArmDynamicCommand(AngleArmSubsystem angleArmSubsystem, Supplier <Double> new_SetSpeedLeft, Supplier <Double> new_SetSpeedRight) {
+  public AngleArmDynamicCommand(AngleArmSubsystem angleArmSubsystem, Supplier <Double> new_SetSpeedLeft) {
     m_AngleArmSubsystem = angleArmSubsystem;
     setSpeedLeft = new_SetSpeedLeft;
-    setSpeedRight;
 
     setSpeedLeft.get();
 
@@ -30,7 +28,7 @@ public class AngleArmDynamicCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_AngleArmSubsystem.setArmSpeedDynamic(setSpeedLeft.get(),setSpeedRight.get());
+    m_AngleArmSubsystem.setArmSpeedDynamic(setSpeedLeft.get());
   }
 
   // Called once the command ends or is interrupted.

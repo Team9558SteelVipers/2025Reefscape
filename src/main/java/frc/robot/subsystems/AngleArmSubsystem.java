@@ -39,8 +39,8 @@ public class AngleArmSubsystem extends SubsystemBase {
     //angleArmMotorLeft.setControl(new PositionVoltage(position));
   }
 
-  public void setArmSpeedDynamic (double setSpeedRight, double setSpeedLeft){
-    angleArmMotorRight.set(ArmAngleConstants.damperSpeedValue * (-setSpeedRight));
+  public void setArmSpeedDynamic (double setSpeedLeft){
+    angleArmMotorRight.set(ArmAngleConstants.damperSpeedValue * (-setSpeedLeft));
     // angleArmMotorLeft.set(ArmAngleConstants.speedDampenerValue*(setSpeedLeft));
   }
   
