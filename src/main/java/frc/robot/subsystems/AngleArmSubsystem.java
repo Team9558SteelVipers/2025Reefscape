@@ -13,22 +13,22 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 
-import frc.robot.Constants.AngleArmConstants;
+import frc.robot.Constants.ArmAngleConstants;
 
 public class AngleArmSubsystem extends SubsystemBase {
   TalonFX angleArmMotorRight;
   //TalonFX angleArmMotorLeft;
 
   TalonFXConfiguration pidConfiguration = new TalonFXConfiguration().withSlot0(new Slot0Configs()
-    .withKP(AngleArmConstants.kAngleArmP)
-    .withKI(AngleArmConstants.kAngleArmI)
-    .withKD(AngleArmConstants.kAngleArmD)
-    .withKG(AngleArmConstants.kAngleArmG)
+    .withKP(ArmAngleConstants.kArmP)
+    .withKI(ArmAngleConstants.kArmI)
+    .withKD(ArmAngleConstants.kArmD)
+    .withKG(ArmAngleConstants.kArmG)
       .withGravityType(GravityTypeValue.Arm_Cosine));
 
   public AngleArmSubsystem() {
-    angleArmMotorRight = new TalonFX(AngleArmConstants.angleArmMotorRightPort);
-    //angleArmMotorLeft = new TalonFX(AngleArmConstants.angleArmMotorLeftPort);
+    angleArmMotorRight = new TalonFX(ArmAngleConstants.rightArmMotorPort);
+    //angleArmMotorLeft = new TalonFX(ArmAngleConstants.angleArmMotorLeftPort);
 
     angleArmMotorRight.getConfigurator().apply(pidConfiguration);
     //angleArmMotorLeft.getConfigurator().apply(pidConfiguration);
@@ -40,8 +40,8 @@ public class AngleArmSubsystem extends SubsystemBase {
   }
 
   public void setArmSpeedDynamic (double setSpeedRight, double setSpeedLeft){
-    angleArmMotorRight.set(AngleArmConstants.speedDampenerValue * (-setSpeedRight));
-    // angleArmMotorLeft.set(AngleArmConstants.speedDampenerValue*(setSpeedLeft));
+    angleArmMotorRight.set(ArmAngleConstants.damperSpeedValue * (-setSpeedRight));
+    // angleArmMotorLeft.set(ArmAngleConstants.speedDampenerValue*(setSpeedLeft));
   }
   
 

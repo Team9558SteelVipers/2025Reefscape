@@ -15,8 +15,8 @@ public class AngleArmDynamicCommand extends Command {
 
   public AngleArmDynamicCommand(AngleArmSubsystem angleArmSubsystem, Supplier <Double> new_SetSpeedLeft, Supplier <Double> new_SetSpeedRight) {
     m_AngleArmSubsystem = angleArmSubsystem;
-    setSpeedLeft;
-    Supplier <Double> setSpeedRight;
+    setSpeedLeft = new_SetSpeedLeft;
+    setSpeedRight;
 
     setSpeedLeft.get();
 

@@ -4,10 +4,12 @@
 
 package frc.robot;
 
+import frc.robot.Constants.ArmAngleConstants;
 import frc.robot.Constants.OperatorConstants;
-
+import frc.robot.commands.AngleArmDynamicCommand;
+import frc.robot.commands.AngleArmStaticCommand;
 import frc.robot.commands.setSpeedCommand;
-
+import frc.robot.subsystems.AngleArmSubsystem;
 import frc.robot.subsystems.InTakeOutTakesubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -22,9 +24,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
   
     final InTakeOutTakesubsystem m_InOuttakeSubsystem = new InTakeOutTakesubsystem();
+    final AngleArmSubsystem m_angleArmSubsystem = new AngleArmSubsystem();
 
+    
     public CommandXboxController inOutController = new CommandXboxController(0);
-
+    public CommandXboxController m_operatorController = new CommandXboxController(0);
     public setSpeedCommand m_SpeedCommand = new setSpeedCommand(0, m_InOuttakeSubsystem);
     public setSpeedCommand m_ReverseSpeed = new setSpeedCommand(-0.5, m_InOuttakeSubsystem);
     
