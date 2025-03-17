@@ -14,9 +14,6 @@ public class Robot extends TimedRobot {
 
   private final RobotContainer m_robotContainer;
 
-  private XboxController driverController; // Xbox controller for driver input
-  private NetworkTable limelightTable; // NetworkTable instance for Limelight data
-
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -28,12 +25,7 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-    public void robotInit() {
-        // Initialize the Xbox controller on the specified port
-        driverController = new XboxController(Constants.kDriverControllerPort);
-        
-        // Connect to the Limelight NetworkTable
-        limelightTable = NetworkTableInstance.getDefault().getTable(Constants.LIMELIGHT_TABLE);
+    public void robotInit() {        
     }
   
   @Override
@@ -80,20 +72,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-      // Check if the 'A' button is pressed on the controller
-      if (driverController.getAButton()) {
-          // Retrieve Limelight data
-          double targetOffsetX = getLimelightValue(Constants.LIMELIGHT_X_KEY);
-          double targetOffsetY = getLimelightValue(Constants.LIMELIGHT_Y_KEY);
-          double targetArea = getLimelightValue(Constants.LIMELIGHT_AREA_KEY);
-          double targetValid = getLimelightValue(Constants.LIMELIGHT_VALID_TARGET_KEY);
-          
-          // Display Limelight data on the SmartDashboard
-          SmartDashboard.putNumber("Target Offset X", targetOffsetX);
-          SmartDashboard.putNumber("Target Offset Y", targetOffsetY);
-          SmartDashboard.putNumber("Target Area", targetArea);
-          SmartDashboard.putNumber("Target Valid", targetValid);
-      }
   }
 
   @Override
@@ -107,16 +85,6 @@ public class Robot extends TimedRobot {
   public void simulationPeriodic() {}
 
     private void updateLimelightData() {
-        // Fetch and display Limelight values on the SmartDashboard
-        SmartDashboard.putNumber("Limelight X", getLimelightValue(Constants.LIMELIGHT_X_KEY)); //displays x value data 
-        SmartDashboard.putNumber("Limelight Y", getLimelightValue(Constants.LIMELIGHT_Y_KEY));  //displays y value data 
-        SmartDashboard.putNumber("Limelight Area", getLimelightValue(Constants.LIMELIGHT_AREA_KEY));  
-        SmartDashboard.putNumber("Limelight Valid Target", getLimelightValue(Constants.LIMELIGHT_VALID_TARGET_KEY)); //displays wether camera has a valid target value on smartdashboard
-    }
 
-    private double getLimelightValue(String key) {
-        // Retrieve a value from the Limelight NetworkTable using the given key
-        NetworkTableEntry entry = limelightTable.getEntry(key);
-        return entry.getDouble(0.0); // Return the value, or 0.0 if not found
     }
 }
