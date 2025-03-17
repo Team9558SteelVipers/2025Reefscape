@@ -10,6 +10,13 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
+  public static class ServoArmConstants{
+    public static final int armServoPort = 0;
+
+    public static final double angle0 = 0;
+    public static final double angle180 = 180;
+  }
+
   public static class ArmAngleConstants {
     public static final int leftArmMotorPort = 6;
     public static final int rightArmMotorPort = 2;
