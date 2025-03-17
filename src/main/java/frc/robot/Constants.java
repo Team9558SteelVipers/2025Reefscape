@@ -51,11 +51,6 @@ public final class Constants {
 
     public static final double damperSpeedValue = 0.5;
   }
-  
-  public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
-  }
-
   public class AngleArmConstants {
     public static final double kAngleArmP = 0.0;
     public static final double kAngleArmI = 0.0;
