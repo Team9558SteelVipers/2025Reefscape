@@ -1,47 +1,50 @@
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
+
 package frc.robot;
 
-import edu.wpi.first.wpilibj.XboxController;
+import frc.robot.Constants.ArmAngleConstants;
+import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.ServoArmConstants;
+import frc.robot.commands.ServoArmCommand;
+import frc.robot.subsystems.ServoArmSubsystem;
+import frc.robot.commands.AngleArmDynamicCommand;
+import frc.robot.commands.AngleArmStaticCommand;
+import frc.robot.commands.setSpeedCommand;
+import frc.robot.subsystems.AngleArmSubsystem;
+import frc.robot.subsystems.InTakeOutTakesubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.CoralOuttake;
-import frc.robot.commands.DriveDynamic;
-import frc.robot.commands.DriveStatic;
-import frc.robot.commands.PIDExamplePositionCommand;
-import frc.robot.subsystems.CoralSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.PIDExample;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.CoralOuttake;
-import frc.robot.commands.DriveDynamic;
-import frc.robot.commands.DriveStatic;
-import frc.robot.commands.PIDExamplePositionCommand;
-import frc.robot.subsystems.CoralSubsystem;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.PIDExample;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.networktables.NetworkTable;
-//import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 public class RobotContainer {
-      // initializing subsystems
-  private final DriveSubsystem m_Subsystem = new DriveSubsystem();
-  private final CoralSubsystem m_CoralSubsystem = new CoralSubsystem();
-  private final PIDExample m_PIDSubsystem = new PIDExample();
-  // initializing the controller
-  CommandXboxController xcontroller = new CommandXboxController(0); 
+  
+  private final InTakeOutTakesubsystem m_InOuttakeSubsystem = new InTakeOutTakesubsystem();
+  private final AngleArmSubsystem m_angleArmSubsystem = new AngleArmSubsystem();
+  private final ServoArmSubsystem m_servoArmSubsystem = new ServoArmSubsystem();
+  
+  private final CommandXboxController m_operatorController =
+      new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
-  private final XboxController driverController = new XboxController(Constants.kDriverControllerPort);
+  private final AngleArmStaticCommand m_positionFloor = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionFloor);
+  private final AngleArmStaticCommand m_positionStage1 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionFloor);
+  private final AngleArmStaticCommand m_positionStage2 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionStage2);
+  private final AngleArmStaticCommand m_positionClimb = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionClimb);
+
+  public setSpeedCommand m_SpeedCommand = new setSpeedCommand(0, m_InOuttakeSubsystem);
+  public setSpeedCommand m_ReverseSpeed = new setSpeedCommand(-0.5, m_InOuttakeSubsystem);
+
+  private  AngleArmDynamicCommand setAngleArmDynamic = new AngleArmDynamicCommand(m_angleArmSubsystem, m_operatorController ::getLeftY);
+
+  private ServoArmCommand lockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle180);
+  private ServoArmCommand unlockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle0);
+
   private final NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
-
-  // initializing commands
-  private DriveDynamic m_dynCommand = new DriveDynamic(m_Subsystem, xcontroller :: getRightY, xcontroller :: getLeftY);
-  private DriveStatic m_StaticCommandSpeed25 = new DriveStatic(m_Subsystem,0.25);
-  private DriveStatic m_StaticCommandSpeed50 = new DriveStatic(m_Subsystem,0.5);
-  private CoralOuttake m_CoralOuttake = new CoralOuttake(m_CoralSubsystem);
-  private PIDExamplePositionCommand m_Position = new PIDExamplePositionCommand(m_PIDSubsystem);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -49,16 +52,21 @@ public class RobotContainer {
     configureBindings();
   }
 
-    // Setting controller bindings to start commands
   private void configureBindings() {
-    xcontroller.a().whileTrue(m_StaticCommandSpeed25);
-    xcontroller.x().toggleOnTrue(m_CoralOuttake);
-    xcontroller.b().whileTrue(m_Position);
-    xcontroller.rightTrigger().whileTrue(m_StaticCommandSpeed50);
-    m_Subsystem.setDefaultCommand(m_dynCommand);
+    m_operatorController.a().onTrue(m_positionFloor);
+    m_operatorController.x().onTrue(m_positionStage1);
+    m_operatorController.y().onTrue(m_positionStage2);
+    m_operatorController.b().onTrue(m_positionClimb);
 
-    new JoystickButton(driverController, XboxController.Button.kA.value)
-    .onTrue(new InstantCommand(this::displayLimelightData));
+    m_operatorController.leftTrigger().onTrue(lockArmMotors);
+    m_operatorController.rightTrigger().onTrue(unlockArmMotors);
+
+    m_operatorController.leftBumper().whileTrue(m_ReverseSpeed);
+    m_operatorController.rightBumper().whileTrue(m_SpeedCommand);
+
+    m_operatorController.back().onTrue(new InstantCommand(this::displayLimelightData));
+
+    m_angleArmSubsystem.setDefaultCommand(setAngleArmDynamic);
   }
 
   /**
