@@ -17,6 +17,7 @@ import frc.robot.subsystems.AngleArmSubsystem;
 import frc.robot.subsystems.InTakeOutTakesubsystem;
 import frc.robot.subsystems.JawsOfLifeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.networktables.NetworkTable;
@@ -60,17 +61,14 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+
     m_operatorController.a().onTrue(m_positionFloor);
     m_operatorController.x().onTrue(m_positionStage1);
     m_operatorController.y().onTrue(m_positionStage2);
     m_operatorController.b().onTrue(m_positionClimb);
 
-    // TODO: combine commands
-    m_operatorController.leftTrigger().onTrue(m_JawsOfLifeOpen);
-    m_operatorController.rightTrigger().onTrue(m_JawsOfLifeClose);
-
-    m_operatorController.leftTrigger().onTrue(lockArmMotors);
-    m_operatorController.rightTrigger().onTrue(unlockArmMotors);
+    m_operatorController.leftTrigger().onTrue(Commands.parallel(m_JawsOfLifeOpen, lockArmMotors));
+    m_operatorController.rightTrigger().onTrue(Commands.parallel(m_JawsOfLifeClose, unlockArmMotors));
 
     m_operatorController.leftBumper().whileTrue(m_ReverseSpeed);
     m_operatorController.rightBumper().whileTrue(m_SpeedCommand);
