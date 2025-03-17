@@ -7,7 +7,6 @@ package frc.robot;
 import frc.robot.Constants.ArmAngleConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.ServoArmConstants;
-import frc.robot.commands.Autos;
 import frc.robot.commands.ServoArmCommand;
 import frc.robot.subsystems.ServoArmSubsystem;
 import frc.robot.commands.AngleArmDynamicCommand;
@@ -16,8 +15,11 @@ import frc.robot.commands.setSpeedCommand;
 import frc.robot.subsystems.AngleArmSubsystem;
 import frc.robot.subsystems.InTakeOutTakesubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class RobotContainer {
@@ -42,6 +44,8 @@ public class RobotContainer {
   private ServoArmCommand lockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle180);
   private ServoArmCommand unlockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle0);
 
+  private final NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -60,6 +64,8 @@ public class RobotContainer {
     m_operatorController.leftBumper().whileTrue(m_ReverseSpeed);
     m_operatorController.rightBumper().whileTrue(m_SpeedCommand);
 
+    m_operatorController.back().onTrue(new InstantCommand(this::displayLimelightData));
+
     m_angleArmSubsystem.setDefaultCommand(setAngleArmDynamic);
   }
 
@@ -72,5 +78,15 @@ public class RobotContainer {
     // An example command will be run in autonomous
     return null;
   }
-  
+
+    private void displayLimelightData() {
+        SmartDashboard.putNumber("Limelight X", getLimelightValue(Constants.LIMELIGHT_X_KEY));
+        SmartDashboard.putNumber("Limelight Y", getLimelightValue(Constants.LIMELIGHT_Y_KEY));
+        SmartDashboard.putNumber("Limelight Area", getLimelightValue(Constants.LIMELIGHT_AREA_KEY));
+        SmartDashboard.putNumber("Limelight Valid Target", getLimelightValue(Constants.LIMELIGHT_VALID_TARGET_KEY));
+    }
+
+    private double getLimelightValue(String key) {
+        return limelightTable.getEntry(key).getDouble(0.0);
+    }
 }
