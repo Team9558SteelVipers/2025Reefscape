@@ -4,34 +4,36 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
-public class PIDExample extends SubsystemBase {
 
-  // Initializing the Motor
-  TalonFX MotorName;
-
-  // Making a PID
-  TalonFXConfiguration pidconfig = new TalonFXConfiguration().withSlot0(new Slot0Configs().withKP(1).withKI(0).withKD(0));
-  
-  // Initializing the susbystem and setting motor variables to ports    
-  public PIDExample() {
-    MotorName = new TalonFX(Constants.PIDMotorConstants.ExampleMotorPort);
-    
-    // Apllying PID to motor
-    MotorName.getConfigurator().apply(pidconfig);
+public class InTakeOutTakesubsystem extends SubsystemBase {
+  TalonFX motorTop;
+  TalonFX motorBot;
+  /** Creates a new ExampleSubsystem. */
+  public InTakeOutTakesubsystem() {
+  motorTop = new TalonFX(Constants.kTopIntakePort);
+  motorBot = new TalonFX(Constants.kBottomIntakePort);
   }
+  /**
+   * Example command factory method.
+   *
+   * @return a command
+   */
+  public void setMotorSpeed(double speed) {
+      motorTop.set(speed);
+      motorBot.set(-speed);
 
-  public void PositionCommand() {
+      
     // Inline construction of command goes here.
-    MotorName.setControl(new PositionVoltage(0.75));
+    // Subsystem::RunOnce implicitly requires `this` subsystem.
+
+          /* one-time action goes here */
+        
   }
 
   /**

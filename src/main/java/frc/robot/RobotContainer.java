@@ -9,10 +9,12 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.ServoArmConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.ServoArmCommand;
+import frc.robot.subsystems.ServoArmSubsystem;
 import frc.robot.commands.AngleArmDynamicCommand;
 import frc.robot.commands.AngleArmStaticCommand;
+import frc.robot.commands.setSpeedCommand;
 import frc.robot.subsystems.AngleArmSubsystem;
-import frc.robot.subsystems.ServoArmSubsystem;
+import frc.robot.subsystems.InTakeOutTakesubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -20,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class RobotContainer {
   
+  private final InTakeOutTakesubsystem m_InOuttakeSubsystem = new InTakeOutTakesubsystem();
   private final AngleArmSubsystem m_angleArmSubsystem = new AngleArmSubsystem();
   private final ServoArmSubsystem m_servoArmSubsystem = new ServoArmSubsystem();
   
@@ -30,6 +33,9 @@ public class RobotContainer {
   private final AngleArmStaticCommand m_positionStage1 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionFloor);
   private final AngleArmStaticCommand m_positionStage2 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionStage2);
   private final AngleArmStaticCommand m_positionClimb = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionClimb);
+
+  public setSpeedCommand m_SpeedCommand = new setSpeedCommand(0, m_InOuttakeSubsystem);
+  public setSpeedCommand m_ReverseSpeed = new setSpeedCommand(-0.5, m_InOuttakeSubsystem);
 
   private  AngleArmDynamicCommand setAngleArmDynamic = new AngleArmDynamicCommand(m_angleArmSubsystem, m_operatorController ::getLeftY);
 
@@ -42,7 +48,6 @@ public class RobotContainer {
     configureBindings();
   }
 
-
   private void configureBindings() {
     m_operatorController.a().onTrue(m_positionFloor);
     m_operatorController.x().onTrue(m_positionStage1);
@@ -51,6 +56,9 @@ public class RobotContainer {
 
     m_operatorController.leftTrigger().onTrue(lockArmMotors);
     m_operatorController.rightTrigger().onTrue(unlockArmMotors);
+
+    m_operatorController.leftBumper().whileTrue(m_ReverseSpeed);
+    m_operatorController.rightBumper().whileTrue(m_SpeedCommand);
 
     m_angleArmSubsystem.setDefaultCommand(setAngleArmDynamic);
   }
@@ -64,4 +72,5 @@ public class RobotContainer {
     // An example command will be run in autonomous
     return null;
   }
+  
 }

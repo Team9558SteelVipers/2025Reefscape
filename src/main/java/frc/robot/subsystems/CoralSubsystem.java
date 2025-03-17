@@ -16,11 +16,16 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants;
 
 public class CoralSubsystem extends SubsystemBase{
+
+    // Initializing the Motor
     TalonFX CoralMotor;
+
+    // Initializing the susbystem and setting motor variables to ports    
     public CoralSubsystem() {
-        CoralMotor = new TalonFX(Constants.coralMotorPort);
+        CoralMotor = new TalonFX(Constants.CoralMotorConstants.coralMotorPort);
     }
 
+    // Method to remove coral from the intake
     public void outtakeCoral(){
       CoralMotor.set(-0.3);
     }

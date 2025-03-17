@@ -10,9 +10,14 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
 public class DriveDynamic extends Command {
 
+  // Subsystem variable
   DriveSubsystem m_MotorSubsystem;
+
+  // Speed variables for the left and right side(Tank Drive)
   Supplier <Double> rightSpeed;
   Supplier <Double> leftSpeed;
+
+  // Initializing subsystem
   public DriveDynamic(DriveSubsystem MotorSubsystem, Supplier<Double> newRspeed, Supplier<Double> newLspeed) {
     m_MotorSubsystem = MotorSubsystem;
     rightSpeed = newRspeed;

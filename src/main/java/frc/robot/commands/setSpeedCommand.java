@@ -1,41 +1,35 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-// let me save
+
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.subsystems.DriveSubsystem;
-public class DriveStatic extends Command {
+import frc.robot.subsystems.InTakeOutTakesubsystem;
 
-  // One variable for speed, because all wheels will be set to it
-  double speed;
+/* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
+public class setSpeedCommand extends Command {
+  double setMotorSpeed;
+  InTakeOutTakesubsystem subsystem;
 
-  // Subsystem variable
-  DriveSubsystem m_MotorSubsystem;
-
-  // Initialize subsystem
-  public DriveStatic(DriveSubsystem Subsystem, Double newSpeed){
-    
-    speed = newSpeed;
-    addRequirements(Subsystem);
+  /** Creates a new setSpeedCommand. */
+  public setSpeedCommand(double m_setMotorSpeed, InTakeOutTakesubsystem m_InOuttakeSubsystem) {
+      setMotorSpeed = m_setMotorSpeed;
+      subsystem = m_InOuttakeSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
+
   public void initialize() {
-    // Takes in speed and sets all
-    
-    m_MotorSubsystem.setMotorSpeed(speed);
+    subsystem.setMotorSpeed(setMotorSpeed);
+    subsystem.setMotorSpeed(-setMotorSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override
