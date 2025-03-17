@@ -51,19 +51,11 @@ public final class Constants {
 
     public static final double damperSpeedValue = 0.5;
   }
-  public class AngleArmConstants {
-    public static final double kAngleArmP = 0.0;
-    public static final double kAngleArmI = 0.0;
-    public static final double kAngleArmD = 0.0;
-    public static final double kAngleArmG = 0.0;
-    public static final int angleArmMotorRightPort = 0;
-    public static final double speedDampenerValue = 1.0;
-  }
 
-    public static final int LIMELIGHT_PIPELINE = 0;
-    public static final int LIMELIGHT_CAM_MODE = 0;
-    public static final int LIMELIGHT_LED_MODE = 3;
-    public static final int kDriverControllerPort = 0;
+  public static final int LIMELIGHT_PIPELINE = 0;
+  public static final int LIMELIGHT_CAM_MODE = 0;
+  public static final int LIMELIGHT_LED_MODE = 3;
+  public static final int kDriverControllerPort = 0;
   public static final String LIMELIGHT_X_KEY = "tx"; // Horizontal offset from crosshair
   public static final String LIMELIGHT_TABLE = "limelight";
   public static final String LIMELIGHT_Y_KEY = "ty"; // Vertical offset from crosshair
