@@ -11,10 +11,13 @@ import frc.robot.commands.ServoArmCommand;
 import frc.robot.subsystems.ServoArmSubsystem;
 import frc.robot.commands.AngleArmDynamicCommand;
 import frc.robot.commands.AngleArmStaticCommand;
+import frc.robot.commands.JawsofLifeCommand;
 import frc.robot.commands.setSpeedCommand;
 import frc.robot.subsystems.AngleArmSubsystem;
 import frc.robot.subsystems.InTakeOutTakesubsystem;
+import frc.robot.subsystems.JawsOfLifeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.networktables.NetworkTable;
@@ -24,12 +27,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class RobotContainer {
   
+  private final JawsOfLifeSubsystem m_JoLsubsystem = new JawsOfLifeSubsystem();
   private final InTakeOutTakesubsystem m_InOuttakeSubsystem = new InTakeOutTakesubsystem();
   private final AngleArmSubsystem m_angleArmSubsystem = new AngleArmSubsystem();
   private final ServoArmSubsystem m_servoArmSubsystem = new ServoArmSubsystem();
   
   private final CommandXboxController m_operatorController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
+
+  // Jol Section
+  private final JawsofLifeCommand m_JawsOfLifeOpen = new JawsofLifeCommand(m_JoLsubsystem, 1);
+  private final JawsofLifeCommand m_JawsOfLifeClose = new JawsofLifeCommand(m_JoLsubsystem, 0);
 
   private final AngleArmStaticCommand m_positionFloor = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionFloor);
   private final AngleArmStaticCommand m_positionStage1 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionFloor);
@@ -53,13 +61,14 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+
     m_operatorController.a().onTrue(m_positionFloor);
     m_operatorController.x().onTrue(m_positionStage1);
     m_operatorController.y().onTrue(m_positionStage2);
     m_operatorController.b().onTrue(m_positionClimb);
 
-    m_operatorController.leftTrigger().onTrue(lockArmMotors);
-    m_operatorController.rightTrigger().onTrue(unlockArmMotors);
+    m_operatorController.leftTrigger().onTrue(Commands.parallel(m_JawsOfLifeOpen, lockArmMotors));
+    m_operatorController.rightTrigger().onTrue(Commands.parallel(m_JawsOfLifeClose, unlockArmMotors));
 
     m_operatorController.leftBumper().whileTrue(m_ReverseSpeed);
     m_operatorController.rightBumper().whileTrue(m_SpeedCommand);

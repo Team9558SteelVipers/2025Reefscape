@@ -35,6 +35,10 @@ public final class Constants {
     public static final int ExampleMotorPort = 0;
   }
 
+  public final class JoLMotorConstants{
+    public static final int JoLMotorPort = 0;
+  }
+
   public static class ArmAngleConstants {
     public static final int leftArmMotorPort = 6;
     public static final int rightArmMotorPort = 2;
