@@ -4,63 +4,38 @@
 
 package frc.robot;
 
-import frc.robot.Constants.ArmAngleConstants;
-import frc.robot.Constants.OperatorConstants;
-import frc.robot.Constants.ServoArmConstants;
 import frc.robot.commands.Autos;
-import frc.robot.commands.ServoArmCommand;
-import frc.robot.subsystems.ServoArmSubsystem;
-import frc.robot.commands.AngleArmDynamicCommand;
-import frc.robot.commands.AngleArmStaticCommand;
-import frc.robot.commands.setSpeedCommand;
-import frc.robot.subsystems.AngleArmSubsystem;
-import frc.robot.subsystems.InTakeOutTakesubsystem;
+import frc.robot.commands.InNoutCommand;
+import frc.robot.subsystems.InSubsystem;
+import frc.robot.subsystems.OutSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 
-
+/**
+ * This class is where the bulk of the robot should be declared. Since Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * subsystems, commands, and trigger mappings) should be declared here.
+ */
 public class RobotContainer {
+
+  public CommandXboxController InNoutController = new CommandXboxController(0);
+  final InSubsystem m_InSubsystem = new InSubsystem();
+  final OutSubsystem m_OutSubsystem = new OutSubsystem();
+
+    InNoutCommand m_EatCommand = new InNoutCommand(m_InSubsystem, 0);
+    InNoutCommand m_SpitCommand = new InNoutCommand(m_OutSubsystem, 0);
   
-  private final InTakeOutTakesubsystem m_InOuttakeSubsystem = new InTakeOutTakesubsystem();
-  private final AngleArmSubsystem m_angleArmSubsystem = new AngleArmSubsystem();
-  private final ServoArmSubsystem m_servoArmSubsystem = new ServoArmSubsystem();
-  
-  private final CommandXboxController m_operatorController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
-
-  private final AngleArmStaticCommand m_positionFloor = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionFloor);
-  private final AngleArmStaticCommand m_positionStage1 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionFloor);
-  private final AngleArmStaticCommand m_positionStage2 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionStage2);
-  private final AngleArmStaticCommand m_positionClimb = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionClimb);
-
-  public setSpeedCommand m_SpeedCommand = new setSpeedCommand(0, m_InOuttakeSubsystem);
-  public setSpeedCommand m_ReverseSpeed = new setSpeedCommand(-0.5, m_InOuttakeSubsystem);
-
-  private  AngleArmDynamicCommand setAngleArmDynamic = new AngleArmDynamicCommand(m_angleArmSubsystem, m_operatorController ::getLeftY);
-
-  private ServoArmCommand lockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle180);
-  private ServoArmCommand unlockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle0);
-
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    // Configure the trigger bindings
     configureBindings();
   }
 
   private void configureBindings() {
-    m_operatorController.a().onTrue(m_positionFloor);
-    m_operatorController.x().onTrue(m_positionStage1);
-    m_operatorController.y().onTrue(m_positionStage2);
-    m_operatorController.b().onTrue(m_positionClimb);
+ 
+      InNoutController.leftBumper().whileTrue(m_EatCommand);
+      InNoutController.rightBumper().whileTrue(m_SpitCommand);
 
-    m_operatorController.leftTrigger().onTrue(lockArmMotors);
-    m_operatorController.rightTrigger().onTrue(unlockArmMotors);
-
-    m_operatorController.leftBumper().whileTrue(m_ReverseSpeed);
-    m_operatorController.rightBumper().whileTrue(m_SpeedCommand);
-
-    m_angleArmSubsystem.setDefaultCommand(setAngleArmDynamic);
   }
 
   /**
@@ -70,7 +45,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return null;
+    return Autos.exampleAuto(m_InSubsystem);
   }
-  
 }
