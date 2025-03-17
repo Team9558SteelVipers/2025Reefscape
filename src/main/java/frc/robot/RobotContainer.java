@@ -6,6 +6,9 @@ package frc.robot;
 
 import frc.robot.Constants.ArmAngleConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.ServoArmConstants;
+import frc.robot.commands.ServoArmCommand;
+import frc.robot.subsystems.ServoArmSubsystem;
 import frc.robot.commands.AngleArmDynamicCommand;
 import frc.robot.commands.AngleArmStaticCommand;
 import frc.robot.commands.JawsofLifeCommand;
@@ -14,53 +17,41 @@ import frc.robot.subsystems.AngleArmSubsystem;
 import frc.robot.subsystems.InTakeOutTakesubsystem;
 import frc.robot.subsystems.JawsOfLifeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-/**
- * This class is where the bulk of the robot should be declared. Since Command-based is a
- * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
- * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
- * subsystems, commands, and trigger mappings) should be declared here.
- */
+
 public class RobotContainer {
   
-  // Declaring subsystems
-    final InTakeOutTakesubsystem m_InOuttakeSubsystem = new InTakeOutTakesubsystem();
-    final AngleArmSubsystem m_angleArmSubsystem = new AngleArmSubsystem();
-    final JawsOfLifeSubsystem m_JoLsubsystem = new JawsOfLifeSubsystem();
-    //
-    //Decalring Controllers
-    public CommandXboxController inOutController = new CommandXboxController(0);
-    public CommandXboxController m_operatorController = new CommandXboxController(0);
-    //
-
-    // IO Section
-    
-    public setSpeedCommand m_SpeedCommand = new setSpeedCommand(0, m_InOuttakeSubsystem);
-    public setSpeedCommand m_ReverseSpeed = new setSpeedCommand(-0.5, m_InOuttakeSubsystem);
-    //
-    
-    // Jol Section
-    private JawsofLifeCommand m_JawsOfLifeOpen = new JawsofLifeCommand(m_JoLsubsystem, 1);
-    private JawsofLifeCommand m_JawsOfLifeClose = new JawsofLifeCommand(m_JoLsubsystem, 0);
-    // 
-
-    // AngleArm Sections
-    public final AngleArmStaticCommand m_positionFloor = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionFloor);
-    public final AngleArmStaticCommand m_positionStage1 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionFloor);
-    public final AngleArmStaticCommand m_positionStage2 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionStage2);
-    public final AngleArmStaticCommand m_positionClimb = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionClimb);
-
-    private  AngleArmDynamicCommand setAngleArmDynamicCommand = new AngleArmDynamicCommand(m_angleArmSubsystem, m_operatorController ::getLeftY);
-    //
-    
-  // The robot's subsystems and commands are defined here...
+  private final JawsOfLifeSubsystem m_JoLsubsystem = new JawsOfLifeSubsystem();
+  private final InTakeOutTakesubsystem m_InOuttakeSubsystem = new InTakeOutTakesubsystem();
+  private final AngleArmSubsystem m_angleArmSubsystem = new AngleArmSubsystem();
+  private final ServoArmSubsystem m_servoArmSubsystem = new ServoArmSubsystem();
   
+  private final CommandXboxController m_operatorController =
+      new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  
-    private final CommandXboxController contrllerx =  new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  // Jol Section
+  private final JawsofLifeCommand m_JawsOfLifeOpen = new JawsofLifeCommand(m_JoLsubsystem, 1);
+  private final JawsofLifeCommand m_JawsOfLifeClose = new JawsofLifeCommand(m_JoLsubsystem, 0);
+
+  private final AngleArmStaticCommand m_positionFloor = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionFloor);
+  private final AngleArmStaticCommand m_positionStage1 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionFloor);
+  private final AngleArmStaticCommand m_positionStage2 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionStage2);
+  private final AngleArmStaticCommand m_positionClimb = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionClimb);
+
+  public setSpeedCommand m_SpeedCommand = new setSpeedCommand(0, m_InOuttakeSubsystem);
+  public setSpeedCommand m_ReverseSpeed = new setSpeedCommand(-0.5, m_InOuttakeSubsystem);
+
+  private  AngleArmDynamicCommand setAngleArmDynamic = new AngleArmDynamicCommand(m_angleArmSubsystem, m_operatorController ::getLeftY);
+
+  private ServoArmCommand lockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle180);
+  private ServoArmCommand unlockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle0);
+
+  private final NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -68,27 +59,25 @@ public class RobotContainer {
     configureBindings();
   }
 
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
-   */
   private void configureBindings() {
-    inOutController.rightBumper().whileTrue(m_SpeedCommand);
-    inOutController.leftBumper().whileTrue(m_ReverseSpeed);
+    m_operatorController.a().onTrue(m_positionFloor);
+    m_operatorController.x().onTrue(m_positionStage1);
+    m_operatorController.y().onTrue(m_positionStage2);
+    m_operatorController.b().onTrue(m_positionClimb);
+
+    // TODO: combine commands
     m_operatorController.leftTrigger().onTrue(m_JawsOfLifeOpen);
     m_operatorController.rightTrigger().onTrue(m_JawsOfLifeClose);
-    // Schedule `ExampleColmmand` when `exampleCondition` changes to `true`
-    // new Trigger(m_exampleSubsystem::exampleCondition)
-    //     .onTrue(new ExampleCommand(m_exampleSubsystem));
 
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    
+    m_operatorController.leftTrigger().onTrue(lockArmMotors);
+    m_operatorController.rightTrigger().onTrue(unlockArmMotors);
+
+    m_operatorController.leftBumper().whileTrue(m_ReverseSpeed);
+    m_operatorController.rightBumper().whileTrue(m_SpeedCommand);
+
+    m_operatorController.back().onTrue(new InstantCommand(this::displayLimelightData));
+
+    m_angleArmSubsystem.setDefaultCommand(setAngleArmDynamic);
   }
 
   /**
@@ -100,5 +89,15 @@ public class RobotContainer {
     // An example command will be run in autonomous
     return null;
   }
-  
+
+    private void displayLimelightData() {
+        SmartDashboard.putNumber("Limelight X", getLimelightValue(Constants.LIMELIGHT_X_KEY));
+        SmartDashboard.putNumber("Limelight Y", getLimelightValue(Constants.LIMELIGHT_Y_KEY));
+        SmartDashboard.putNumber("Limelight Area", getLimelightValue(Constants.LIMELIGHT_AREA_KEY));
+        SmartDashboard.putNumber("Limelight Valid Target", getLimelightValue(Constants.LIMELIGHT_VALID_TARGET_KEY));
+    }
+
+    private double getLimelightValue(String key) {
+        return limelightTable.getEntry(key).getDouble(0.0);
+    }
 }
