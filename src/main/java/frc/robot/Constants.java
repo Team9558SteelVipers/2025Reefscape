@@ -4,11 +4,12 @@
 
 package frc.robot;
 
-public final class Constants {
+import edu.wpi.first.wpilibj.RobotBase;
 
-  public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
-  }
+public final class Constants {
+  public static final Mode simMode = Mode.SIM;
+  public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : simMode;
+  
 
   public static class ServoArmConstants{
     public static final int armServoPort = 0;
@@ -18,7 +19,7 @@ public final class Constants {
   }
 
   public static final int kTopIntakePort = 0;
-  public static final int kBottomIntakePort = 1;
+  public static final int kBottomIntakePort = 0;
   
   public final class CoralMotorConstants{
     public static final int coralMotorPort = 0;
@@ -70,4 +71,15 @@ public final class Constants {
   public static final double TARGET_HEIGHT = 98.0; // Height of the target from the floor (in inches)
   public static final double LIMELIGHT_DISTANCE_CONSTANT = 0.25;
   public static final double LIMELIGHT_MOUNT_ANGLE = 30.0; // Mounting angle of Limelight (degrees)
+
+  public static enum Mode {
+    /** Running on a real robot. */
+    REAL,
+
+    /** Running a physics simulator. */
+    SIM,
+
+    /** Replaying from a log file. */
+    REPLAY
+  }
 }

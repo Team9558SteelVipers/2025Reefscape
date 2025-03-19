@@ -5,15 +5,20 @@
 package frc.robot;
 
 import frc.robot.Constants.ArmAngleConstants;
-import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.ServoArmConstants;
 import frc.robot.commands.ServoArmCommand;
 import frc.robot.subsystems.ServoArmSubsystem;
+import frc.robot.subsystems.drive.Drive;
+import frc.robot.subsystems.drive.GyroIOPigeon2;
+import frc.robot.subsystems.drive.ModuleIOTalonFX;
 import frc.robot.commands.AngleArmDynamicCommand;
 import frc.robot.commands.AngleArmStaticCommand;
+import frc.robot.commands.DriveCommands;
 import frc.robot.commands.JawsofLifeCommand;
 import frc.robot.commands.setSpeedCommand;
+import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AngleArmSubsystem;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.InTakeOutTakesubsystem;
 import frc.robot.subsystems.JawsOfLifeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,14 +31,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class RobotContainer {
-  
+  private final Drive drive;
+  public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+
   private final JawsOfLifeSubsystem m_JoLsubsystem = new JawsOfLifeSubsystem();
   private final InTakeOutTakesubsystem m_InOuttakeSubsystem = new InTakeOutTakesubsystem();
   private final AngleArmSubsystem m_angleArmSubsystem = new AngleArmSubsystem();
   private final ServoArmSubsystem m_servoArmSubsystem = new ServoArmSubsystem();
   
   private final CommandXboxController m_operatorController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+      new CommandXboxController(0);
 
   // Jol Section
   private final JawsofLifeCommand m_JawsOfLifeOpen = new JawsofLifeCommand(m_JoLsubsystem, 1);
@@ -44,8 +51,6 @@ public class RobotContainer {
   private final AngleArmStaticCommand m_positionStage2 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionStage2);
   private final AngleArmStaticCommand m_positionClimb = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionClimb);
 
-  public setSpeedCommand m_SpeedCommand = new setSpeedCommand(0, m_InOuttakeSubsystem);
-  public setSpeedCommand m_ReverseSpeed = new setSpeedCommand(-0.5, m_InOuttakeSubsystem);
 
   private  AngleArmDynamicCommand setAngleArmDynamic = new AngleArmDynamicCommand(m_angleArmSubsystem, m_operatorController ::getLeftY);
 
@@ -56,26 +61,40 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    drive =
+            new Drive(
+                new GyroIOPigeon2(),
+                new ModuleIOTalonFX(TunerConstants.FrontLeft),
+                new ModuleIOTalonFX(TunerConstants.FrontRight),
+                new ModuleIOTalonFX(TunerConstants.BackLeft),
+                new ModuleIOTalonFX(TunerConstants.BackRight));
     // Configure the trigger bindings
     configureBindings();
   }
 
   private void configureBindings() {
 
-    m_operatorController.a().onTrue(m_positionFloor);
-    m_operatorController.x().onTrue(m_positionStage1);
-    m_operatorController.y().onTrue(m_positionStage2);
-    m_operatorController.b().onTrue(m_positionClimb);
+    // m_operatorController.a().onTrue(m_positionFloor);
+    // m_operatorController.x().onTrue(m_positionStage1);
+    // m_operatorController.y().onTrue(m_positionStage2);
+    // m_operatorController.b().onTrue(m_positionClimb);
 
-    m_operatorController.leftTrigger().onTrue(Commands.parallel(m_JawsOfLifeOpen, lockArmMotors));
-    m_operatorController.rightTrigger().onTrue(Commands.parallel(m_JawsOfLifeClose, unlockArmMotors));
+    // m_operatorController.leftTrigger().onTrue(Commands.parallel(m_JawsOfLifeOpen, lockArmMotors));
+    // m_operatorController.rightTrigger().onTrue(Commands.parallel(m_JawsOfLifeClose, unlockArmMotors));
 
-    m_operatorController.leftBumper().whileTrue(m_ReverseSpeed);
-    m_operatorController.rightBumper().whileTrue(m_SpeedCommand);
+    // m_operatorController.leftBumper().whileTrue(m_ReverseSpeed);
+    // m_operatorController.rightBumper().whileTrue(m_SpeedCommand);
 
-    m_operatorController.back().onTrue(new InstantCommand(this::displayLimelightData));
+    // m_operatorController.back().onTrue(new InstantCommand(this::displayLimelightData));
 
-    m_angleArmSubsystem.setDefaultCommand(setAngleArmDynamic);
+    // m_angleArmSubsystem.setDefaultCommand(setAngleArmDynamic);
+
+    drive.setDefaultCommand(
+            DriveCommands.joystickDrive(
+                drive,
+                () -> m_operatorController.getLeftY(),
+                () -> m_operatorController.getLeftX(),
+                () -> -m_operatorController.getRightX()));
   }
 
   /**
@@ -98,4 +117,5 @@ public class RobotContainer {
     private double getLimelightValue(String key) {
         return limelightTable.getEntry(key).getDouble(0.0);
     }
+    
 }
