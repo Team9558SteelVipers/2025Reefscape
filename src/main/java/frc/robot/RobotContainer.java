@@ -74,20 +74,20 @@ public class RobotContainer {
 
   private void configureBindings() {
 
-    // m_operatorController.a().onTrue(m_positionFloor);
-    // m_operatorController.x().onTrue(m_positionStage1);
-    // m_operatorController.y().onTrue(m_positionStage2);
-    // m_operatorController.b().onTrue(m_positionClimb);
+    m_operatorController.a().onTrue(m_positionFloor);
+    m_operatorController.x().onTrue(m_positionStage1);
+    m_operatorController.y().onTrue(m_positionStage2);
+    m_operatorController.b().onTrue(m_positionClimb);
 
-    // m_operatorController.leftTrigger().onTrue(Commands.parallel(m_JawsOfLifeOpen, lockArmMotors));
-    // m_operatorController.rightTrigger().onTrue(Commands.parallel(m_JawsOfLifeClose, unlockArmMotors));
+    m_operatorController.leftTrigger().onTrue(Commands.parallel(m_JawsOfLifeOpen, lockArmMotors));
+    m_operatorController.rightTrigger().onTrue(Commands.parallel(m_JawsOfLifeClose, unlockArmMotors));
 
-    // m_operatorController.leftBumper().whileTrue(m_ReverseSpeed);
-    // m_operatorController.rightBumper().whileTrue(m_SpeedCommand);
+    m_operatorController.leftBumper().whileTrue(m_ReverseSpeed);
+    m_operatorController.rightBumper().whileTrue(m_SpeedCommand);
 
-    // m_operatorController.back().onTrue(new InstantCommand(this::displayLimelightData));
+    m_operatorController.back().onTrue(new InstantCommand(this::displayLimelightData));
 
-    // m_angleArmSubsystem.setDefaultCommand(setAngleArmDynamic);
+    m_angleArmSubsystem.setDefaultCommand(setAngleArmDynamic);
 
     drive.setDefaultCommand(
             DriveCommands.joystickDrive(
