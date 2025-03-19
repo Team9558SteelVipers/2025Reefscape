@@ -24,7 +24,6 @@ public class setSpeedCommand extends Command {
 
   public void initialize() {
     subsystem.setMotorSpeed(setMotorSpeed);
-    subsystem.setMotorSpeed(-setMotorSpeed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -33,7 +32,9 @@ public class setSpeedCommand extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    subsystem.setMotorSpeed(0);
+  }
 
   // Returns true when the command should end.
   @Override
