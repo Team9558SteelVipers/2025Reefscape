@@ -89,6 +89,9 @@ public class RobotContainer {
 
     m_operatorController.back().onTrue(new InstantCommand(this::displayLimelightData));
 
+    m_operatorController.leftStick().onTrue(Commands.sequence(m_positionClimb, lockArmMotors));
+    m_operatorController.rightStick().onTrue(unlockArmMotors);
+
     m_angleArmSubsystem.setDefaultCommand(setAngleArmDynamic);
 
     drive.setDefaultCommand(
