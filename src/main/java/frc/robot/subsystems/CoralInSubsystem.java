@@ -11,22 +11,21 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.InNoutConstants;
 
-public class InSubsystem extends SubsystemBase {
+public class CoralInSubsystem extends SubsystemBase {
 
-  public InSubsystem() {}
+  public CoralInSubsystem() {}
 
-  TalonFX motorONLEFT = new TalonFX(InNoutConstants.motorONLEFT);
-  TalonFX motorONRIGHT = new TalonFX(InNoutConstants.motorONRIGHT);
+  TalonFX motorLFORTOP = new TalonFX(InNoutConstants.motorLFORTOP);
+  TalonFX motorRFORBOTTOM = new TalonFX(InNoutConstants.motorRFORBOTTOM);
 
-  public void getInNoutSpeed(double Leftspeed, double Rightspeed) {
-    motorONLEFT.set(-Leftspeed);
-    motorONRIGHT.set(Rightspeed);
+  public void CoralInSpeed(double Leftspeed, double Rightspeed) {
+    motorLFORTOP.set(-Leftspeed);
+    motorRFORBOTTOM.set(Rightspeed);
   }
     public void setPosition(double position){
-      motorONLEFT.setControl(new PositionVoltage(position));
-      motorONRIGHT.setControl(new PositionVoltage(position));
+      motorLFORTOP.setControl(new PositionVoltage(position));
+      motorRFORBOTTOM.setControl(new PositionVoltage(position));
     }
-
 
 
   public Command exampleMethodCommand() {

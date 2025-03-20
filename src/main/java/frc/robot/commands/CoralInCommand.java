@@ -5,33 +5,22 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.InSubsystem;
-import frc.robot.subsystems.OutSubsystem;
+import frc.robot.subsystems.CoralInSubsystem;
 
 
-public class InNoutCommand extends Command {
+public class CoralInCommand extends Command {
 
-  InSubsystem INTAKESubsystem;
-  OutSubsystem OUTTAKESubsystem;
-  double INSpeed;
-  double OUTSpeed;
-  
-    public InNoutCommand(InSubsystem m_INTAKEsystem, double m_INSpeed) {
+  CoralInSubsystem CORALINTAKESubsystem;
+  double CORALINSpeed;
 
-      INTAKESubsystem = m_INTAKEsystem;
-      INSpeed = m_INSpeed;
+    public CoralInCommand(CoralInSubsystem m_CORALINTAKEsystem, double m_CORALINSpeed) {
 
-      addRequirements(INTAKESubsystem);
+      CORALINTAKESubsystem = m_CORALINTAKEsystem;
+      CORALINSpeed = m_CORALINSpeed;
+
+      addRequirements(CORALINTAKESubsystem);
     }
-    public InNoutCommand(OutSubsystem m_OUTTAKESubsystem, double m_OUTspeed) {
-
-      OUTTAKESubsystem = m_OUTTAKESubsystem;
-      OUTSpeed = m_OUTspeed;
-
-      addRequirements(OUTTAKESubsystem);
-   }
-    
-
+   
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
