@@ -4,42 +4,55 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmAngleConstants;
 
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionVoltage;
+import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 
 public class AngleArmSubsystem extends SubsystemBase {
   TalonFX rightArmMotor;
   TalonFX leftArmMotor;
+  CANcoder armCANcoder;
 
-  TalonFXConfiguration pidConfiguration = new TalonFXConfiguration().withSlot0(new Slot0Configs()
+  TalonFXConfiguration pidConfiguration;
+
+  public AngleArmSubsystem() {
+    armCANcoder = new CANcoder(ArmAngleConstants.armCANcoderPort);
+
+    leftArmMotor = new TalonFX(ArmAngleConstants.leftArmMotorPort);
+    rightArmMotor = new TalonFX(ArmAngleConstants.rightArmMotorPort);
+    rightArmMotor.setControl(new Follower(ArmAngleConstants.leftArmMotorPort, true));
+
+    pidConfiguration = new TalonFXConfiguration().withSlot0(new Slot0Configs()
     .withKP(ArmAngleConstants.kArmP)
     .withKI(ArmAngleConstants.kArmI)
     .withKD(ArmAngleConstants.kArmD)
     .withKG(ArmAngleConstants.kArmG)
       .withGravityType(GravityTypeValue.Arm_Cosine));
+    pidConfiguration.Feedback.FeedbackRemoteSensorID = armCANcoder.getDeviceID();
+    pidConfiguration.Feedback.FeedbackSensorSource = FeedbackSensorSourceValue.RemoteCANcoder;
 
-  public AngleArmSubsystem() {
-    rightArmMotor = new TalonFX(ArmAngleConstants.rightArmMotorPort);
-    leftArmMotor = new TalonFX(ArmAngleConstants.leftArmMotorPort);
-
-    rightArmMotor.getConfigurator().apply(pidConfiguration);
     leftArmMotor.getConfigurator().apply(pidConfiguration);
   }
 
-  public void setArmPositionStatic(double position){
-    rightArmMotor.setControl(new PositionVoltage(-position));
-    leftArmMotor.setControl(new PositionVoltage(position));
+  public void setArmRotationStatic(double rotation){
+    leftArmMotor.setControl(new PositionVoltage(rotation));
+  }
+
+  public double getArmEncoderRotation(){
+    return armCANcoder.getAbsolutePosition().getValueAsDouble();
   }
 
   public void setArmSpeedDynamic (double speed){
-    rightArmMotor.set(ArmAngleConstants.damperSpeedValue*(-speed));
     leftArmMotor.set(ArmAngleConstants.damperSpeedValue*(speed));
   }
 
