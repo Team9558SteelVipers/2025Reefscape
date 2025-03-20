@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import frc.robot.commands.AlgaeInCommand;
+import frc.robot.commands.AlgaeOutCommand;
+import frc.robot.commands.CoralInCommand;
+import frc.robot.commands.CoralOutCommand;
 import frc.robot.Constants.ArmAngleConstants;
 import frc.robot.Constants.ServoArmConstants;
 import frc.robot.commands.ServoArmCommand;
@@ -19,23 +23,32 @@ import frc.robot.commands.setSpeedCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AngleArmSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
-import frc.robot.subsystems.InTakeOutTakesubsystem;
 import frc.robot.subsystems.JawsOfLifeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+
+import frc.robot.subsystems.AlgaeInSubsystem;
+import frc.robot.subsystems.CoralInSubsystem;
+import frc.robot.subsystems.CoralOutSubsystem;
+import frc.robot.subsystems.AlgaeOutSubsystem;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
+/**
+ * This class is where the bulk of the robot should be declared. Since Command-based is a
+ * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
+ * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
+ * subsystems, commands, and trigger mappings) should be declared here.
+ */
 public class RobotContainer {
+
   private final Drive drive;
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
   private final JawsOfLifeSubsystem m_JoLsubsystem = new JawsOfLifeSubsystem();
-  private final InTakeOutTakesubsystem m_InOuttakeSubsystem = new InTakeOutTakesubsystem();
   private final AngleArmSubsystem m_angleArmSubsystem = new AngleArmSubsystem();
   private final ServoArmSubsystem m_servoArmSubsystem = new ServoArmSubsystem();
   
@@ -51,13 +64,20 @@ public class RobotContainer {
   private final AngleArmStaticCommand m_positionStage2 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionStage2);
   private final AngleArmStaticCommand m_positionClimb = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionClimb);
 
-  public setSpeedCommand m_SpeedCommand = new setSpeedCommand(0.5, m_InOuttakeSubsystem);
-  public setSpeedCommand m_ReverseSpeed = new setSpeedCommand(-0.5, m_InOuttakeSubsystem);
-
   private  AngleArmDynamicCommand setAngleArmDynamic = new AngleArmDynamicCommand(m_angleArmSubsystem, m_operatorController ::getLeftY);
 
   private ServoArmCommand lockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle180);
   private ServoArmCommand unlockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle0);
+
+  final CoralInSubsystem m_CoralInSubsystem = new CoralInSubsystem();
+  final CoralOutSubsystem m_CoralOutSubsystem = new CoralOutSubsystem();
+  final AlgaeInSubsystem m_AlgaeInNoutSubsystem = new AlgaeInSubsystem();
+  final AlgaeOutSubsystem m_AlgaeOutSubsystem = new AlgaeOutSubsystem();
+
+  CoralInCommand m_CoralEatCommand = new CoralInCommand(m_CoralInSubsystem, 0);
+  CoralOutCommand m_CoralSpitCommand = new CoralOutCommand(m_CoralOutSubsystem, 0);
+  AlgaeInCommand m_AlgaeEatCommand = new AlgaeInCommand(m_AlgaeInNoutSubsystem, 0);
+  AlgaeOutCommand m_AlgaeSpitCommand = new AlgaeOutCommand(m_AlgaeOutSubsystem, 0);
 
   private final NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
@@ -75,6 +95,11 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+ 
+    m_operatorController.rightBumper().whileTrue(m_AlgaeEatCommand);
+    m_operatorController.rightTrigger().whileTrue(m_CoralEatCommand);
+    m_operatorController.leftBumper().whileTrue(m_AlgaeSpitCommand);
+    m_operatorController.leftTrigger().whileTrue(m_CoralSpitCommand);
 
     m_operatorController.a().onTrue(m_positionFloor);
     m_operatorController.x().onTrue(m_positionStage1);
@@ -83,9 +108,6 @@ public class RobotContainer {
 
     m_operatorController.leftTrigger().onTrue(Commands.parallel(m_JawsOfLifeOpen, lockArmMotors));
     m_operatorController.rightTrigger().onTrue(Commands.parallel(m_JawsOfLifeClose, unlockArmMotors));
-
-    m_operatorController.leftBumper().whileTrue(m_ReverseSpeed);
-    m_operatorController.rightBumper().whileTrue(m_SpeedCommand);
 
     m_operatorController.back().onTrue(new InstantCommand(this::displayLimelightData));
 
@@ -106,7 +128,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return null;
+    //return Autos.exampleAuto(InSubsystem);
+        return null;
   }
 
     private void displayLimelightData() {
@@ -119,5 +142,4 @@ public class RobotContainer {
     private double getLimelightValue(String key) {
         return limelightTable.getEntry(key).getDouble(0.0);
     }
-    
 }

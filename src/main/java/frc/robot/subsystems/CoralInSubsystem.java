@@ -4,36 +4,37 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.InNoutConstants;
 
+public class CoralInSubsystem extends SubsystemBase {
 
-public class InTakeOutTakesubsystem extends SubsystemBase {
-  TalonFX motorTop;
-  TalonFX motorBot;
-  /** Creates a new ExampleSubsystem. */
-  public InTakeOutTakesubsystem() {
-  motorTop = new TalonFX(Constants.kTopIntakePort);
-  motorBot = new TalonFX(Constants.kBottomIntakePort);
+  public CoralInSubsystem() {}
+
+  TalonFX motorLFORTOP = new TalonFX(InNoutConstants.motorLFORTOP);
+  TalonFX motorRFORBOTTOM = new TalonFX(InNoutConstants.motorRFORBOTTOM);
+
+  public void CoralInSpeed(double Leftspeed, double Rightspeed) {
+    motorLFORTOP.set(-Leftspeed);
+    motorRFORBOTTOM.set(Rightspeed);
   }
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public void setMotorSpeed(double speed) {
-      motorTop.set(speed);
-      motorBot.set(-speed);
+    public void setPosition(double position){
+      motorLFORTOP.setControl(new PositionVoltage(position));
+      motorRFORBOTTOM.setControl(new PositionVoltage(position));
+    }
 
-      
+
+  public Command exampleMethodCommand() {
     // Inline construction of command goes here.
     // Subsystem::RunOnce implicitly requires `this` subsystem.
-
+    return runOnce(
+        () -> {
           /* one-time action goes here */
-        
+        });
   }
 
   /**
