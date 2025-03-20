@@ -54,10 +54,10 @@ public class RobotContainer {
   private final JawsofLifeCommand m_JawsOfLifeOpen = new JawsofLifeCommand(m_JoLsubsystem, Constants.JoLMotorConstants.JoLSpeed);
   private final JawsofLifeCommand m_JawsOfLifeClose = new JawsofLifeCommand(m_JoLsubsystem, -Constants.JoLMotorConstants.JoLSpeed);
 
-  private final AngleArmStaticCommand m_positionFloor = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionFloor);
-  private final AngleArmStaticCommand m_positionStage1 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionFloor);
-  private final AngleArmStaticCommand m_positionStage2 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionStage2);
-  private final AngleArmStaticCommand m_positionClimb = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionClimb);
+  private final AngleArmStaticCommand m_positionFloor = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationFloor);
+  private final AngleArmStaticCommand m_positionStage1 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationStage1);
+  private final AngleArmStaticCommand m_positionStage2 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationStage2);
+  private final AngleArmStaticCommand m_positionClimb = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationClimb);
 
   public setSpeedCommand m_SpeedCommand = new setSpeedCommand(0.5, m_InOuttakeSubsystem);
   public setSpeedCommand m_ReverseSpeed = new setSpeedCommand(-0.5, m_InOuttakeSubsystem);
@@ -114,6 +114,9 @@ public class RobotContainer {
     m_operatorController.rightBumper().whileTrue(m_SpeedCommand);
 
     m_operatorController.back().onTrue(new InstantCommand(this::displayLimelightData));
+
+    m_operatorController.leftStick().onTrue(Commands.sequence(m_positionClimb, lockArmMotors));
+    m_operatorController.rightStick().onTrue(unlockArmMotors);
 
     m_angleArmSubsystem.setDefaultCommand(setAngleArmDynamic);
 
