@@ -66,6 +66,9 @@ public class RobotContainer {
 
   private  AngleArmDynamicCommand setAngleArmDynamic = new AngleArmDynamicCommand(m_angleArmSubsystem, m_operatorController ::getLeftY);
 
+  private ServoArmCommand lockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle180);
+  private ServoArmCommand unlockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle0);
+
   final CoralInSubsystem m_CoralInSubsystem = new CoralInSubsystem();
   final CoralOutSubsystem m_CoralOutSubsystem = new CoralOutSubsystem();
   final AlgaeInSubsystem m_AlgaeInNoutSubsystem = new AlgaeInSubsystem();
@@ -105,9 +108,6 @@ public class RobotContainer {
 
     m_operatorController.leftTrigger().onTrue(Commands.parallel(m_JawsOfLifeOpen, lockArmMotors));
     m_operatorController.rightTrigger().onTrue(Commands.parallel(m_JawsOfLifeClose, unlockArmMotors));
-
-    m_operatorController.leftBumper().whileTrue(m_ReverseSpeed);
-    m_operatorController.rightBumper().whileTrue(m_SpeedCommand);
 
     m_operatorController.back().onTrue(new InstantCommand(this::displayLimelightData));
 
