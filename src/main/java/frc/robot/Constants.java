@@ -42,8 +42,8 @@ public final class Constants {
   }
 
   public static class ArmAngleConstants {
-    public static final int leftArmMotorPort = 6;
-    public static final int rightArmMotorPort = 2;
+    public static final int leftArmMotorPort = 22;
+    public static final int rightArmMotorPort = 21;
 
     public static final int armCANcoderPort = 0;
 
@@ -58,7 +58,7 @@ public final class Constants {
     public static final double kArmD = 0;
     public static final double kArmG = 0;
 
-    public static final double damperSpeedValue = 0.5;
+    public static final double damperSpeedValue = 0.25;
   }
 
   public static final int LIMELIGHT_PIPELINE = 0;
