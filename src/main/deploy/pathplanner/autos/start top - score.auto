@@ -7,13 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "start - proscesor"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "reef - proscesor"
+            "pathName": "start top - reef"
           }
         }
       ]
