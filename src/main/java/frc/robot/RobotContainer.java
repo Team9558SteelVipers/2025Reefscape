@@ -59,6 +59,13 @@ public class RobotContainer {
   private final JawsofLifeCommand m_JawsOfLifeOpen = new JawsofLifeCommand(m_JoLsubsystem, 1);
   private final JawsofLifeCommand m_JawsOfLifeClose = new JawsofLifeCommand(m_JoLsubsystem, 0);
 
+  private final AngleArmStaticCommand m_positionFloor = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionFloor);
+  private final AngleArmStaticCommand m_positionStage1 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionFloor);
+  private final AngleArmStaticCommand m_positionStage2 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionStage2);
+  private final AngleArmStaticCommand m_positionClimb = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionClimb);
+
+  private  AngleArmDynamicCommand setAngleArmDynamic = new AngleArmDynamicCommand(m_angleArmSubsystem, m_operatorController ::getLeftY);
+
   final CoralInSubsystem m_CoralInSubsystem = new CoralInSubsystem();
   final CoralOutSubsystem m_CoralOutSubsystem = new CoralOutSubsystem();
   final AlgaeInSubsystem m_AlgaeInNoutSubsystem = new AlgaeInSubsystem();
@@ -122,7 +129,7 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     //return Autos.exampleAuto(InSubsystem);
-        return m_CoralEatCommand;
+        return null;
   }
 
     private void displayLimelightData() {
