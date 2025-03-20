@@ -4,6 +4,9 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -12,12 +15,12 @@ import frc.robot.Constants;
 
 
 public class InTakeOutTakesubsystem extends SubsystemBase {
-  TalonFX motorTop;
-  TalonFX motorBot;
+  TalonSRX motorTop;
+  TalonSRX motorBot;
   /** Creates a new ExampleSubsystem. */
   public InTakeOutTakesubsystem() {
-  motorTop = new TalonFX(Constants.kTopIntakePort);
-  motorBot = new TalonFX(Constants.kBottomIntakePort);
+  motorTop = new TalonSRX(Constants.kTopIntakePort);
+  motorBot = new TalonSRX(Constants.kBottomIntakePort);
   }
   /**
    * Example command factory method.
@@ -25,8 +28,8 @@ public class InTakeOutTakesubsystem extends SubsystemBase {
    * @return a command
    */
   public void setMotorSpeed(double speed) {
-      motorTop.set(speed);
-      motorBot.set(-speed);
+      motorTop.set(ControlMode.PercentOutput, speed );
+      motorBot.set(ControlMode.PercentOutput, speed );
 
       
     // Inline construction of command goes here.

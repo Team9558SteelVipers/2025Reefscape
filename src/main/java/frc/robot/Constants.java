@@ -18,8 +18,8 @@ public final class Constants {
     public static final double angle180 = 180;
   }
 
-  public static final int kTopIntakePort = 0;
-  public static final int kBottomIntakePort = 0;
+  public static final int kTopIntakePort = 2;
+  public static final int kBottomIntakePort = 5;
   
   public final class CoralMotorConstants{
     public static final int coralMotorPort = 0;
@@ -37,12 +37,13 @@ public final class Constants {
   }
 
   public final class JoLMotorConstants{
-    public static final int JoLMotorPort = 0;
+    public static final int JoLMotorPort = 1;
+    public static final double JoLSpeed = 0.2;
   }
 
   public static class ArmAngleConstants {
-    public static final int leftArmMotorPort = 6;
-    public static final int rightArmMotorPort = 2;
+    public static final int leftArmMotorPort = 22;
+    public static final int rightArmMotorPort = 21;
 
     public static final double positionFloor = 0.5;
     public static final double positionStage1 = 0.75; 
@@ -54,7 +55,7 @@ public final class Constants {
     public static final double kArmD = 0;
     public static final double kArmG = 0;
 
-    public static final double damperSpeedValue = 0.5;
+    public static final double damperSpeedValue = 0.25;
   }
 
   public static final int LIMELIGHT_PIPELINE = 0;

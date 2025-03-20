@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -11,12 +13,12 @@ import frc.robot.Constants;
 
 public class JawsOfLifeSubsystem extends SubsystemBase {
  
-  TalonFX JoLMotor = new TalonFX(Constants.JoLMotorConstants.JoLMotorPort);
+  TalonSRX JoLMotor = new TalonSRX(Constants.JoLMotorConstants.JoLMotorPort);
   //initialize and set value of motor
-  TalonFXConfiguration pidconfig = new TalonFXConfiguration().withSlot0(new Slot0Configs().withKP(1).withKI(0).withKD(0));
+  // TalonFXConfiguration pidconfig = new TalonFXConfiguration().withSlot0(new Slot0Configs().withKP(1).withKI(0).withKD(0));
   //configures the PID
   public JawsOfLifeSubsystem() {
-    JoLMotor.getConfigurator().apply(pidconfig);
+    // JoLMotor.getConfigurator().apply(pidconfig);
     //apply PID to motor
    
   }
@@ -26,17 +28,19 @@ public class JawsOfLifeSubsystem extends SubsystemBase {
    *
    * @return a command
    */
-  public Command JawsOfLifeMethodCommand(double num) {
-    JoLMotor.setControl(new PositionVoltage(num));
-    //determines number of rotations of the motor
+  // public Command JawsOfLifeMethodCommand(double num) {
+  //   JoLMotor.setControl(new PositionVoltage(num));
+  //   //determines number of rotations of the motor
 
 
-    return runOnce(
-        () -> {
+  //   return runOnce(
+  //       () -> {
 
-        });
-  }
-
+  //       });
+  // }
+public void JawsOfLifeSpeed(double speed){
+  JoLMotor.set(ControlMode.PercentOutput,-speed);
+}
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
    *

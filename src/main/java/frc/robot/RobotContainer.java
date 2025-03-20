@@ -41,10 +41,10 @@ public class RobotContainer {
   
   private final CommandXboxController m_operatorController =
       new CommandXboxController(0);
-
+  
   // Jol Section
-  private final JawsofLifeCommand m_JawsOfLifeOpen = new JawsofLifeCommand(m_JoLsubsystem, 1);
-  private final JawsofLifeCommand m_JawsOfLifeClose = new JawsofLifeCommand(m_JoLsubsystem, 0);
+  private final JawsofLifeCommand m_JawsOfLifeOpen = new JawsofLifeCommand(m_JoLsubsystem, Constants.JoLMotorConstants.JoLSpeed);
+  private final JawsofLifeCommand m_JawsOfLifeClose = new JawsofLifeCommand(m_JoLsubsystem, -Constants.JoLMotorConstants.JoLSpeed);
 
   private final AngleArmStaticCommand m_positionFloor = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionFloor);
   private final AngleArmStaticCommand m_positionStage1 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.positionFloor);
@@ -54,7 +54,7 @@ public class RobotContainer {
   public setSpeedCommand m_SpeedCommand = new setSpeedCommand(0.5, m_InOuttakeSubsystem);
   public setSpeedCommand m_ReverseSpeed = new setSpeedCommand(-0.5, m_InOuttakeSubsystem);
 
-  private  AngleArmDynamicCommand setAngleArmDynamic = new AngleArmDynamicCommand(m_angleArmSubsystem, m_operatorController ::getLeftY);
+  private  AngleArmDynamicCommand setAngleArmDynamic = new AngleArmDynamicCommand(m_angleArmSubsystem, this::dpadVerticalControl);
 
   private ServoArmCommand lockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle180);
   private ServoArmCommand unlockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle0);
@@ -81,8 +81,8 @@ public class RobotContainer {
     m_operatorController.y().onTrue(m_positionStage2);
     m_operatorController.b().onTrue(m_positionClimb);
 
-    m_operatorController.leftTrigger().onTrue(Commands.parallel(m_JawsOfLifeOpen, lockArmMotors));
-    m_operatorController.rightTrigger().onTrue(Commands.parallel(m_JawsOfLifeClose, unlockArmMotors));
+    m_operatorController.leftTrigger().whileTrue(m_JawsOfLifeClose);
+    m_operatorController.rightTrigger().whileTrue(m_JawsOfLifeOpen);
 
     m_operatorController.leftBumper().whileTrue(m_ReverseSpeed);
     m_operatorController.rightBumper().whileTrue(m_SpeedCommand);
@@ -120,4 +120,13 @@ public class RobotContainer {
         return limelightTable.getEntry(key).getDouble(0.0);
     }
     
+  private double dpadVerticalControl() {
+    if (m_operatorController.povUp().getAsBoolean()) {
+      return 1;
+    } else if (m_operatorController.povDown().getAsBoolean()) {
+      return -1;
+    } else {
+      return 0;
+    }
+  }
 }
