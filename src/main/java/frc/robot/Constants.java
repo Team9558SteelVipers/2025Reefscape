@@ -42,20 +42,23 @@ public final class Constants {
   }
 
   public static class ArmAngleConstants {
-    public static final int leftArmMotorPort = 22;
-    public static final int rightArmMotorPort = 21;
+    public static final int leftArmMotorPort = 6;
+    public static final int rightArmMotorPort = 2;
 
-    public static final double positionFloor = 0.5;
-    public static final double positionStage1 = 0.75; 
-    public static final double positionStage2 = 0.85;
-    public static final double positionClimb = 1.0;
+    public static final int armCANcoderPort = 0;
+
+    public static final double armRotationTolerance = 0.05;
+    public static final double armRotationFloor = 30/360;
+    public static final double armRotationStage1 = 60/360; 
+    public static final double armRotationStage2 = 70/360;
+    public static final double armRotationClimb = 90/360;
 
     public static final double kArmP = 1.0;
     public static final double kArmI = 0;
     public static final double kArmD = 0;
     public static final double kArmG = 0;
 
-    public static final double damperSpeedValue = 0.25;
+    public static final double damperSpeedValue = 0.5;
   }
 
   public static final int LIMELIGHT_PIPELINE = 0;
