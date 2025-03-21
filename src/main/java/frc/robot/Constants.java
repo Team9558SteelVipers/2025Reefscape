@@ -21,9 +21,7 @@ public final class Constants {
   public static final int kTopIntakePort = 2;
   public static final int kBottomIntakePort = 5;
   
-  public final class CoralMotorConstants{
-    public static final int coralMotorPort = 0;
-  }
+  
 
   public final class DriveMotorConstants{
     public static final int MotorPortBL = 0;
@@ -32,12 +30,9 @@ public final class Constants {
     public static final int MotorPortFR = 0;
   }
 
-  public final class PIDMotorConstants{
-    public static final int ExampleMotorPort = 0;
-  }
 
   public final class JoLMotorConstants{
-    public static final int JoLMotorPort = 1;
+    public static final int JoLMotorPort = 14;
     public static final double JoLSpeed = 0.2;
   }
 
@@ -48,10 +43,11 @@ public final class Constants {
     public static final int armCANcoderPort = 0;
 
     public static final double armRotationTolerance = 0.05;
-    public static final double armRotationFloor = 30/360;
-    public static final double armRotationStage1 = 60/360; 
-    public static final double armRotationStage2 = 70/360;
-    public static final double armRotationClimb = 90/360;
+    public static final double armRotationFloor = -0.224365;
+    public static final double armRotationStage1 = -0.305664; 
+    public static final double armRotationStage2 = -0.317627;
+    public static final double armRotationStage3 = -0.555664;
+    public static final double armRotationClimb = -0.461426;
 
     public static final double kArmP = 1.0;
     public static final double kArmI = 0;

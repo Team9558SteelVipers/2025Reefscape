@@ -24,6 +24,7 @@ public class AngleArmStaticCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("setting arm to " + m_expectedArmRotation);
     m_anglearmsubsystem.setArmRotationStatic(m_expectedArmRotation);
   }
 

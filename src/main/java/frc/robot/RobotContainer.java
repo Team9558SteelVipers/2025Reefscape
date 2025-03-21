@@ -15,7 +15,7 @@ import frc.robot.commands.AngleArmDynamicCommand;
 import frc.robot.commands.AngleArmStaticCommand;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.JawsofLifeCommand;
-import frc.robot.commands.setSpeedCommand;
+import frc.robot.commands.IntakeOuttakeCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AngleArmSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -44,33 +44,43 @@ public class RobotContainer {
   private final Drive drive;
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
-  private final JawsOfLifeSubsystem m_JoLsubsystem = new JawsOfLifeSubsystem();
-  private final InTakeOutTakesubsystem m_InOuttakeSubsystem = new InTakeOutTakesubsystem();
-  private final AngleArmSubsystem m_angleArmSubsystem = new AngleArmSubsystem();
-  private final ServoArmSubsystem m_servoArmSubsystem = new ServoArmSubsystem();
-  
+  // Initialized Controllers
   private final CommandXboxController m_operatorController =
       new CommandXboxController(0);
   private final CommandXboxController m_driveController =
       new CommandXboxController(1); 
   //private final SendableChooser<Command> autoChooser;
+
+  // Initialized Subsystems
+  private final JawsOfLifeSubsystem m_JoLsubsystem = new JawsOfLifeSubsystem();
+  private final InTakeOutTakesubsystem m_InOuttakeSubsystem = new InTakeOutTakesubsystem();
+  private final AngleArmSubsystem m_angleArmSubsystem = new AngleArmSubsystem();
+  private final ServoArmSubsystem m_servoArmSubsystem = new ServoArmSubsystem();
+  
+// // Initialized Commands
   
   // Jol Section
   private final JawsofLifeCommand m_JawsOfLifeOpen = new JawsofLifeCommand(m_JoLsubsystem, Constants.JoLMotorConstants.JoLSpeed);
   private final JawsofLifeCommand m_JawsOfLifeClose = new JawsofLifeCommand(m_JoLsubsystem, -Constants.JoLMotorConstants.JoLSpeed);
 
+  // Arm Section
   private final AngleArmStaticCommand m_positionFloor = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationFloor);
   private final AngleArmStaticCommand m_positionStage1 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationStage1);
   private final AngleArmStaticCommand m_positionStage2 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationStage2);
   private final AngleArmStaticCommand m_positionClimb = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationClimb);
 
-  public setSpeedCommand m_SpeedCommand = new setSpeedCommand(0.5, m_InOuttakeSubsystem);
-  public setSpeedCommand m_ReverseSpeed = new setSpeedCommand(-0.5, m_InOuttakeSubsystem);
-  public setSpeedCommand m_constantSpeed = new setSpeedCommand(-0.1, m_InOuttakeSubsystem);
   private  AngleArmDynamicCommand setAngleArmDynamic = new AngleArmDynamicCommand(m_angleArmSubsystem, this::dpadVerticalControl);
 
+  // Servo Section
   private ServoArmCommand lockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle180);
   private ServoArmCommand unlockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle0);
+
+  // Intake Outtake Section
+  public IntakeOuttakeCommand m_SpeedCommand = new IntakeOuttakeCommand(0.5, m_InOuttakeSubsystem);
+  public IntakeOuttakeCommand m_ReverseSpeed = new IntakeOuttakeCommand(-0.5, m_InOuttakeSubsystem);
+  public IntakeOuttakeCommand m_constantSpeed = new IntakeOuttakeCommand(-0.15, m_InOuttakeSubsystem);
+
+  
 
   private final NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
@@ -133,7 +143,8 @@ public class RobotContainer {
                 () -> m_driveController.getLeftY(),
                 () -> m_driveController.getLeftX(),
                 () -> -m_driveController.getRightX()));
-    m_InOuttakeSubsystem.setDefaultCommand(m_constantSpeed);
+    
+    //m_InOuttakeSubsystem.setDefaultCommand(m_constantSpeed);
   }
 
   /**
