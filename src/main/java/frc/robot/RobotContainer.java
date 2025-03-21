@@ -30,9 +30,13 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -47,8 +51,9 @@ public class RobotContainer {
   
   private final CommandXboxController m_operatorController =
       new CommandXboxController(0);
-  
-  private final LoggedDashboardChooser<Command> autoChooser;
+  private final CommandXboxController m_driveController =
+      new CommandXboxController(1); 
+  //private final SendableChooser<Command> autoChooser;
   
   // Jol Section
   private final JawsofLifeCommand m_JawsOfLifeOpen = new JawsofLifeCommand(m_JoLsubsystem, Constants.JoLMotorConstants.JoLSpeed);
@@ -61,7 +66,7 @@ public class RobotContainer {
 
   public setSpeedCommand m_SpeedCommand = new setSpeedCommand(0.5, m_InOuttakeSubsystem);
   public setSpeedCommand m_ReverseSpeed = new setSpeedCommand(-0.5, m_InOuttakeSubsystem);
-
+  public setSpeedCommand m_constantSpeed = new setSpeedCommand(-0.1, m_InOuttakeSubsystem);
   private  AngleArmDynamicCommand setAngleArmDynamic = new AngleArmDynamicCommand(m_angleArmSubsystem, this::dpadVerticalControl);
 
   private ServoArmCommand lockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle180);
@@ -79,24 +84,26 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.BackLeft),
                 new ModuleIOTalonFX(TunerConstants.BackRight));
     // Configure the trigger bindings
+// NAMED COMMANDS:
+    // NamedCommands.registerCommand();
 
-    autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+    // autoChooser = AutoBuilder.buildAutoChooser();
 
-        // Set up SysId routines
-        autoChooser.addOption(
-            "Drive Wheel Radius Characterization", DriveCommands.wheelRadiusCharacterization(drive));
-        autoChooser.addOption(
-            "Drive Simple FF Characterization", DriveCommands.feedforwardCharacterization(drive));
-        autoChooser.addOption(
-            "Drive SysId (Quasistatic Forward)",
-            drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-        autoChooser.addOption(
-            "Drive SysId (Quasistatic Reverse)",
-            drive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-        autoChooser.addOption(
-            "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
-        autoChooser.addOption(
-            "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+    //     // Set up SysId routines
+    //     autoChooser.addOption(
+    //         "Drive Wheel Radius Characterization", DriveCommands.wheelRadiusCharacterization(drive));
+    //     autoChooser.addOption(
+    //         "Drive Simple FF Characterization", DriveCommands.feedforwardCharacterization(drive));
+    //     autoChooser.addOption(
+    //         "Drive SysId (Quasistatic Forward)",
+    //         drive.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    //     autoChooser.addOption(
+    //         "Drive SysId (Quasistatic Reverse)",
+    //         drive.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    //     autoChooser.addOption(
+    //         "Drive SysId (Dynamic Forward)", drive.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    //     autoChooser.addOption(
+    //         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
     configureBindings();
   }
 
@@ -123,9 +130,10 @@ public class RobotContainer {
     drive.setDefaultCommand(
             DriveCommands.joystickDrive(
                 drive,
-                () -> m_operatorController.getLeftY(),
-                () -> m_operatorController.getLeftX(),
-                () -> -m_operatorController.getRightX()));
+                () -> m_driveController.getLeftY(),
+                () -> m_driveController.getLeftX(),
+                () -> -m_driveController.getRightX()));
+    m_InOuttakeSubsystem.setDefaultCommand(m_constantSpeed);
   }
 
   /**
@@ -135,7 +143,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return null;
+    return new PathPlannerAuto("start top - reef");
   }
 
   private void displayLimelightData() {

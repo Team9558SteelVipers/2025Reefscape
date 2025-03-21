@@ -16,6 +16,8 @@ public class setSpeedCommand extends Command {
   public setSpeedCommand(double m_setMotorSpeed, InTakeOutTakesubsystem m_InOuttakeSubsystem) {
       setMotorSpeed = m_setMotorSpeed;
       subsystem = m_InOuttakeSubsystem;
+
+      addRequirements(subsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
