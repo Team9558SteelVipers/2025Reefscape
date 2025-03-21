@@ -5,13 +5,18 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.units.AngleUnit;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.ArmAngleConstants;
 
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
+import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -28,14 +33,25 @@ public class AngleArmSubsystem extends SubsystemBase {
   TalonFX rightArmMotor;
   TalonFX leftArmMotor;
   CANcoder armCANcoder;
-
+  double offset = .223877;
+  
+  final PIDController armPID = new PIDController(1, 0, 0);
   public AngleArmSubsystem() {
+
+    
     armCANcoder = new CANcoder(ArmAngleConstants.armCANcoderPort);
+
+    final MagnetSensorConfigs cancoderConfigs = new MagnetSensorConfigs()
+      .withAbsoluteSensorDiscontinuityPoint(1);
+
+    armCANcoder.getConfigurator().apply(cancoderConfigs);
+
+    armCANcoder.setPosition(armCANcoder.getAbsolutePosition().getValue());
 
     leftArmMotor = new TalonFX(ArmAngleConstants.leftArmMotorPort);
     rightArmMotor = new TalonFX(ArmAngleConstants.rightArmMotorPort);
     
-    final Slot0Configs slot0Configs = new Slot0Configs()
+    final Slot0Configs Slot0Configs = new Slot0Configs()
       .withKP(ArmAngleConstants.kArmP)
       .withKI(ArmAngleConstants.kArmI)
       .withKD(ArmAngleConstants.kArmD)
@@ -50,7 +66,7 @@ public class AngleArmSubsystem extends SubsystemBase {
       .withNeutralMode(NeutralModeValue.Brake);
 
     final TalonFXConfiguration configuration = new TalonFXConfiguration()
-      .withSlot0(slot0Configs)
+      .withSlot0(Slot0Configs)
       .withFeedback(feedbackConfigs)
       .withMotorOutput(motorOutputConfigs);
 
@@ -60,7 +76,10 @@ public class AngleArmSubsystem extends SubsystemBase {
   }
 
   public void setArmRotationStatic(double rotation){
-    
+    //double speed = armPID.calculate(armCANcoder.getPosition().getValueAsDouble(),offset+rotation);
+    //leftArmMotor.setControl(new VoltageOut(speed * 1.0));
+    //rightArmMotor.setControl(new Follower(ArmAngleConstants.leftArmMotorPort, true));
+    leftArmMotor.setControl(new PositionVoltage(rotation));
   }
 
   public double getArmEncoderRotation(){
@@ -68,7 +87,7 @@ public class AngleArmSubsystem extends SubsystemBase {
   }
 
   public void setArmSpeedDynamic (double speed){
-    leftArmMotor.set(ArmAngleConstants.damperSpeedValue*(speed));
+    leftArmMotor.set(ArmAngleConstants.damperSpeedValue*(-speed));
   }
   
 

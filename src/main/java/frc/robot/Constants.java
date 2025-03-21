@@ -10,6 +10,7 @@ public final class Constants {
   public static final Mode simMode = Mode.SIM;
   public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : simMode;
   
+  public static final double intakeSpeed = 1.0;
 
   public static class ServoArmConstants{
     public static final int armServoPort = 0;
@@ -43,13 +44,13 @@ public final class Constants {
     public static final int armCANcoderPort = 0;
 
     public static final double armRotationTolerance = 0.05;
-    public static final double armRotationFloor = -0.224365;
-    public static final double armRotationStage1 = -0.305664; 
-    public static final double armRotationStage2 = -0.317627;
-    public static final double armRotationStage3 = -0.555664;
-    public static final double armRotationClimb = -0.461426;
+    public static final double armRotationIntakeCoral = 0.771484; //-0.226562;
+    public static final double armRotationOuttakeCoral = 0.673828; //-0.320068;
+    public static final double armRotationRemoveAlgae = 0.480225; //-0.527100;
+    public static final double armRotationIntakeAlgae = 0.705; //-0.291748;
+    public static final double armRotationClimb = 0.580078; //-0.419189;
 
-    public static final double kArmP = 1.0;
+    public static final double kArmP = 35.0;
     public static final double kArmI = 0;
     public static final double kArmD = 0;
     public static final double kArmG = 0;

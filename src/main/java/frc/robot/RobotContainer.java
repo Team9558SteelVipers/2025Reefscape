@@ -64,22 +64,22 @@ public class RobotContainer {
   private final JawsofLifeCommand m_JawsOfLifeClose = new JawsofLifeCommand(m_JoLsubsystem, -Constants.JoLMotorConstants.JoLSpeed);
 
   // Arm Section
-  private final AngleArmStaticCommand m_positionFloor = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationFloor);
-  private final AngleArmStaticCommand m_positionStage1 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationStage1);
-  private final AngleArmStaticCommand m_positionStage2 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationStage2);
+  private final AngleArmStaticCommand m_positionFloor = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationIntakeCoral);
+  private final AngleArmStaticCommand m_positionStage1 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationOuttakeCoral);
+  private final AngleArmStaticCommand m_positionStage2 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationRemoveAlgae);
   private final AngleArmStaticCommand m_positionClimb = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationClimb);
 
-  private  AngleArmDynamicCommand setAngleArmDynamic = new AngleArmDynamicCommand(m_angleArmSubsystem, this::dpadVerticalControl);
+  // private  AngleArmDynamicCommand setAngleArmDynamic = new AngleArmDynamicCommand(m_angleArmSubsystem, this::dpadVerticalControl);
 
   // Servo Section
-  private ServoArmCommand lockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle180);
-  private ServoArmCommand unlockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle0);
+  private ServoArmCommand unlockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle180);
+  private ServoArmCommand lockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle0);
 
   // Intake Outtake Section
-  public IntakeOuttakeCommand m_SpeedCommand = new IntakeOuttakeCommand(0.5, m_InOuttakeSubsystem);
-  public IntakeOuttakeCommand m_ReverseSpeed = new IntakeOuttakeCommand(-0.5, m_InOuttakeSubsystem);
-  public IntakeOuttakeCommand m_constantSpeed = new IntakeOuttakeCommand(-0.15, m_InOuttakeSubsystem);
-
+  public IntakeOuttakeCommand m_SpeedCommand = new IntakeOuttakeCommand(Constants.intakeSpeed, Constants.intakeSpeed, m_InOuttakeSubsystem);
+  public IntakeOuttakeCommand m_ReverseSpeed = new IntakeOuttakeCommand(-Constants.intakeSpeed, -Constants.intakeSpeed, m_InOuttakeSubsystem);
+  public IntakeOuttakeCommand m_AlgaeFloor = new IntakeOuttakeCommand(Constants.intakeSpeed,0, m_InOuttakeSubsystem);
+  public IntakeOuttakeCommand m_AlgaeStage = new IntakeOuttakeCommand(Constants.intakeSpeed,0, m_InOuttakeSubsystem);
   
 
   private final NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
@@ -94,6 +94,10 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.BackLeft),
                 new ModuleIOTalonFX(TunerConstants.BackRight));
     // Configure the trigger bindings
+
+
+    NamedCommands.registerCommand("coralOuttake", new IntakeOuttakeCommand(-0.5, -0.5,m_InOuttakeSubsystem));
+    NamedCommands.registerCommand("angleArmStage1",new AngleArmStaticCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationOuttakeCoral));
 // NAMED COMMANDS:
     // NamedCommands.registerCommand();
 
@@ -122,20 +126,25 @@ public class RobotContainer {
     m_operatorController.a().onTrue(m_positionFloor);
     m_operatorController.x().onTrue(m_positionStage1);
     m_operatorController.y().onTrue(m_positionStage2);
-    m_operatorController.b().onTrue(m_positionClimb);
-
-    m_operatorController.leftTrigger().whileTrue(m_JawsOfLifeClose);
-    m_operatorController.rightTrigger().whileTrue(m_JawsOfLifeOpen);
+    // m_operatorController.b().onTrue(m_positionClimb);
 
     m_operatorController.leftBumper().whileTrue(m_ReverseSpeed);
     m_operatorController.rightBumper().whileTrue(m_SpeedCommand);
 
-    m_operatorController.back().onTrue(new InstantCommand(this::displayLimelightData));
+    // m_operatorController.back().onTrue(new InstantCommand(this::displayLimelightData));
 
-    m_operatorController.leftStick().onTrue(Commands.sequence(m_positionClimb, lockArmMotors));
-    m_operatorController.rightStick().onTrue(unlockArmMotors);
+    // m_operatorController.leftStick().onTrue(Commands.sequence(m_positionClimb, lockArmMotors));
+    // m_operatorController.rightStick().onTrue(unlockArmMotors);
 
-    m_angleArmSubsystem.setDefaultCommand(setAngleArmDynamic);
+    // m_angleArmSubsystem.setDefaultCommand(setAngleArmDynamic);
+    m_driveController.rightTrigger().whileTrue(m_JawsOfLifeOpen);
+    m_driveController.leftTrigger().whileTrue(m_JawsOfLifeClose);
+
+    m_driveController.b().onTrue(lockArmMotors);
+    
+    m_driveController.x().onTrue(unlockArmMotors);
+    // m_driveController.y().onTrue(m_positionClimb);
+    // m_driveController.b().onTrue(m_AlgaeFloor);
 
     drive.setDefaultCommand(
             DriveCommands.joystickDrive(
