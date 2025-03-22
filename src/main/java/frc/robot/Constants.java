@@ -11,6 +11,7 @@ public final class Constants {
   public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : simMode;
   
   public static final double intakeSpeed = 1.0;
+  public static final double intakeIdleSpeed = 0.1;
 
   public static class ServoArmConstants{
     public static final int armServoPort = 0;
@@ -35,6 +36,9 @@ public final class Constants {
   public final class JoLMotorConstants{
     public static final int JoLMotorPort = 14;
     public static final double JoLSpeed = 0.2;
+    public static final double JoLEngagedAngle = 0; // TODO: configure
+    public static final double JoLAngleTolerance = 0.05; // TODO: configure
+    public static final double JoLResistanceCurrentThreshold = 4.0; // TODO: configure
   }
 
   public static class ArmAngleConstants {
@@ -49,11 +53,17 @@ public final class Constants {
     public static final double armRotationRemoveAlgae = 0.480225; //-0.527100;
     public static final double armRotationIntakeAlgae = 0.705; //-0.291748;
     public static final double armRotationClimb = 0.580078; //-0.419189;
+    public static final double armRotationHang = 0.0;
 
     public static final double kArmP = 35.0;
     public static final double kArmI = 0;
     public static final double kArmD = 0;
     public static final double kArmG = 0;
+    
+    public static final double kArmClimbP = 35.0;
+    public static final double kArmClimbI = 0;
+    public static final double kArmClimbD = 0;
+    public static final double kArmClimbG = 0;
 
     public static final double damperSpeedValue = 0.25;
   }

@@ -11,8 +11,10 @@ import frc.robot.subsystems.ServoArmSubsystem;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import frc.robot.commands.AngleArmConstantSpeedCommand;
+import frc.robot.commands.AngleArmConstantSpeedCommand;
 import frc.robot.commands.AngleArmDynamicCommand;
-import frc.robot.commands.AngleArmStaticCommand;
+import frc.robot.commands.AngleArmPositionCommand;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.JawsofLifeCommand;
 import frc.robot.commands.IntakeOuttakeCommand;
@@ -36,6 +38,7 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.util.sendable.Sendable;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -60,16 +63,19 @@ public class RobotContainer {
 // // Initialized Commands
   
   // Jol Section
-  private final JawsofLifeCommand m_JawsOfLifeOpen = new JawsofLifeCommand(m_JoLsubsystem, Constants.JoLMotorConstants.JoLSpeed);
-  private final JawsofLifeCommand m_JawsOfLifeClose = new JawsofLifeCommand(m_JoLsubsystem, -Constants.JoLMotorConstants.JoLSpeed);
+  private final JawsofLifeCommand m_JawsOfLifeOpen = new JawsofLifeCommand(m_JoLsubsystem, Constants.JoLMotorConstants.JoLSpeed, this::rumbleOperatorControllerIfEngaged);
+  private final JawsofLifeCommand m_JawsOfLifeClose = new JawsofLifeCommand(m_JoLsubsystem, -Constants.JoLMotorConstants.JoLSpeed, this::rumbleOperatorControllerIfEngaged);
 
   // Arm Section
-  private final AngleArmStaticCommand m_positionFloor = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationIntakeCoral);
-  private final AngleArmStaticCommand m_positionStage1 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationOuttakeCoral);
-  private final AngleArmStaticCommand m_positionStage2 = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationRemoveAlgae);
-  private final AngleArmStaticCommand m_positionClimb = new AngleArmStaticCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationClimb);
+  private final AngleArmPositionCommand m_positionFloor = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationIntakeCoral);
+  private final AngleArmPositionCommand m_positionStage1 = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationOuttakeCoral);
+  private final AngleArmPositionCommand m_positionStage2 = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationRemoveAlgae);
+  private final AngleArmPositionCommand m_positionClimb = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationClimb);
 
-  // private  AngleArmDynamicCommand setAngleArmDynamic = new AngleArmDynamicCommand(m_angleArmSubsystem, this::dpadVerticalControl);
+  //private final AngleArmDynamicCommand setAngleArmDynamic = new AngleArmDynamicCommand(m_angleArmSubsystem, this::dpadVerticalControl);
+  private final AngleArmConstantSpeedCommand armUp = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, 1);
+  private final AngleArmConstantSpeedCommand armDown = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, -1);
+
 
   // Servo Section
   private ServoArmCommand unlockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle180);
@@ -80,7 +86,7 @@ public class RobotContainer {
   public IntakeOuttakeCommand m_ReverseSpeed = new IntakeOuttakeCommand(-Constants.intakeSpeed, -Constants.intakeSpeed, m_InOuttakeSubsystem);
   public IntakeOuttakeCommand m_AlgaeFloor = new IntakeOuttakeCommand(Constants.intakeSpeed,0, m_InOuttakeSubsystem);
   public IntakeOuttakeCommand m_AlgaeStage = new IntakeOuttakeCommand(Constants.intakeSpeed,0, m_InOuttakeSubsystem);
-  
+  public IntakeOuttakeCommand m_idleSpeed = new IntakeOuttakeCommand(-Constants.intakeIdleSpeed, -Constants.intakeIdleSpeed, m_InOuttakeSubsystem);
 
   private final NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
@@ -97,7 +103,7 @@ public class RobotContainer {
 
 
     NamedCommands.registerCommand("coralOuttake", new IntakeOuttakeCommand(-0.5, -0.5,m_InOuttakeSubsystem));
-    NamedCommands.registerCommand("angleArmStage1",new AngleArmStaticCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationOuttakeCoral));
+    NamedCommands.registerCommand("angleArmStage1",new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationOuttakeCoral));
 // NAMED COMMANDS:
     // NamedCommands.registerCommand();
 
@@ -136,7 +142,10 @@ public class RobotContainer {
     // m_operatorController.leftStick().onTrue(Commands.sequence(m_positionClimb, lockArmMotors));
     // m_operatorController.rightStick().onTrue(unlockArmMotors);
 
-    // m_angleArmSubsystem.setDefaultCommand(setAngleArmDynamic);
+    //m_angleArmSubsystem.setDefaultCommand(setAngleArmDynamic);
+    m_operatorController.povUp().whileTrue(armUp);
+    m_operatorController.povDown().whileTrue(armDown);
+
     m_driveController.rightTrigger().whileTrue(m_JawsOfLifeOpen);
     m_driveController.leftTrigger().whileTrue(m_JawsOfLifeClose);
 
@@ -153,7 +162,8 @@ public class RobotContainer {
                 () -> m_driveController.getLeftX(),
                 () -> -m_driveController.getRightX()));
     
-    //m_InOuttakeSubsystem.setDefaultCommand(m_constantSpeed);
+    m_InOuttakeSubsystem.setDefaultCommand(m_idleSpeed);
+    
   }
 
   /**
@@ -187,5 +197,8 @@ public class RobotContainer {
     }
   }
 
+  private void rumbleOperatorControllerIfEngaged(final boolean engaged) {
+      m_operatorController.setRumble(RumbleType.kBothRumble, engaged ? 0.5 : 0.0);
+  }
   
 }

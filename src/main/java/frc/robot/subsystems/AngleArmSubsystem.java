@@ -19,6 +19,7 @@ import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.Slot1Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.PositionVoltage;
@@ -51,11 +52,18 @@ public class AngleArmSubsystem extends SubsystemBase {
     leftArmMotor = new TalonFX(ArmAngleConstants.leftArmMotorPort);
     rightArmMotor = new TalonFX(ArmAngleConstants.rightArmMotorPort);
     
-    final Slot0Configs Slot0Configs = new Slot0Configs()
+    final Slot0Configs slot0Configs = new Slot0Configs()
       .withKP(ArmAngleConstants.kArmP)
       .withKI(ArmAngleConstants.kArmI)
       .withKD(ArmAngleConstants.kArmD)
       .withKG(ArmAngleConstants.kArmG)
+      .withGravityType(GravityTypeValue.Arm_Cosine);
+
+    final Slot1Configs slot1Configs = new Slot1Configs()
+      .withKP(ArmAngleConstants.kArmClimbP)
+      .withKI(ArmAngleConstants.kArmClimbI)
+      .withKD(ArmAngleConstants.kArmClimbD)
+      .withKG(ArmAngleConstants.kArmClimbG)
       .withGravityType(GravityTypeValue.Arm_Cosine);
 
     final FeedbackConfigs feedbackConfigs = new FeedbackConfigs()
@@ -66,7 +74,8 @@ public class AngleArmSubsystem extends SubsystemBase {
       .withNeutralMode(NeutralModeValue.Brake);
 
     final TalonFXConfiguration configuration = new TalonFXConfiguration()
-      .withSlot0(Slot0Configs)
+      .withSlot0(slot0Configs)
+      .withSlot1(slot1Configs)
       .withFeedback(feedbackConfigs)
       .withMotorOutput(motorOutputConfigs);
 
@@ -79,14 +88,18 @@ public class AngleArmSubsystem extends SubsystemBase {
     //double speed = armPID.calculate(armCANcoder.getPosition().getValueAsDouble(),offset+rotation);
     //leftArmMotor.setControl(new VoltageOut(speed * 1.0));
     //rightArmMotor.setControl(new Follower(ArmAngleConstants.leftArmMotorPort, true));
-    leftArmMotor.setControl(new PositionVoltage(rotation));
+    leftArmMotor.setControl(new PositionVoltage(rotation).withSlot(0));
+  }
+
+  public void hang() {
+    leftArmMotor.setControl(new PositionVoltage(ArmAngleConstants.armRotationHang).withSlot(1));
   }
 
   public double getArmEncoderRotation(){
     return armCANcoder.getAbsolutePosition().getValueAsDouble();
   }
 
-  public void setArmSpeedDynamic (double speed){
+  public void setArmSpeedDynamic(double speed) {
     leftArmMotor.set(ArmAngleConstants.damperSpeedValue*(-speed));
   }
   

@@ -10,11 +10,11 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
-public class AngleArmStaticCommand extends Command {
+public class AngleArmPositionCommand extends Command {
   private final AngleArmSubsystem m_anglearmsubsystem;
   private final double m_expectedArmRotation;
 
-  public AngleArmStaticCommand(AngleArmSubsystem anglearmsubsystem, double expectedArmRotation) {
+  public AngleArmPositionCommand(AngleArmSubsystem anglearmsubsystem, double expectedArmRotation) {
     m_anglearmsubsystem = anglearmsubsystem;
     m_expectedArmRotation = expectedArmRotation;
 
