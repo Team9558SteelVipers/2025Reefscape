@@ -41,7 +41,8 @@ public class RobotContainer {
   
   private final CommandXboxController m_operatorController =
       new CommandXboxController(0);
-  
+  private final CommandXboxController m_driverController = 
+      new CommandXboxController(1);
   // Jol Section
   private final JawsofLifeCommand m_JawsOfLifeOpen = new JawsofLifeCommand(m_JoLsubsystem, Constants.JoLMotorConstants.JoLSpeed);
   private final JawsofLifeCommand m_JawsOfLifeClose = new JawsofLifeCommand(m_JoLsubsystem, -Constants.JoLMotorConstants.JoLSpeed);
@@ -94,9 +95,9 @@ public class RobotContainer {
     drive.setDefaultCommand(
             DriveCommands.joystickDrive(
                 drive,
-                () -> m_operatorController.getLeftY(),
-                () -> m_operatorController.getLeftX(),
-                () -> -m_operatorController.getRightX()));
+                () -> m_driverController.getLeftY(),
+                () -> m_driverController.getLeftX(),
+                () -> -m_driverController.getRightX()));
   }
 
   /**
@@ -104,10 +105,10 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return null;
-  }
+  // public Command getAutonomousCommand() {
+  //   // An example command will be run in autonomous
+  //   return null;
+  // }
 
     private void displayLimelightData() {
         SmartDashboard.putNumber("Limelight X", getLimelightValue(Constants.LIMELIGHT_X_KEY));

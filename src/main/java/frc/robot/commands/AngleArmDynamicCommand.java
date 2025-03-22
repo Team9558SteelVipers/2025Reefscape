@@ -15,7 +15,6 @@ public class AngleArmDynamicCommand extends Command {
   public AngleArmDynamicCommand(AngleArmSubsystem angleArmSubsystem, Supplier <Double> speed) {
     m_angleArmSubsystem = angleArmSubsystem;
     m_speed = speed;
-
     addRequirements(angleArmSubsystem);
   }
 
