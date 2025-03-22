@@ -30,6 +30,7 @@ public class Robot extends TimedRobot {
 
   @Override
     public void robotInit() {
+      DriverStation.silenceJoystickConnectionWarning(true);
       FollowPathCommand.warmupCommand().schedule();        
     }
   
