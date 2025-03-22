@@ -1,11 +1,14 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -20,7 +23,7 @@ public class JawsOfLifeSubsystem extends SubsystemBase {
   public JawsOfLifeSubsystem() {
     // JoLMotor.getConfigurator().apply(pidconfig);
     //apply PID to motor
-   
+    JoLMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
   }
 
   /**
@@ -41,6 +44,26 @@ public class JawsOfLifeSubsystem extends SubsystemBase {
 public void JawsOfLifeSpeed(double speed){
   JoLMotor.set(ControlMode.PercentOutput,-speed);
 }
+
+public boolean isEngaged() {
+
+  final double angle = getJawsOfLifeAngle();
+  final boolean atEngagedAngle = MathUtil.isNear(Constants.JoLMotorConstants.JoLEngagedAngle, angle, Constants.JoLMotorConstants.JoLAngleTolerance);
+  
+  final double currentDraw = JoLMotor.getStatorCurrent();
+  final boolean motorIsFacingResistance = (currentDraw > Constants.JoLMotorConstants.JoLResistanceCurrentThreshold);
+
+  final boolean isOpening = JoLMotor.getMotorOutputPercent() < 0;
+
+  System.out.println("JoL: angle is " + angle + ", current draw is " + currentDraw + ", is opening? " + isOpening);
+
+  return atEngagedAngle && motorIsFacingResistance && isOpening;
+}
+
+public double getJawsOfLifeAngle() {
+  return JoLMotor.getSelectedSensorPosition();
+}
+
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
    *

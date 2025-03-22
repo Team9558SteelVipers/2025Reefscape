@@ -4,17 +4,19 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants.ArmAngleConstants;
 import frc.robot.subsystems.AngleArmSubsystem;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
-public class AngleArmStaticCommand extends Command {
-  private final double m_position;
+public class AngleArmPositionCommand extends Command {
   private final AngleArmSubsystem m_anglearmsubsystem;
+  private final double m_expectedArmRotation;
 
-  public AngleArmStaticCommand(AngleArmSubsystem anglearmsubsystem, double position) {
+  public AngleArmPositionCommand(AngleArmSubsystem anglearmsubsystem, double expectedArmRotation) {
     m_anglearmsubsystem = anglearmsubsystem;
-    m_position = position;
+    m_expectedArmRotation = expectedArmRotation;
 
     addRequirements(anglearmsubsystem);
   }
@@ -22,7 +24,8 @@ public class AngleArmStaticCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_anglearmsubsystem.setArmPositionStatic(m_position);
+    System.out.println("setting arm to " + m_expectedArmRotation);
+    m_anglearmsubsystem.setArmRotationStatic(m_expectedArmRotation);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -36,6 +39,7 @@ public class AngleArmStaticCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    double currentArmRotation = m_anglearmsubsystem.getArmEncoderRotation();
+    return MathUtil.isNear(m_expectedArmRotation, currentArmRotation, ArmAngleConstants.armRotationTolerance);
   }
 }

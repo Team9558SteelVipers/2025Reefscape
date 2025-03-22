@@ -1,8 +1,12 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import com.pathplanner.lib.commands.FollowPathCommand;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -25,7 +29,8 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-    public void robotInit() {        
+    public void robotInit() {
+      FollowPathCommand.warmupCommand().schedule();        
     }
   
   @Override
@@ -33,6 +38,7 @@ public class Robot extends TimedRobot {
       // Run the scheduler for command-based programming
       CommandScheduler.getInstance().run();
       
+      DriverStation.silenceJoystickConnectionWarning(true);
       // Continuously update Limelight data on the SmartDashboard
       updateLimelightData();
   }

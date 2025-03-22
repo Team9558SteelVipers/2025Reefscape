@@ -27,9 +27,9 @@ public class InTakeOutTakesubsystem extends SubsystemBase {
    *
    * @return a command
    */
-  public void setMotorSpeed(double speed) {
-      motorTop.set(ControlMode.PercentOutput, speed );
-      motorBot.set(ControlMode.PercentOutput, speed );
+  public void setMotorSpeeds(double speedTop, double speedBottom) {
+      motorTop.set(ControlMode.PercentOutput, speedTop );
+      motorBot.set(ControlMode.PercentOutput, speedBottom );
 
       
     // Inline construction of command goes here.

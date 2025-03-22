@@ -4,23 +4,27 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.PIDExample;
+import frc.robot.Constants.ArmAngleConstants;
+import frc.robot.subsystems.AngleArmSubsystem;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.Command;
 
-/** An example command that uses an example subsystem. */
-public class PIDExamplePositionCommand extends Command {
-  private final PIDExample m_subsystem;
 
-  public PIDExamplePositionCommand(PIDExample subsystem) {
-    m_subsystem = subsystem;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+public class AngleArmConstantSpeedCommand extends Command {
+  private final AngleArmSubsystem m_anglearmsubsystem;
+  private final double m_speed;
+
+  public AngleArmConstantSpeedCommand(AngleArmSubsystem anglearmsubsystem, double speed) {
+    m_anglearmsubsystem = anglearmsubsystem;
+    m_speed = speed;
+
+    addRequirements(anglearmsubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_subsystem.PositionCommand();
+    m_anglearmsubsystem.setArmSpeedDynamic(m_speed);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -29,7 +33,9 @@ public class PIDExamplePositionCommand extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_anglearmsubsystem.setArmSpeedDynamic(0);
+  }
 
   // Returns true when the command should end.
   @Override

@@ -8,14 +8,18 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.InTakeOutTakesubsystem;
 
 /* You should consider using the more terse Command factories API instead https://docs.wpilib.org/en/stable/docs/software/commandbased/organizing-command-based.html#defining-commands */
-public class setSpeedCommand extends Command {
-  double setMotorSpeed;
+public class IntakeOuttakeCommand extends Command {
+  double setMotorSpeedTop;
+  double setMotorSpeedBottom;
   InTakeOutTakesubsystem subsystem;
 
   /** Creates a new setSpeedCommand. */
-  public setSpeedCommand(double m_setMotorSpeed, InTakeOutTakesubsystem m_InOuttakeSubsystem) {
-      setMotorSpeed = m_setMotorSpeed;
+  public IntakeOuttakeCommand(double m_setMotorSpeedTop, double m_setMotorSpeedBottom, InTakeOutTakesubsystem m_InOuttakeSubsystem) {
+      setMotorSpeedTop = m_setMotorSpeedTop;
+      setMotorSpeedBottom= m_setMotorSpeedBottom;
       subsystem = m_InOuttakeSubsystem;
+
+      addRequirements(subsystem);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -23,7 +27,7 @@ public class setSpeedCommand extends Command {
   @Override
 
   public void initialize() {
-    subsystem.setMotorSpeed(setMotorSpeed);
+    subsystem.setMotorSpeeds(-setMotorSpeedTop,-setMotorSpeedBottom);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -33,7 +37,7 @@ public class setSpeedCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    subsystem.setMotorSpeed(0);
+    subsystem.setMotorSpeeds(0,0);
   }
 
   // Returns true when the command should end.
