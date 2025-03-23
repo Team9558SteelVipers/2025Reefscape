@@ -27,12 +27,14 @@ import frc.robot.subsystems.JawsOfLifeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -46,7 +48,7 @@ public class RobotContainer {
       new CommandXboxController(0);
   private final CommandXboxController m_driveController =
       new CommandXboxController(1); 
-  //private final SendableChooser<Command> autoChooser;
+  private final SendableChooser<Command> autoChooser;
 
   // Initialized Subsystems
   private final JawsOfLifeSubsystem m_JoLsubsystem = new JawsOfLifeSubsystem();
@@ -107,7 +109,16 @@ public class RobotContainer {
     // NAMED COMMANDS:
     // NamedCommands.registerCommand();
 
-    // autoChooser = AutoBuilder.buildAutoChooser();
+    autoChooser = AutoBuilder.buildAutoChooser();
+
+    autoChooser.addOption("red top auto", new PathPlannerAuto("red top auto"));
+    autoChooser.addOption("blue top auto", new PathPlannerAuto("blue top auto"));
+    autoChooser.addOption("red middle auto", new PathPlannerAuto("red middle auto"));
+    autoChooser.addOption("blue middle auto", new PathPlannerAuto("blue middle auto"));
+    autoChooser.addOption("red bottom auto", new PathPlannerAuto("red bottom auto"));
+    autoChooser.addOption("blue bottom auto", new PathPlannerAuto("blue bottom auto"));
+
+    SmartDashboard.putData(autoChooser);
 
     //     // Set up SysId routines
     //     autoChooser.addOption(
@@ -194,8 +205,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
+    //return autoChooser.getSelected();
     return new PathPlannerAuto("red middle auto");
-
   }
 
   private void displayLimelightData() {
