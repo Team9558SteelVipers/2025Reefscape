@@ -9,12 +9,6 @@
           "data": {
             "name": "angleArmremoveStand"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "blue middle backup"
-          }
         }
       ]
     }

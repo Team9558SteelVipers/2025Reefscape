@@ -73,8 +73,8 @@ public class RobotContainer {
   
   
   //private final AngleArmDynamicCommand setAngleArmDynamic = new AngleArmDynamicCommand(m_angleArmSubsystem, this::dpadVerticalControl);
-  private final AngleArmConstantSpeedCommand armUp = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, 0.7);
-  private final AngleArmConstantSpeedCommand armDown = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, -0.7);
+  private final AngleArmConstantSpeedCommand armUp = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, 0.6);
+  private final AngleArmConstantSpeedCommand armDown = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, -0.6);
 
 
   // Servo Section
@@ -101,27 +101,25 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.BackRight));
     // Configure the trigger bindings
 
+    resetPoseAngleCommand = new ResetPoseAngleCommand(drive);
+
     NamedCommands.registerCommand("angleArmremoveStand", new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationRemoveStand));
+    NamedCommands.registerCommand("angleArmStart", new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationStart));
     NamedCommands.registerCommand("coralouttake", new IntakeOuttakeCommand(Constants.outtakeSpeed,Constants.outtakeSpeed,m_InOuttakeSubsystem).withTimeout(2));
     NamedCommands.registerCommand("angleArmStage1",new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationOuttakeCoral));
 
-    resetPoseAngleCommand = new ResetPoseAngleCommand(drive);
-    // NAMED COMMANDS:
-    // NamedCommands.registerCommand();
-
     autoChooser = AutoBuilder.buildAutoChooser();
+    // autoChooser = new SendableChooser<Command>();
+    // autoChooser.addOption("red top auto", new PathPlannerAuto("red top auto"));
+    // autoChooser.addOption("blue top auto", new PathPlannerAuto("blue top auto"));
+    // autoChooser.addOption("red middle auto", new PathPlannerAuto("red middle auto"));
+    // autoChooser.addOption("blue middle auto", new PathPlannerAuto("blue middle auto"));
+    // autoChooser.addOption("red bottom auto", new PathPlannerAuto("red bottom auto"));
+    // autoChooser.addOption("blue bottom auto", new PathPlannerAuto("blue bottom auto"));
+    // autoChooser.addOption("test auto 1", new PathPlannerAuto("Test Auto 1"));
+    // autoChooser.addOption("test auto 2", new PathPlannerAuto("Test Auto 2"));
 
-    autoChooser.addOption("red top auto", new PathPlannerAuto("red top auto"));
-    autoChooser.addOption("blue top auto", new PathPlannerAuto("blue top auto"));
-    autoChooser.addOption("red middle auto", new PathPlannerAuto("red middle auto"));
-    autoChooser.addOption("blue middle auto", new PathPlannerAuto("blue middle auto"));
-    autoChooser.addOption("red bottom auto", new PathPlannerAuto("red bottom auto"));
-    autoChooser.addOption("blue bottom auto", new PathPlannerAuto("blue bottom auto"));
-    autoChooser.addOption("test forward auto", new PathPlannerAuto("Test Auto Forward"));
-    autoChooser.addOption("test backward auto", new PathPlannerAuto("Test Auto Backward"));
-
-
-    SmartDashboard.putData(autoChooser);
+    // SmartDashboard.putData(autoChooser);
 
     //     // Set up SysId routines
     //     autoChooser.addOption(
@@ -151,7 +149,6 @@ public class RobotContainer {
     m_operatorController.x().onTrue(m_AlgaeProcess);
     m_operatorController.povLeft().onTrue(m_positionHang);
     m_operatorController.povRight().onTrue(m_positionStarting);
-    // m_operatorController.b().onTrue(m_positionClimb);
 
     m_operatorController.leftBumper().whileTrue(m_OuttakeCommand);
     m_operatorController.rightBumper().whileTrue(m_IntakeCommand);
@@ -166,7 +163,6 @@ public class RobotContainer {
     //m_angleArmSubsystem.setDefaultCommand(setAngleArmDynamic);
     m_operatorController.povUp().whileTrue(armUp);
     m_operatorController.povDown().whileTrue(armDown);
-
 
     m_driveController.rightTrigger().whileTrue(m_JawsOfLifeOpen);
     m_driveController.leftTrigger().whileTrue(m_JawsOfLifeClose);
@@ -208,8 +204,17 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    //return autoChooser.getSelected();
-    return new PathPlannerAuto("red middle auto");
+    // return autoChooser.getSelected();
+
+    // final Command command = autoChooser.getSelected();
+
+    // if (command != null) {
+    //   System.out.println("chosen auto : " + command.getName());
+    // } else {
+    //   System.out.println("chosen auto is null");
+    // }
+
+    return new PathPlannerAuto("red bottom auto");
   }
 
   private void displayLimelightData() {
@@ -222,19 +227,9 @@ public class RobotContainer {
   private double getLimelightValue(String key) {
       return limelightTable.getEntry(key).getDouble(0.0);
   }
-    
-  private double dpadVerticalControl() {
-    if (m_operatorController.povUp().getAsBoolean()) {
-      return 1;
-    } else if (m_operatorController.povDown().getAsBoolean()) {
-      return -1;
-    } else {
-      return 0;
-    }
-  }
-
+  
   private void rumbleOperatorControllerIfEngaged(final boolean engaged) {
-      m_operatorController.setRumble(RumbleType.kBothRumble, engaged ? 0.5 : 0.0);
+      //m_operatorController.setRumble(RumbleType.kBothRumble, engaged ? 0.5 : 0.0);
   }
   
 }

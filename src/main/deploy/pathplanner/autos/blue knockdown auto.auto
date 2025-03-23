@@ -31,7 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "blue far top"
+            "pathName": "blue start top"
           }
         },
         {
@@ -55,13 +55,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "blue top far gyro"
+            "pathName": "blue top close gyro"
           }
         },
         {
           "type": "wait",
           "data": {
             "waitTime": 0.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "blue knockdown close position"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "blue knockdown"
           }
         }
       ]

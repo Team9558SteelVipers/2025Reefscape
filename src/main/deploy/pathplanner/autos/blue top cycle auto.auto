@@ -31,7 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "blue far top"
+            "pathName": "blue start top"
           }
         },
         {
@@ -44,18 +44,6 @@
           "type": "named",
           "data": {
             "name": "coralouttake"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "blue top far gyro"
           }
         },
         {

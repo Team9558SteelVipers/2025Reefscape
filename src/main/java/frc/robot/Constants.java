@@ -11,7 +11,7 @@ public final class Constants {
   public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : simMode;
   
   public static final double intakeSpeed = -1.0;
-  public static final double outtakeSpeed = 0.85;
+  public static final double outtakeSpeed = 0.75;
 
   // public static final double intakeIdleSpeed = -0.1;
 
@@ -38,9 +38,10 @@ public final class Constants {
   public final class JoLMotorConstants{
     public static final int JoLMotorPort = 14;
     public static final double JoLSpeed = 0.2;
-    public static final double JoLEngagedAngle = 0; // TODO: configure
-    public static final double JoLAngleTolerance = 0.05; // TODO: configure
-    public static final double JoLResistanceCurrentThreshold = 4.0; // TODO: configure
+    public static final int JoLTicksPerRevolution = 4096;
+    public static final double JoLEngagedAngle = 0.695; // TODO: verify
+    public static final double JoLAngleTolerance = 0.05; // TODO: verify
+    public static final double JoLResistanceCurrentThreshold = 8.5; // TODO: verify
   }
 
   public static class ArmAngleConstants {

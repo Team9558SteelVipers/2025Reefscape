@@ -5,12 +5,6 @@
     "data": {
       "commands": [
         {
-          "type": "path",
-          "data": {
-            "pathName": "blue middle"
-          }
-        },
-        {
           "type": "named",
           "data": {
             "name": "coralouttake"

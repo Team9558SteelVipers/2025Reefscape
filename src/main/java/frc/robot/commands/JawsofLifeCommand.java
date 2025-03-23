@@ -41,6 +41,7 @@ public class JawsofLifeCommand extends Command {
   @Override
   public void end(boolean interrupted) {
     m_JoLsubsystem.JawsOfLifeSpeed(0);
+    m_engagedFeedbackConsumer.accept(false);
   }
 
   // Returns true when the command should end.
