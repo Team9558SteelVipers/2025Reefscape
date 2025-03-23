@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 10.0035,
+        "x": 11.16375,
         "y": 4.0055
       },
       "prevControl": null,
       "nextControl": {
-        "x": 10.43233269370382,
-        "y": 3.9958255017643793
+        "x": 11.596720264567903,
+        "y": 4.0055
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "middle end reset red gyro"
     },
     {
       "anchor": {
-        "x": 11.6805,
+        "x": 11.622,
         "y": 4.0055
       },
       "prevControl": {
-        "x": 11.407368595369359,
-        "y": 4.008468135023145
+        "x": 11.32691145396678,
+        "y": 4.0055
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "endmiddlered"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "reversed": false,
   "folder": "reefscape paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

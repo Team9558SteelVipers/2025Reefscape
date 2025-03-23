@@ -11,7 +11,7 @@ public final class Constants {
   public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : simMode;
   
   public static final double intakeSpeed = -1.0;
-  public static final double outtakeSpeed = 1.0;
+  public static final double outtakeSpeed = 0.85;
 
   // public static final double intakeIdleSpeed = -0.1;
 
@@ -56,15 +56,16 @@ public final class Constants {
     public static final double armRotationRemoveAlgae = 0.480225; //-0.527100;
     public static final double armRotationProcessAlgae = 0.705; //-0.291748;
     public static final double armRotationClimb = 0.580078; //-0.419189;
-    public static final double armRotationHang = 0.672363;
+    public static final double armRotationHang = 0.674072;
     public static final double armRotationRemoveStand = 0.58;
+    public static final double armRotationStart = 0.622803;
 
     public static final double kArmP = 30.0;
     public static final double kArmI = 0;
-    public static final double kArmD = 1.0;
+    public static final double kArmD = 2.0;
     public static final double kArmG = 0;
     
-    public static final double kArmClimbP = 35.0;
+    public static final double kArmClimbP = 40.0;
     public static final double kArmClimbI = 0;
     public static final double kArmClimbD = 0;
     public static final double kArmClimbG = 0;

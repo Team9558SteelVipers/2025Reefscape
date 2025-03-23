@@ -31,7 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "blue middle"
+            "pathName": "red top far"
           }
         },
         {
@@ -55,7 +55,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "blue gyro middle"
+            "pathName": "red gyro top far"
           }
         },
         {
@@ -67,7 +67,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "blue middle backup"
+            "pathName": "red knockdown"
           }
         }
       ]

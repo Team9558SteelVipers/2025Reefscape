@@ -3,35 +3,42 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.971823770491803,
-        "y": 1.885194672131147
+        "x": 7.863934426229507,
+        "y": 6.356608606557376
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.395867135204513,
-        "y": 1.8704658239272443
+        "x": 7.2485379956044405,
+        "y": 6.114233461666717
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "blue top start"
     },
     {
       "anchor": {
-        "x": 6.761065573770492,
-        "y": 1.885194672131147
+        "x": 5.1786885245901635,
+        "y": 5.25373975409836
       },
       "prevControl": {
-        "x": 6.381352363813171,
-        "y": 1.896977609607731
+        "x": 7.154500347544744,
+        "y": 6.283751059376918
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "blue top"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "coralouttake",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -42,13 +49,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": -117.58202920779713
   },
   "reversed": false,
   "folder": "reefscape paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 178.95837332399
   },
   "useDefaultConstraints": true
 }

@@ -31,7 +31,7 @@ public class Robot extends TimedRobot {
   @Override
     public void robotInit() {
       DriverStation.silenceJoystickConnectionWarning(true);
-      FollowPathCommand.warmupCommand().schedule();        
+      FollowPathCommand.warmupCommand().schedule();   
     }
   
   @Override
@@ -75,6 +75,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    m_robotContainer.resetPoseAngleCommand.schedule();
   }
 
   @Override

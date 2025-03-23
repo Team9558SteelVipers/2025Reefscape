@@ -17,6 +17,7 @@ import frc.robot.commands.AngleArmDynamicCommand;
 import frc.robot.commands.AngleArmPositionCommand;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.JawsofLifeCommand;
+import frc.robot.commands.ResetPoseAngleCommand;
 import frc.robot.commands.IntakeOuttakeCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AngleArmSubsystem;
@@ -24,30 +25,21 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.InTakeOutTakesubsystem;
 import frc.robot.subsystems.JawsOfLifeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
-import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
-
-import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class RobotContainer {
   private final Drive drive;
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+  public final Command resetPoseAngleCommand;
 
   // Initialized Controllers
   private final CommandXboxController m_operatorController =
@@ -75,11 +67,12 @@ public class RobotContainer {
   private final AngleArmPositionCommand m_positionClimb = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationClimb);
   private final AngleArmPositionCommand m_positionHang = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationHang);
   private final AngleArmPositionCommand m_AlgaeProcess = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationProcessAlgae);
-
+  private final AngleArmPositionCommand m_positionStarting = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationStart);
+  
   
   //private final AngleArmDynamicCommand setAngleArmDynamic = new AngleArmDynamicCommand(m_angleArmSubsystem, this::dpadVerticalControl);
-  private final AngleArmConstantSpeedCommand armUp = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, 1);
-  private final AngleArmConstantSpeedCommand armDown = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, -1);
+  private final AngleArmConstantSpeedCommand armUp = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, 0.7);
+  private final AngleArmConstantSpeedCommand armDown = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, -0.7);
 
 
   // Servo Section
@@ -109,7 +102,9 @@ public class RobotContainer {
     NamedCommands.registerCommand("angleArmremoveStand", new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationRemoveStand));
     NamedCommands.registerCommand("coralouttake", new IntakeOuttakeCommand(Constants.outtakeSpeed,Constants.outtakeSpeed,m_InOuttakeSubsystem).withTimeout(2));
     NamedCommands.registerCommand("angleArmStage1",new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationOuttakeCoral));
-// NAMED COMMANDS:
+
+    resetPoseAngleCommand = new ResetPoseAngleCommand(drive);
+    // NAMED COMMANDS:
     // NamedCommands.registerCommand();
 
     // autoChooser = AutoBuilder.buildAutoChooser();
@@ -133,14 +128,15 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    m_driveController.povUp().onTrue(Commands.runOnce(() -> drive.setPose(new Pose2d(drive.getPose().getTranslation(), new Rotation2d()))));
+
+    m_driveController.povUp().onTrue(resetPoseAngleCommand);
 
     m_operatorController.a().onTrue(m_positionFloor);
     m_operatorController.b().onTrue(m_positionStage1);
     m_operatorController.y().onTrue(m_positionStage2);
     m_operatorController.x().onTrue(m_AlgaeProcess);
     m_operatorController.povLeft().onTrue(m_positionHang);
-
+    m_operatorController.povRight().onTrue(m_positionStarting);
     // m_operatorController.b().onTrue(m_positionClimb);
 
     m_operatorController.leftBumper().whileTrue(m_OuttakeCommand);
@@ -156,6 +152,7 @@ public class RobotContainer {
     //m_angleArmSubsystem.setDefaultCommand(setAngleArmDynamic);
     m_operatorController.povUp().whileTrue(armUp);
     m_operatorController.povDown().whileTrue(armDown);
+
 
     m_driveController.rightTrigger().whileTrue(m_JawsOfLifeOpen);
     m_driveController.leftTrigger().whileTrue(m_JawsOfLifeClose);
@@ -197,7 +194,8 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return new PathPlannerAuto("move");
+    return new PathPlannerAuto("red middle auto");
+
   }
 
   private void displayLimelightData() {

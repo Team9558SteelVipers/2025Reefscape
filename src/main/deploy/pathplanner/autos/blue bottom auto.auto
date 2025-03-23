@@ -31,7 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "blue middle"
+            "pathName": "blue start bottom"
           }
         },
         {
@@ -55,19 +55,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "blue gyro middle"
+            "pathName": "blue bottom gyro"
           }
         },
         {
           "type": "wait",
           "data": {
             "waitTime": 0.5
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "blue middle backup"
           }
         }
       ]
