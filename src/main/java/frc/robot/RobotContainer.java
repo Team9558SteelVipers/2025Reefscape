@@ -117,6 +117,9 @@ public class RobotContainer {
     autoChooser.addOption("blue middle auto", new PathPlannerAuto("blue middle auto"));
     autoChooser.addOption("red bottom auto", new PathPlannerAuto("red bottom auto"));
     autoChooser.addOption("blue bottom auto", new PathPlannerAuto("blue bottom auto"));
+    autoChooser.addOption("test forward auto", new PathPlannerAuto("Test Auto Forward"));
+    autoChooser.addOption("test backward auto", new PathPlannerAuto("Test Auto Backward"));
+
 
     SmartDashboard.putData(autoChooser);
 
