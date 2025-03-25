@@ -225,7 +225,8 @@ public class RobotContainer {
   }
   
   private void rumbleOperatorControllerIfEngaged(final boolean engaged) {
-      //m_operatorController.setRumble(RumbleType.kBothRumble, engaged ? 0.5 : 0.0);
+      m_operatorController.setRumble(RumbleType.kBothRumble, engaged ? 0.5 : 0.0);
+      m_driveController.setRumble(RumbleType.kBothRumble, engaged ? 0.5 : 0.0);
   }
   
 }
