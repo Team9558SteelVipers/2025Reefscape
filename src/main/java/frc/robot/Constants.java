@@ -39,7 +39,9 @@ public final class Constants {
     public static final int JoLMotorPort = 14;
     public static final double JoLSpeed = 0.2;
     public static final int JoLTicksPerRevolution = 4096;
-    public static final double JoLEngagedAngle = 0.695; // TODO: verify
+    public static final double JoLEngagedAngle = 0.7; // TODO: verify
+    public static final double JoLDisengagedAngle = 0.55;
+    public static final double JolRestAngle = 0.83;
     public static final double JoLAngleTolerance = 0.05; // TODO: verify
     public static final double JoLResistanceCurrentThreshold = 8.5; // TODO: verify
   }
@@ -60,6 +62,7 @@ public final class Constants {
     public static final double armRotationHang = 0.674072;
     public static final double armRotationRemoveStand = 0.58;
     public static final double armRotationStart = 0.622803;
+    public static final double armRotationStation = 0.6;
 
     public static final double kArmP = 30.0;
     public static final double kArmI = 0;

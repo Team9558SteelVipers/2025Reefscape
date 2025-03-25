@@ -37,9 +37,9 @@ public class JawsOfLifeSubsystem extends SubsystemBase {
   //   JoLMotor.setControl(new PositionVoltage(num));
   //   //determines number of rotations of the motor
 
-  // public void JawsOfLifeMethodCommand(double num) {
-  //   JoLMotor.set(ControlMode.Position, JoLMotorConstants.JoLEngagedAngle);
-  // }
+  public void JawsOfLifePosition(double num) {
+    JoLMotor.set(ControlMode.Position, num);
+  }
 
   //   return runOnce(
   //       () -> {

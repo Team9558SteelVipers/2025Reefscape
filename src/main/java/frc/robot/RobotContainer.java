@@ -17,6 +17,7 @@ import frc.robot.commands.AngleArmDynamicCommand;
 import frc.robot.commands.AngleArmPositionCommand;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.JawsofLifeCommand;
+import frc.robot.commands.JawsofLifePositionCommand;
 import frc.robot.commands.ResetPoseAngleCommand;
 import frc.robot.commands.IntakeOuttakeCommand;
 import frc.robot.generated.TunerConstants;
@@ -62,6 +63,8 @@ public class RobotContainer {
   // Jol Section
   private final JawsofLifeCommand m_JawsOfLifeOpen = new JawsofLifeCommand(m_JoLsubsystem, Constants.JoLMotorConstants.JoLSpeed, this::rumbleOperatorControllerIfEngaged);
   private final JawsofLifeCommand m_JawsOfLifeClose = new JawsofLifeCommand(m_JoLsubsystem, -Constants.JoLMotorConstants.JoLSpeed, this::rumbleOperatorControllerIfEngaged);
+  private final JawsofLifePositionCommand m_JawsOfLifeClosePosition = new JawsofLifePositionCommand(m_JoLsubsystem, Constants.JoLMotorConstants.JoLDisengagedAngle, this::rumbleOperatorControllerIfEngaged);
+  private final JawsofLifePositionCommand m_JawsOfLifeOpenPosition = new JawsofLifePositionCommand(m_JoLsubsystem, Constants.JoLMotorConstants.JoLEngagedAngle, this::rumbleOperatorControllerIfEngaged);
 
   // Arm Section
   private final AngleArmPositionCommand m_positionFloor = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationIntakeCoral);
@@ -149,11 +152,12 @@ public class RobotContainer {
     m_operatorController.povLeft().onTrue(m_positionHang);
     m_operatorController.povRight().onTrue(m_positionStarting);
 
-    // m_operatorController.leftBumper().whileTrue(m_OuttakeCommand);
-    // m_operatorController.rightBumper().whileTrue(m_IntakeCommand);
+     m_operatorController.leftBumper().whileTrue(m_OuttakeCommand); 
+     m_operatorController.rightBumper().whileTrue(m_IntakeCommand); 
 
-    // m_operatorController.rightTrigger().whileTrue(m_AlgaeFloorIntake);
-    // m_operatorController.leftTrigger().whileTrue(m_AlgaeProcessorOuttake);
+    m_operatorController.rightTrigger().whileTrue(m_AlgaeFloorIntake);
+    m_operatorController.leftTrigger().whileTrue(m_AlgaeProcessorOuttake);
+
     // m_operatorController.back().onTrue(new InstantCommand(this::displayLimelightData));
 
     // m_operatorController.leftStick().onTrue(Commands.sequence(m_positionClimb, lockArmMotors));
@@ -165,6 +169,9 @@ public class RobotContainer {
 
     m_driveController.rightTrigger().whileTrue(m_JawsOfLifeOpen);
     m_driveController.leftTrigger().whileTrue(m_JawsOfLifeClose);
+
+    m_driveController.povLeft().onTrue(m_JawsOfLifeClosePosition);
+    m_driveController.povLeft().onTrue(m_JawsOfLifeOpenPosition);
 
     m_driveController.b().onTrue(unlockArmMotors);
     m_driveController.x().onTrue(lockArmMotors);
