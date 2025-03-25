@@ -48,7 +48,6 @@ public class RobotContainer {
       new CommandXboxController(0);
   private final CommandXboxController m_driveController =
       new CommandXboxController(1); 
-  private final SendableChooser<Command> autoChooser;
 
   // Initialized Subsystems
   private final JawsOfLifeSubsystem m_JoLsubsystem = new JawsOfLifeSubsystem();
@@ -56,7 +55,9 @@ public class RobotContainer {
   private final AngleArmSubsystem m_angleArmSubsystem = new AngleArmSubsystem();
   private final ServoArmSubsystem m_servoArmSubsystem = new ServoArmSubsystem();
   
-// // Initialized Commands
+  private final SendableChooser<Command> autoChooser = new SendableChooser<Command>(); 
+    
+// Initialized Commands
   
   // Jol Section
   private final JawsofLifeCommand m_JawsOfLifeOpen = new JawsofLifeCommand(m_JoLsubsystem, Constants.JoLMotorConstants.JoLSpeed, this::rumbleOperatorControllerIfEngaged);
@@ -92,6 +93,12 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    
+    NamedCommands.registerCommand("angleArmremoveStand", new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationRemoveStand));
+    NamedCommands.registerCommand("angleArmStart", new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationStart));
+    NamedCommands.registerCommand("coralouttake", new IntakeOuttakeCommand(Constants.outtakeSpeed,Constants.outtakeSpeed,m_InOuttakeSubsystem).withTimeout(2));
+    NamedCommands.registerCommand("angleArmStage1",new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationOuttakeCoral));
+
     drive =
             new Drive(
                 new GyroIOPigeon2(),
@@ -103,23 +110,15 @@ public class RobotContainer {
 
     resetPoseAngleCommand = new ResetPoseAngleCommand(drive);
 
-    NamedCommands.registerCommand("angleArmremoveStand", new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationRemoveStand));
-    NamedCommands.registerCommand("angleArmStart", new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationStart));
-    NamedCommands.registerCommand("coralouttake", new IntakeOuttakeCommand(Constants.outtakeSpeed,Constants.outtakeSpeed,m_InOuttakeSubsystem).withTimeout(2));
-    NamedCommands.registerCommand("angleArmStage1",new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationOuttakeCoral));
+    autoChooser.addOption("red top auto", new PathPlannerAuto("red top auto"));
+    autoChooser.addOption("blue top auto", new PathPlannerAuto("blue top auto"));
+    autoChooser.addOption("red middle auto", new PathPlannerAuto("red middle auto"));
+    autoChooser.addOption("blue middle auto", new PathPlannerAuto("blue middle auto"));
+    autoChooser.addOption("red bottom auto", new PathPlannerAuto("red bottom auto"));
+    autoChooser.addOption("blue bottom auto", new PathPlannerAuto("blue bottom auto"));
+    autoChooser.addOption("test auto 2", new PathPlannerAuto("Test Auto 2"));
 
-    autoChooser = AutoBuilder.buildAutoChooser();
-    // autoChooser = new SendableChooser<Command>();
-    // autoChooser.addOption("red top auto", new PathPlannerAuto("red top auto"));
-    // autoChooser.addOption("blue top auto", new PathPlannerAuto("blue top auto"));
-    // autoChooser.addOption("red middle auto", new PathPlannerAuto("red middle auto"));
-    // autoChooser.addOption("blue middle auto", new PathPlannerAuto("blue middle auto"));
-    // autoChooser.addOption("red bottom auto", new PathPlannerAuto("red bottom auto"));
-    // autoChooser.addOption("blue bottom auto", new PathPlannerAuto("blue bottom auto"));
-    // autoChooser.addOption("test auto 1", new PathPlannerAuto("Test Auto 1"));
-    // autoChooser.addOption("test auto 2", new PathPlannerAuto("Test Auto 2"));
-
-    // SmartDashboard.putData(autoChooser);
+    SmartDashboard.putData("Auto Chooser", autoChooser);
 
     //     // Set up SysId routines
     //     autoChooser.addOption(
@@ -150,11 +149,11 @@ public class RobotContainer {
     m_operatorController.povLeft().onTrue(m_positionHang);
     m_operatorController.povRight().onTrue(m_positionStarting);
 
-    m_operatorController.leftBumper().whileTrue(m_OuttakeCommand);
-    m_operatorController.rightBumper().whileTrue(m_IntakeCommand);
+    // m_operatorController.leftBumper().whileTrue(m_OuttakeCommand);
+    // m_operatorController.rightBumper().whileTrue(m_IntakeCommand);
 
-    m_operatorController.rightTrigger().whileTrue(m_AlgaeFloorIntake);
-    m_operatorController.leftTrigger().whileTrue(m_AlgaeProcessorOuttake);
+    // m_operatorController.rightTrigger().whileTrue(m_AlgaeFloorIntake);
+    // m_operatorController.leftTrigger().whileTrue(m_AlgaeProcessorOuttake);
     // m_operatorController.back().onTrue(new InstantCommand(this::displayLimelightData));
 
     // m_operatorController.leftStick().onTrue(Commands.sequence(m_positionClimb, lockArmMotors));
@@ -204,17 +203,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    // return autoChooser.getSelected();
-
-    // final Command command = autoChooser.getSelected();
-
-    // if (command != null) {
-    //   System.out.println("chosen auto : " + command.getName());
-    // } else {
-    //   System.out.println("chosen auto is null");
-    // }
-
-    return new PathPlannerAuto("red bottom auto");
+     return autoChooser.getSelected();
   }
 
   private void displayLimelightData() {

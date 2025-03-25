@@ -19,8 +19,8 @@ public class InTakeOutTakesubsystem extends SubsystemBase {
   TalonSRX motorBot;
   /** Creates a new ExampleSubsystem. */
   public InTakeOutTakesubsystem() {
-  motorTop = new TalonSRX(Constants.kTopIntakePort);
-  motorBot = new TalonSRX(Constants.kBottomIntakePort);
+  //motorTop = new TalonSRX(Constants.kTopIntakePort);
+//  motorBot = new TalonSRX(Constants.kBottomIntakePort);
   }
   /**
    * Example command factory method.

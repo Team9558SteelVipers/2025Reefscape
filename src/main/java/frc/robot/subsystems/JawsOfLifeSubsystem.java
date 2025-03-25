@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 //imports
+import frc.robot.Constants.JoLMotorConstants;
 
 public class JawsOfLifeSubsystem extends SubsystemBase {
  
@@ -31,10 +32,14 @@ public class JawsOfLifeSubsystem extends SubsystemBase {
    *
    * @return a command
    */
+  
   // public Command JawsOfLifeMethodCommand(double num) {
   //   JoLMotor.setControl(new PositionVoltage(num));
   //   //determines number of rotations of the motor
 
+  // public void JawsOfLifeMethodCommand(double num) {
+  //   JoLMotor.set(ControlMode.Position, JoLMotorConstants.JoLEngagedAngle);
+  // }
 
   //   return runOnce(
   //       () -> {

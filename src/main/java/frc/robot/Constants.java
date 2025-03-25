@@ -90,7 +90,9 @@ public final class Constants {
   public static final double TARGET_HEIGHT = 98.0; // Height of the target from the floor (in inches)
   public static final double LIMELIGHT_DISTANCE_CONSTANT = 0.25;
   public static final double LIMELIGHT_MOUNT_ANGLE = 30.0; // Mounting angle of Limelight (degrees)
-
+  public static final double LIMELIGHT_FWD_SCALER = 1;  //multiplier for DrivePID controller
+  public static final double LIMELIGHT_STRAFE_SCALER = 1;  //ultiplier for StrafrPID controller
+  public static final double LIMELIGHT_DISTANCE_TOLERANCE =0.1;  //
   public static enum Mode {
     /** Running on a real robot. */
     REAL,
