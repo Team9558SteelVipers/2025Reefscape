@@ -23,21 +23,9 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Left Close"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
           }
         },
         {
@@ -47,9 +35,81 @@
           }
         },
         {
-          "type": "wait",
+          "type": "named",
           "data": {
-            "waitTime": 0.5
+            "name": "angleArmStation"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "left cycle one"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "coralintake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "angleArmStage1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "left post cycle one"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "coralouttake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "angleArmStation"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Left cycle two"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "coralintake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "angleArmStage1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "left post cycle two"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "coralouttake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "left gyro"
           }
         }
       ]

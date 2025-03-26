@@ -12,6 +12,9 @@ public final class Constants {
   
   public static final double intakeSpeed = -1.0;
   public static final double outtakeSpeed = 0.75;
+  public static final double pieceDetectCurrentThreshold = 15.0;
+  public static final double pieceDetectMinimumRunTime = 0.25;
+  public static final double pieceDetectMaximumRunTime = 2.0;
 
   // public static final double intakeIdleSpeed = -0.1;
 
@@ -62,7 +65,7 @@ public final class Constants {
     public static final double armRotationHang = 0.674072;
     public static final double armRotationRemoveStand = 0.58;
     public static final double armRotationStart = 0.622803;
-    public static final double armRotationStation = 0.6;
+    public static final double armRotationStation = 0.615234;
 
     public static final double kArmP = 30.0;
     public static final double kArmI = 0;

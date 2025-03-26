@@ -20,6 +20,7 @@ import frc.robot.commands.JawsofLifeCommand;
 import frc.robot.commands.JawsofLifePositionCommand;
 import frc.robot.commands.ResetPoseAngleCommand;
 import frc.robot.commands.IntakeOuttakeCommand;
+import frc.robot.commands.IntakeWithPieceDetectCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AngleArmSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -79,7 +80,7 @@ public class RobotContainer {
   //private final AngleArmDynamicCommand setAngleArmDynamic = new AngleArmDynamicCommand(m_angleArmSubsystem, this::dpadVerticalControl);
   private final AngleArmConstantSpeedCommand armUp = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, 0.6);
   private final AngleArmConstantSpeedCommand armDown = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, -0.6);
-
+  private final AngleArmConstantSpeedCommand stop = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, 0);
 
   // Servo Section
   private ServoArmCommand unlockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle180);
@@ -91,6 +92,7 @@ public class RobotContainer {
   public IntakeOuttakeCommand m_AlgaeFloorIntake = new IntakeOuttakeCommand(0, Constants.outtakeSpeed, m_InOuttakeSubsystem);
   public IntakeOuttakeCommand m_AlgaeProcessorOuttake = new IntakeOuttakeCommand(0, Constants.intakeSpeed, m_InOuttakeSubsystem);
   // public IntakeOuttakeCommand m_idleSpeed = new IntakeOuttakeCommand(Constants.intakeIdleSpeed, Constants.intakeIdleSpeed, m_InOuttakeSubsystem);
+  public IntakeWithPieceDetectCommand m_IntakeWithPieceDetectCommand = new IntakeWithPieceDetectCommand(m_InOuttakeSubsystem, Constants.intakeSpeed, Constants.pieceDetectMinimumRunTime, Constants.pieceDetectMaximumRunTime);
 
   private final NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
@@ -99,8 +101,11 @@ public class RobotContainer {
     
     NamedCommands.registerCommand("angleArmremoveStand", new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationRemoveStand));
     NamedCommands.registerCommand("angleArmStart", new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationStart));
-    NamedCommands.registerCommand("coralouttake", new IntakeOuttakeCommand(Constants.outtakeSpeed,Constants.outtakeSpeed,m_InOuttakeSubsystem).withTimeout(2));
+    NamedCommands.registerCommand("coralouttake", new IntakeOuttakeCommand(Constants.outtakeSpeed,Constants.outtakeSpeed,m_InOuttakeSubsystem).withTimeout(1));
+    // NamedCommands.registerCommand("coralintake", new IntakeOuttakeCommand(Constants.intakeSpeed,Constants.intakeSpeed,m_InOuttakeSubsystem).withTimeout(2));
+    NamedCommands.registerCommand("coralintake", m_IntakeWithPieceDetectCommand);
     NamedCommands.registerCommand("angleArmStage1",new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationOuttakeCoral));
+    NamedCommands.registerCommand("angleArmStation",new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationStation));
 
     drive =
             new Drive(
@@ -119,7 +124,7 @@ public class RobotContainer {
     autoChooser.addOption("blue middle auto", new PathPlannerAuto("blue middle auto"));
     autoChooser.addOption("red bottom auto", new PathPlannerAuto("red bottom auto"));
     autoChooser.addOption("blue bottom auto", new PathPlannerAuto("blue bottom auto"));
-    autoChooser.addOption("test auto 2", new PathPlannerAuto("Test Auto 2"));
+    autoChooser.addOption("left cycle auto", new PathPlannerAuto("left cycle auto"));
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
@@ -142,6 +147,8 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+
+    // m_operatorController.start().onTrue(m_IntakeWithPieceDetectCommand.withTimeout(2));
 
     m_driveController.povUp().onTrue(resetPoseAngleCommand);
 
@@ -213,6 +220,10 @@ public class RobotContainer {
      return autoChooser.getSelected();
   }
 
+  public void stopAngleArm() {
+    stop.schedule();
+  }
+
   private void displayLimelightData() {
       SmartDashboard.putNumber("Limelight X", getLimelightValue(Constants.LIMELIGHT_X_KEY));
       SmartDashboard.putNumber("Limelight Y", getLimelightValue(Constants.LIMELIGHT_Y_KEY));
@@ -228,5 +239,4 @@ public class RobotContainer {
       m_operatorController.setRumble(RumbleType.kBothRumble, engaged ? 0.5 : 0.0);
       m_driveController.setRumble(RumbleType.kBothRumble, engaged ? 0.5 : 0.0);
   }
-  
 }

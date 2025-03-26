@@ -5,11 +5,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.TalonSRXControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -37,6 +34,11 @@ public class InTakeOutTakesubsystem extends SubsystemBase {
 
           /* one-time action goes here */
         
+  }
+
+  public boolean pieceIsIn() {
+    return motorTop.getStatorCurrent() > Constants.pieceDetectCurrentThreshold ||
+      motorBot.getStatorCurrent() > Constants.pieceDetectCurrentThreshold;
   }
 
   /**

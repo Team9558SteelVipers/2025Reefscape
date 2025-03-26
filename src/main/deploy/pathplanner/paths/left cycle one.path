@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.142725409836067,
-        "y": 5.889088114754098
+        "x": 5.118590163934427,
+        "y": 6.450112704918034
       },
       "isLocked": false,
       "linkedName": "blue top"
     },
     {
       "anchor": {
-        "x": 4.974897540983607,
-        "y": 6.572387295081967
+        "x": 0.9590163934426229,
+        "y": 7.387551229508197
       },
       "prevControl": {
-        "x": 4.98688524590164,
-        "y": 6.284682377049179
+        "x": 2.3630163934426234,
+        "y": 7.202301229508197
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "blue top close end"
+      "linkedName": "end of left cycle"
     }
   ],
   "rotationTargets": [],
@@ -42,10 +42,10 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 125.75388725443676
   },
   "reversed": false,
-  "folder": "reefscape paths",
+  "folder": null,
   "idealStartingState": {
     "velocity": 0,
     "rotation": -120.19162296095769
