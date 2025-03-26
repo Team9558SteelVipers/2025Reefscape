@@ -47,6 +47,10 @@ public final class Constants {
     public static final double JolRestAngle = 0.83;
     public static final double JoLAngleTolerance = 0.1;
     public static final double JoLResistanceCurrentThreshold = 8.0;
+
+    public static final double JoLkP = 0.0;
+    public static final double JoLkI = 0.0;
+    public static final double JoLkD = 0.0;
   }
 
   public static class ArmAngleConstants {

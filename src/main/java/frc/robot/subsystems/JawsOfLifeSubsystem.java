@@ -3,17 +3,10 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.PositionVoltage;
-import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-//imports
-import frc.robot.Constants.JoLMotorConstants;
 
 public class JawsOfLifeSubsystem extends SubsystemBase {
  
@@ -25,6 +18,10 @@ public class JawsOfLifeSubsystem extends SubsystemBase {
     // JoLMotor.getConfigurator().apply(pidconfig);
     //apply PID to motor
     JoLMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+    
+    JoLMotor.config_kP(0, Constants.JoLMotorConstants.JoLkP);
+    JoLMotor.config_kI(0, Constants.JoLMotorConstants.JoLkI);
+    JoLMotor.config_kD(0, Constants.JoLMotorConstants.JoLkD);
   }
 
   /**
