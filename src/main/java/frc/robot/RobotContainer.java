@@ -5,6 +5,7 @@
 package frc.robot;
 
 import frc.robot.Constants.ArmAngleConstants;
+import frc.robot.Constants.DriveMotorConstants;
 import frc.robot.Constants.ServoArmConstants;
 import frc.robot.commands.ServoArmCommand;
 import frc.robot.subsystems.ServoArmSubsystem;
@@ -73,7 +74,7 @@ public class RobotContainer {
   // Arm Section
   private final AngleArmPositionCommand m_positionFloor = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationIntakeCoral);
   private final AngleArmPositionCommand m_positionStage1 = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationOuttakeCoral);
-  private final AngleArmPositionCommand m_positionStage2 = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationRemoveAlgae);
+  private final AngleArmPositionCommand m_positionRemoveAlgae = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationRemoveAlgae);
   private final AngleArmPositionCommand m_positionClimb = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationClimb);
   private final AngleArmPositionCommand m_positionHang = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationHang);
   private final AngleArmPositionCommand m_AlgaeProcess = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationProcessAlgae);
@@ -82,8 +83,8 @@ public class RobotContainer {
   private final AngleArmPositionCommand m_positionStation = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationStation);
   
   //private final AngleArmDynamicCommand setAngleArmDynamic = new AngleArmDynamicCommand(m_angleArmSubsystem, this::dpadVerticalControl);
-  private final AngleArmConstantSpeedCommand armUp = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, 0.6);
-  private final AngleArmConstantSpeedCommand armDown = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, -0.6);
+  private final AngleArmConstantSpeedCommand armUp = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationSpeed);
+  private final AngleArmConstantSpeedCommand armDown = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, -ArmAngleConstants.armRotationSpeed);
   private final AngleArmConstantSpeedCommand stop = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, 0);
 
   // Servo Section
@@ -159,7 +160,7 @@ public class RobotContainer {
 
     m_operatorController.a().onTrue(m_positionFloor);
     m_operatorController.b().onTrue(m_positionStage1);
-    m_operatorController.y().onTrue(m_positionStage2);
+    m_operatorController.y().onTrue(m_positionRemoveAlgae);
     m_operatorController.x().onTrue(m_AlgaeProcess);
     m_operatorController.povLeft().onTrue(m_positionStation);
     m_operatorController.povRight().onTrue(m_positionL2);
@@ -192,25 +193,25 @@ public class RobotContainer {
     drive.setDefaultCommand(
             DriveCommands.joystickDrive(
                 drive,
-                () -> ArmAngleConstants.defaultSpeedValue*m_driveController.getLeftY(),
-                () -> ArmAngleConstants.defaultSpeedValue*m_driveController.getLeftX(),
-                () -> -ArmAngleConstants.defaultSpeedValue*m_driveController.getRightX()));
+                () -> DriveMotorConstants.defaultSpeedValue*m_driveController.getLeftY(),
+                () -> DriveMotorConstants.defaultSpeedValue*m_driveController.getLeftX(),
+                () -> -DriveMotorConstants.defaultSpeedValue*m_driveController.getRightX()));
         // Slower Speed on Drive        
     m_driveController.rightBumper().whileTrue(
       DriveCommands.joystickDrive(
       drive,
-      () -> ArmAngleConstants.damperSpeedValue*m_driveController.getLeftY(),
-      () -> ArmAngleConstants.damperSpeedValue*m_driveController.getLeftX(),
-      () -> -ArmAngleConstants.damperSpeedValue*m_driveController.getRightX()));
+      () -> DriveMotorConstants.damperSpeedValue*m_driveController.getLeftY(),
+      () -> DriveMotorConstants.damperSpeedValue*m_driveController.getLeftX(),
+      () -> -DriveMotorConstants.damperSpeedValue*m_driveController.getRightX()));
 
     
     // Higher Speed on Drive
     m_driveController.leftBumper().whileTrue(
       DriveCommands.joystickDrive(
       drive,
-      () -> ArmAngleConstants.amplifySpeedValue*m_driveController.getLeftY(),
-      () -> ArmAngleConstants.amplifySpeedValue*m_driveController.getLeftX(),
-      () -> -ArmAngleConstants.amplifySpeedValue*m_driveController.getRightX()));
+      () -> DriveMotorConstants.amplifySpeedValue*m_driveController.getLeftY(),
+      () -> DriveMotorConstants.amplifySpeedValue*m_driveController.getLeftX(),
+      () -> -DriveMotorConstants.amplifySpeedValue*m_driveController.getRightX()));
 
     // m_InOuttakeSubsystem.setDefaultCommand(m_idleSpeed);
     

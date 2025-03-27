@@ -37,6 +37,10 @@ public final class Constants {
     public static final int MotorPortBR = 0;
     public static final int MotorPortFL = 0;
     public static final int MotorPortFR = 0;
+
+    public static final double damperSpeedValue = 0.25;
+    public static final double amplifySpeedValue = 1.0;
+    public static final double defaultSpeedValue = 0.75;
   }
 
 
@@ -59,6 +63,8 @@ public final class Constants {
     public static final int leftArmMotorPort = 22;
     public static final int rightArmMotorPort = 21;
 
+    public static final double armRotationSpeed = 0.6;
+
     public static final int armCANcoderPort = 0;
 
     public static final double armRotationTolerance = 0.05;
@@ -74,6 +80,8 @@ public final class Constants {
     public static final double armRotationStation = 0.61;
     public static final double armRotationL2 = 0.643066;
 
+
+
     public static final double kArmP = 30.0;
     public static final double kArmI = 0;
     public static final double kArmD = 2.0;
@@ -85,8 +93,6 @@ public final class Constants {
     public static final double kArmClimbG = 0;
 
     public static final double damperSpeedValue = 0.25;
-    public static final double amplifySpeedValue = 1.0;
-    public static final double defaultSpeedValue = 0.75;
   }
 
   public static final int LIMELIGHT_PIPELINE = 0;
