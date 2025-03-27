@@ -10,8 +10,15 @@ public final class Constants {
   public static final Mode simMode = Mode.SIM;
   public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : simMode;
   
-  public static final double intakeSpeed = 1.0;
-  public static final double intakeIdleSpeed = 0.1;
+  public static final double intakeSpeed = -1.0;
+  public static final double outtakeSpeed = 0.6;
+  public static final double intakeAlgae = 0.9;
+  public static final double outtakeAlgae = -0.9;
+  public static final double pieceDetectCurrentThreshold = 15.0;
+  public static final double pieceDetectMinimumRunTime = 0.25;
+  public static final double pieceDetectMaximumRunTime = 1.5;
+
+  // public static final double intakeIdleSpeed = -0.1;
 
   public static class ServoArmConstants{
     public static final int armServoPort = 0;
@@ -36,9 +43,16 @@ public final class Constants {
   public final class JoLMotorConstants{
     public static final int JoLMotorPort = 14;
     public static final double JoLSpeed = 0.2;
-    public static final double JoLEngagedAngle = 0; // TODO: configure
-    public static final double JoLAngleTolerance = 0.05; // TODO: configure
-    public static final double JoLResistanceCurrentThreshold = 4.0; // TODO: configure
+    public static final int JoLTicksPerRevolution = 4096;
+    public static final double JoLEngagedAngle = 0.675;
+    public static final double JoLDisengagedAngle = 0.55;
+    public static final double JolRestAngle = 0.83;
+    public static final double JoLAngleTolerance = 0.1;
+    public static final double JoLResistanceCurrentThreshold = 8.0;
+
+    public static final double JoLkP = 0.0;
+    public static final double JoLkI = 0.0;
+    public static final double JoLkD = 0.0;
   }
 
   public static class ArmAngleConstants {
@@ -48,24 +62,31 @@ public final class Constants {
     public static final int armCANcoderPort = 0;
 
     public static final double armRotationTolerance = 0.05;
+
     public static final double armRotationIntakeCoral = 0.771484; //-0.226562;
     public static final double armRotationOuttakeCoral = 0.673828; //-0.320068;
     public static final double armRotationRemoveAlgae = 0.480225; //-0.527100;
-    public static final double armRotationIntakeAlgae = 0.705; //-0.291748;
+    public static final double armRotationProcessAlgae = 0.705; //-0.291748;
     public static final double armRotationClimb = 0.580078; //-0.419189;
-    public static final double armRotationHang = 0.0;
+    public static final double armRotationHang = 0.674072;
+    public static final double armRotationRemoveStand = 0.58;
+    public static final double armRotationStart = 0.622803;
+    public static final double armRotationStation = 0.61;
+    public static final double armRotationL2 = 0.643066;
 
-    public static final double kArmP = 35.0;
+    public static final double kArmP = 30.0;
     public static final double kArmI = 0;
-    public static final double kArmD = 0;
+    public static final double kArmD = 2.0;
     public static final double kArmG = 0;
     
-    public static final double kArmClimbP = 35.0;
+    public static final double kArmClimbP = 40.0;
     public static final double kArmClimbI = 0;
     public static final double kArmClimbD = 0;
     public static final double kArmClimbG = 0;
 
     public static final double damperSpeedValue = 0.25;
+    public static final double amplifySpeedValue = 1.0;
+    public static final double defaultSpeedValue = 0.75;
   }
 
   public static final int LIMELIGHT_PIPELINE = 0;
@@ -82,7 +103,9 @@ public final class Constants {
   public static final double TARGET_HEIGHT = 98.0; // Height of the target from the floor (in inches)
   public static final double LIMELIGHT_DISTANCE_CONSTANT = 0.25;
   public static final double LIMELIGHT_MOUNT_ANGLE = 30.0; // Mounting angle of Limelight (degrees)
-
+  public static final double LIMELIGHT_FWD_SCALER = 1;  //multiplier for DrivePID controller
+  public static final double LIMELIGHT_STRAFE_SCALER = 1;  //ultiplier for StrafrPID controller
+  public static final double LIMELIGHT_DISTANCE_TOLERANCE =0.1;  //
   public static enum Mode {
     /** Running on a real robot. */
     REAL,

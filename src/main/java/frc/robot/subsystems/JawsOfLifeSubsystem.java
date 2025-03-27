@@ -3,16 +3,10 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-import com.ctre.phoenix6.configs.Slot0Configs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.PositionVoltage;
-import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-//imports
 
 public class JawsOfLifeSubsystem extends SubsystemBase {
  
@@ -24,6 +18,10 @@ public class JawsOfLifeSubsystem extends SubsystemBase {
     // JoLMotor.getConfigurator().apply(pidconfig);
     //apply PID to motor
     JoLMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+    
+    JoLMotor.config_kP(0, Constants.JoLMotorConstants.JoLkP);
+    JoLMotor.config_kI(0, Constants.JoLMotorConstants.JoLkI);
+    JoLMotor.config_kD(0, Constants.JoLMotorConstants.JoLkD);
   }
 
   /**
@@ -31,10 +29,14 @@ public class JawsOfLifeSubsystem extends SubsystemBase {
    *
    * @return a command
    */
+  
   // public Command JawsOfLifeMethodCommand(double num) {
   //   JoLMotor.setControl(new PositionVoltage(num));
   //   //determines number of rotations of the motor
 
+  public void JawsOfLifePosition(double num) {
+    JoLMotor.set(ControlMode.Position, num);
+  }
 
   //   return runOnce(
   //       () -> {
@@ -53,15 +55,15 @@ public boolean isEngaged() {
   final double currentDraw = JoLMotor.getStatorCurrent();
   final boolean motorIsFacingResistance = (currentDraw > Constants.JoLMotorConstants.JoLResistanceCurrentThreshold);
 
-  final boolean isOpening = JoLMotor.getMotorOutputPercent() < 0;
+  //final boolean isOpening = JoLMotor.getMotorOutputPercent() > 0;
 
-  System.out.println("JoL: angle is " + angle + ", current draw is " + currentDraw + ", is opening? " + isOpening);
+  System.out.println("JoL: angle is " + angle + ", current draw is " + currentDraw);
 
-  return atEngagedAngle && motorIsFacingResistance && isOpening;
+  return atEngagedAngle && motorIsFacingResistance;
 }
 
 public double getJawsOfLifeAngle() {
-  return JoLMotor.getSelectedSensorPosition();
+  return JoLMotor.getSelectedSensorPosition() / Constants.JoLMotorConstants.JoLTicksPerRevolution;
 }
 
   /**

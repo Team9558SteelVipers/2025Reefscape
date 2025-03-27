@@ -1,36 +1,35 @@
-package frc.robot.commands;
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 
-import frc.robot.subsystems.JawsOfLifeSubsystem;
+package frc.robot.commands;
 
 import java.util.function.Consumer;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.JawsOfLifeSubsystem;
 
-/** An example command that uses an example subsystem. */
-public class JawsofLifeCommand extends Command {
-
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+public class JawsofLifePositionCommand extends Command {
   private final JawsOfLifeSubsystem m_JoLsubsystem;
-  private final double speed;
+  private final double position;
   private final Consumer<Boolean> m_engagedFeedbackConsumer;
 
-  public JawsofLifeCommand(JawsOfLifeSubsystem m_subsystem, double speed, Consumer<Boolean> engagedFeedbackConsumer) {
+  public JawsofLifePositionCommand(JawsOfLifeSubsystem m_subsystem, double position, Consumer<Boolean> engagedFeedbackConsumer) {
     m_JoLsubsystem = m_subsystem;
-    this.speed = speed;
+    this.position = position;
     m_engagedFeedbackConsumer = engagedFeedbackConsumer;
     // 
     // **Use addRequirements() here to declare subsystem dependencies.**
     //   Eventually add a requirement relating to arm angle to ensure the arm angle is in the right spot
     addRequirements(m_subsystem);
   }
-  //Command for Jaws of Life, with parameters subsystem and num (position of jaws of life)
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-   m_JoLsubsystem.JawsOfLifeSpeed(speed);
+    m_JoLsubsystem.JawsOfLifePosition(position);
   }
-  // activates the command on initialization
+
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
@@ -40,7 +39,6 @@ public class JawsofLifeCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_JoLsubsystem.JawsOfLifeSpeed(0);
     m_engagedFeedbackConsumer.accept(false);
   }
 
@@ -50,5 +48,3 @@ public class JawsofLifeCommand extends Command {
     return false;
   }
 }
-
-

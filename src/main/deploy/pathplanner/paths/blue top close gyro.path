@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.935860655737705,
-        "y": 6.176793032786884
+        "x": 5.274590163934427,
+        "y": 5.133862704918033
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.387264004597183,
-        "y": 6.18009895559097
+        "x": 5.142725409836067,
+        "y": 5.889088114754098
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "blue top"
     },
     {
       "anchor": {
-        "x": 6.293545081967213,
-        "y": 6.176793032786884
+        "x": 4.974897540983607,
+        "y": 6.572387295081967
       },
       "prevControl": {
-        "x": 5.972712260812746,
-        "y": 6.178671505995215
+        "x": 4.98688524590164,
+        "y": 6.284682377049179
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "blue top close end"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": "reefscape paths",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 178.66778014613035
+    "rotation": -120.19162296095769
   },
   "useDefaultConstraints": true
 }

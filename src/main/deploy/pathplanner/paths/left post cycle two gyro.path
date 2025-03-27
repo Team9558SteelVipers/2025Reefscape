@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.202663934426229,
-        "y": 2.7842725409836064
+        "x": 0.73125,
+        "y": 7.81775
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.614299940139631,
-        "y": 2.7638202495134783
+        "x": 1.51125,
+        "y": 7.23275
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "end of left cycle two"
     },
     {
       "anchor": {
-        "x": 6.005840163934426,
-        "y": 0.5785348360655734
+        "x": 2.5155000000000003,
+        "y": 6.013999999999999
       },
       "prevControl": {
-        "x": 4.411922337076352,
-        "y": 1.74345395900666
+        "x": 1.5405000000000006,
+        "y": 7.106
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -90.0
+    "rotation": 0.0
   },
   "reversed": false,
-  "folder": "reefscape paths",
+  "folder": "left",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 120.01836742760906
+    "rotation": 125.75388725443676
   },
   "useDefaultConstraints": true
 }

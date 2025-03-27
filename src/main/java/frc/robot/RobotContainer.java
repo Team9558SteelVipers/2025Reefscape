@@ -17,19 +17,17 @@ import frc.robot.commands.AngleArmDynamicCommand;
 import frc.robot.commands.AngleArmPositionCommand;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.JawsofLifeCommand;
+import frc.robot.commands.JawsofLifePositionCommand;
+import frc.robot.commands.ResetPoseAngleCommand;
 import frc.robot.commands.IntakeOuttakeCommand;
+import frc.robot.commands.IntakeWithPieceDetectCommand;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.AngleArmSubsystem;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.InTakeOutTakesubsystem;
 import frc.robot.subsystems.JawsOfLifeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-
-import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -37,7 +35,6 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -46,13 +43,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class RobotContainer {
   private final Drive drive;
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+  public final Command resetPoseAngleCommand;
 
   // Initialized Controllers
   private final CommandXboxController m_operatorController =
       new CommandXboxController(0);
   private final CommandXboxController m_driveController =
       new CommandXboxController(1); 
-  //private final SendableChooser<Command> autoChooser;
 
   // Initialized Subsystems
   private final JawsOfLifeSubsystem m_JoLsubsystem = new JawsOfLifeSubsystem();
@@ -61,39 +58,59 @@ public class RobotContainer {
   private final ServoArmSubsystem m_servoArmSubsystem = new ServoArmSubsystem();
   
 
-// // Initialized Commands
+  private final SendableChooser<Command> autoChooser = new SendableChooser<Command>(); 
+    
+// Initialized Commands
+
   
 
   // Jol Section
   private final JawsofLifeCommand m_JawsOfLifeOpen = new JawsofLifeCommand(m_JoLsubsystem, Constants.JoLMotorConstants.JoLSpeed, this::rumbleOperatorControllerIfEngaged);
   private final JawsofLifeCommand m_JawsOfLifeClose = new JawsofLifeCommand(m_JoLsubsystem, -Constants.JoLMotorConstants.JoLSpeed, this::rumbleOperatorControllerIfEngaged);
+  private final JawsofLifePositionCommand m_JawsOfLifeClosePosition = new JawsofLifePositionCommand(m_JoLsubsystem, Constants.JoLMotorConstants.JoLDisengagedAngle, this::rumbleOperatorControllerIfEngaged);
+  private final JawsofLifePositionCommand m_JawsOfLifeOpenPosition = new JawsofLifePositionCommand(m_JoLsubsystem, Constants.JoLMotorConstants.JoLEngagedAngle, this::rumbleOperatorControllerIfEngaged);
 
   // Arm Section
   private final AngleArmPositionCommand m_positionFloor = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationIntakeCoral);
   private final AngleArmPositionCommand m_positionStage1 = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationOuttakeCoral);
   private final AngleArmPositionCommand m_positionStage2 = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationRemoveAlgae);
   private final AngleArmPositionCommand m_positionClimb = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationClimb);
-
+  private final AngleArmPositionCommand m_positionHang = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationHang);
+  private final AngleArmPositionCommand m_AlgaeProcess = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationProcessAlgae);
+  private final AngleArmPositionCommand m_positionStarting = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationStart);
+  private final AngleArmPositionCommand m_positionL2 = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationL2);
+  private final AngleArmPositionCommand m_positionStation = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationStation);
+  
   //private final AngleArmDynamicCommand setAngleArmDynamic = new AngleArmDynamicCommand(m_angleArmSubsystem, this::dpadVerticalControl);
-  private final AngleArmConstantSpeedCommand armUp = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, 1);
-  private final AngleArmConstantSpeedCommand armDown = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, -1);
-
+  private final AngleArmConstantSpeedCommand armUp = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, 0.6);
+  private final AngleArmConstantSpeedCommand armDown = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, -0.6);
+  private final AngleArmConstantSpeedCommand stop = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, 0);
 
   // Servo Section
   private ServoArmCommand unlockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle180);
   private ServoArmCommand lockArmMotors = new ServoArmCommand(m_servoArmSubsystem, ServoArmConstants.angle0);
 
   // Intake Outtake Section
-  public IntakeOuttakeCommand m_SpeedCommand = new IntakeOuttakeCommand(Constants.intakeSpeed, Constants.intakeSpeed, m_InOuttakeSubsystem);
-  public IntakeOuttakeCommand m_ReverseSpeed = new IntakeOuttakeCommand(-Constants.intakeSpeed, -Constants.intakeSpeed, m_InOuttakeSubsystem);
-  public IntakeOuttakeCommand m_AlgaeFloor = new IntakeOuttakeCommand(Constants.intakeSpeed,0, m_InOuttakeSubsystem);
-  public IntakeOuttakeCommand m_AlgaeStage = new IntakeOuttakeCommand(Constants.intakeSpeed,0, m_InOuttakeSubsystem);
-  public IntakeOuttakeCommand m_idleSpeed = new IntakeOuttakeCommand(-Constants.intakeIdleSpeed, -Constants.intakeIdleSpeed, m_InOuttakeSubsystem);
+  public IntakeOuttakeCommand m_OuttakeCommand = new IntakeOuttakeCommand(Constants.outtakeSpeed, Constants.outtakeSpeed, m_InOuttakeSubsystem);
+  public IntakeOuttakeCommand m_IntakeCommand = new IntakeOuttakeCommand(Constants.intakeSpeed, Constants.intakeSpeed, m_InOuttakeSubsystem);
+  public IntakeOuttakeCommand m_AlgaeFloorIntake = new IntakeOuttakeCommand(0, Constants.intakeAlgae, m_InOuttakeSubsystem);
+  public IntakeOuttakeCommand m_AlgaeProcessorOuttake = new IntakeOuttakeCommand(0, Constants.outtakeAlgae, m_InOuttakeSubsystem);
+  // public IntakeOuttakeCommand m_idleSpeed = new IntakeOuttakeCommand(Constants.intakeIdleSpeed, Constants.intakeIdleSpeed, m_InOuttakeSubsystem);
+  public IntakeWithPieceDetectCommand m_IntakeWithPieceDetectCommand = new IntakeWithPieceDetectCommand(m_InOuttakeSubsystem, Constants.intakeSpeed, Constants.pieceDetectMinimumRunTime, Constants.pieceDetectMaximumRunTime);
 
   private final NetworkTable limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    
+    NamedCommands.registerCommand("angleArmremoveStand", new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationRemoveStand));
+    NamedCommands.registerCommand("angleArmStart", new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationStart));
+    NamedCommands.registerCommand("coralouttake", new IntakeOuttakeCommand(Constants.outtakeSpeed,Constants.outtakeSpeed,m_InOuttakeSubsystem).withTimeout(0.3));
+    // NamedCommands.registerCommand("coralintake", new IntakeOuttakeCommand(Constants.intakeSpeed,Constants.intakeSpeed,m_InOuttakeSubsystem).withTimeout(2));
+    NamedCommands.registerCommand("coralintake", m_IntakeWithPieceDetectCommand);
+    NamedCommands.registerCommand("angleArmStage1",new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationOuttakeCoral));
+    NamedCommands.registerCommand("angleArmStation",new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationStation));
+
     drive =
             new Drive(
                 new GyroIOPigeon2(),
@@ -103,13 +120,18 @@ public class RobotContainer {
                 new ModuleIOTalonFX(TunerConstants.BackRight));
     // Configure the trigger bindings
 
+    resetPoseAngleCommand = new ResetPoseAngleCommand(drive);
 
-    NamedCommands.registerCommand("coralOuttake", new IntakeOuttakeCommand(-0.5, -0.5,m_InOuttakeSubsystem));
-    NamedCommands.registerCommand("angleArmStage1",new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationOuttakeCoral));
-// NAMED COMMANDS:
-    // NamedCommands.registerCommand();
+    autoChooser.addOption("red top auto", new PathPlannerAuto("red top auto"));
+    autoChooser.addOption("blue top auto", new PathPlannerAuto("blue top auto"));
+    autoChooser.addOption("red middle auto", new PathPlannerAuto("red middle auto"));
+    autoChooser.addOption("blue middle auto", new PathPlannerAuto("blue middle auto"));
+    autoChooser.addOption("red bottom auto", new PathPlannerAuto("red bottom auto"));
+    autoChooser.addOption("blue bottom auto", new PathPlannerAuto("blue bottom auto"));
+    autoChooser.addOption("left cycle auto", new PathPlannerAuto("left cycle auto"));
+    autoChooser.addOption("Right cycle auto", new PathPlannerAuto("Right cycle auto"));
 
-    // autoChooser = AutoBuilder.buildAutoChooser();
+    SmartDashboard.putData("Auto Chooser", autoChooser);
 
     //     // Set up SysId routines
     //     autoChooser.addOption(
@@ -131,13 +153,22 @@ public class RobotContainer {
 
   private void configureBindings() {
 
-    m_operatorController.a().onTrue(m_positionFloor);
-    m_operatorController.x().onTrue(m_positionStage1);
-    m_operatorController.y().onTrue(m_positionStage2);
-    // m_operatorController.b().onTrue(m_positionClimb);
+    // m_operatorController.start().onTrue(m_IntakeWithPieceDetectCommand.withTimeout(2));
 
-    m_operatorController.leftBumper().whileTrue(m_ReverseSpeed);
-    m_operatorController.rightBumper().whileTrue(m_SpeedCommand);
+    m_driveController.povUp().onTrue(resetPoseAngleCommand);
+
+    m_operatorController.a().onTrue(m_positionFloor);
+    m_operatorController.b().onTrue(m_positionStage1);
+    m_operatorController.y().onTrue(m_positionStage2);
+    m_operatorController.x().onTrue(m_AlgaeProcess);
+    m_operatorController.povLeft().onTrue(m_positionStation);
+    m_operatorController.povRight().onTrue(m_positionL2);
+
+     m_operatorController.leftBumper().whileTrue(m_OuttakeCommand); 
+     m_operatorController.rightBumper().whileTrue(m_IntakeCommand); 
+
+    m_operatorController.rightTrigger().whileTrue(m_AlgaeFloorIntake);
+    m_operatorController.leftTrigger().whileTrue(m_AlgaeProcessorOuttake);
 
     // m_operatorController.back().onTrue(new InstantCommand(this::displayLimelightData));
 
@@ -151,21 +182,37 @@ public class RobotContainer {
     m_driveController.rightTrigger().whileTrue(m_JawsOfLifeOpen);
     m_driveController.leftTrigger().whileTrue(m_JawsOfLifeClose);
 
-    m_driveController.b().onTrue(lockArmMotors);
-    
-    m_driveController.x().onTrue(unlockArmMotors);
-    // m_driveController.y().onTrue(m_positionClimb);
-    // m_driveController.b().onTrue(m_AlgaeFloor);
+    m_driveController.povLeft().onTrue(m_JawsOfLifeClosePosition);
+    m_driveController.povLeft().onTrue(m_JawsOfLifeOpenPosition);
 
+    m_driveController.b().onTrue(unlockArmMotors);
+    m_driveController.x().onTrue(lockArmMotors);
+    m_driveController.y().onTrue(m_positionClimb);
+    // m_driveController.b().onTrue(m_AlgaeFloor);
     drive.setDefaultCommand(
             DriveCommands.joystickDrive(
                 drive,
+                () -> ArmAngleConstants.defaultSpeedValue*m_driveController.getLeftY(),
+                () -> ArmAngleConstants.defaultSpeedValue*m_driveController.getLeftX(),
+                () -> -ArmAngleConstants.defaultSpeedValue*m_driveController.getRightX()));
+        // Slower Speed on Drive        
+    m_driveController.rightBumper().whileTrue(
+      DriveCommands.joystickDrive(
+      drive,
+      () -> ArmAngleConstants.damperSpeedValue*m_driveController.getLeftY(),
+      () -> ArmAngleConstants.damperSpeedValue*m_driveController.getLeftX(),
+      () -> -ArmAngleConstants.damperSpeedValue*m_driveController.getRightX()));
 
-                () -> m_driveController.getLeftY(),
-                () -> m_driveController.getLeftX(),
-                () -> -m_driveController.getRightX()));
     
-    m_InOuttakeSubsystem.setDefaultCommand(m_idleSpeed);
+    // Higher Speed on Drive
+    m_driveController.leftBumper().whileTrue(
+      DriveCommands.joystickDrive(
+      drive,
+      () -> ArmAngleConstants.amplifySpeedValue*m_driveController.getLeftY(),
+      () -> ArmAngleConstants.amplifySpeedValue*m_driveController.getLeftX(),
+      () -> -ArmAngleConstants.amplifySpeedValue*m_driveController.getRightX()));
+
+    // m_InOuttakeSubsystem.setDefaultCommand(m_idleSpeed);
     
 
   }
@@ -178,7 +225,11 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return new PathPlannerAuto("start top - reef");
+     return autoChooser.getSelected();
+  }
+
+  public void stopAngleArm() {
+    stop.schedule();
   }
 
 
@@ -192,20 +243,10 @@ public class RobotContainer {
   private double getLimelightValue(String key) {
       return limelightTable.getEntry(key).getDouble(0.0);
   }
-    
-  private double dpadVerticalControl() {
-    if (m_operatorController.povUp().getAsBoolean()) {
-      return 1;
-    } else if (m_operatorController.povDown().getAsBoolean()) {
-      return -1;
-    } else {
-      return 0;
-    }
-  }
-
+  
   private void rumbleOperatorControllerIfEngaged(final boolean engaged) {
       m_operatorController.setRumble(RumbleType.kBothRumble, engaged ? 0.5 : 0.0);
+      m_driveController.setRumble(RumbleType.kBothRumble, engaged ? 0.5 : 0.0);
   }
-  
 }
 

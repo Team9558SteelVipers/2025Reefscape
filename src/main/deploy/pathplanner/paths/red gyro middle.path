@@ -1,0 +1,59 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 11.6805,
+        "y": 4.0055
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 11.431271631002339,
+        "y": 4.025127024399163
+      },
+      "isLocked": false,
+      "linkedName": "endmiddlered"
+    },
+    {
+      "anchor": {
+        "x": 11.16375,
+        "y": 4.0055
+      },
+      "prevControl": {
+        "x": 11.53561420575844,
+        "y": 4.0055
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "middle end reset red gyro"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": 0.0
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0
+  },
+  "reversed": false,
+  "folder": "reefscape paths",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "useDefaultConstraints": true
+}

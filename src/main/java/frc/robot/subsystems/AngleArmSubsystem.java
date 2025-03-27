@@ -106,7 +106,8 @@ public class AngleArmSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    SmartDashboard.putNumber("Arm CANcoder", armCANcoder.getPosition().getValueAsDouble());
+    // SmartDashboard.putNumber("Arm CANcoder", armCANcoder.getPosition().getValueAsDouble());
+    SmartDashboard.putNumber("Arm CANcoder", armCANcoder.getAbsolutePosition().getValueAsDouble());
     // This method will be called once per scheduler run
   }
 
