@@ -3,37 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.8695,
-        "y": 4.0055
+        "x": 0.73125,
+        "y": 7.81775
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.6195,
-        "y": 4.0055
+        "x": 1.51125,
+        "y": 7.23275
       },
       "isLocked": false,
-      "linkedName": "endbluerankingpointmiddle"
+      "linkedName": "end of left cycle two"
     },
     {
       "anchor": {
-        "x": 6.387,
-        "y": 4.0055
+        "x": 2.5155000000000003,
+        "y": 6.013999999999999
       },
       "prevControl": {
-        "x": 6.637,
-        "y": 4.0055
+        "x": 1.5405000000000006,
+        "y": 7.106
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "blue reset gyro middle end"
+      "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1.0,
-      "rotationDegrees": 0.0
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -50,10 +45,10 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "reefscape paths",
+  "folder": "left",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 125.75388725443676
   },
   "useDefaultConstraints": true
 }

@@ -36,7 +36,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Left Close"
+                  "pathName": "right close"
                 }
               }
             ]
@@ -74,10 +74,16 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "left cycle one"
+                  "pathName": "right cycle one"
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
           }
         },
         {
@@ -93,7 +99,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "left post cycle one"
+                  "pathName": "right post cycle one"
                 }
               },
               {
@@ -131,7 +137,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Left cycle two"
+                  "pathName": "right cycle two"
                 }
               },
               {
@@ -157,6 +163,12 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.25
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "coralintake"
@@ -169,7 +181,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "left post cycle two gyro"
+                  "pathName": "right post cycle two gyro"
                 }
               },
               {

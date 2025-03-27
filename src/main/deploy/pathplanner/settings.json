@@ -3,6 +3,8 @@
   "robotLength": 0.927,
   "holonomicMode": true,
   "pathFolders": [
+    "right",
+    "left",
     "reefscape paths"
   ],
   "autoFolders": [

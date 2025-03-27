@@ -75,7 +75,8 @@ public class RobotContainer {
   private final AngleArmPositionCommand m_positionHang = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationHang);
   private final AngleArmPositionCommand m_AlgaeProcess = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationProcessAlgae);
   private final AngleArmPositionCommand m_positionStarting = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationStart);
-  
+  private final AngleArmPositionCommand m_positionL2 = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationL2);
+  private final AngleArmPositionCommand m_positionStation = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationStation);
   
   //private final AngleArmDynamicCommand setAngleArmDynamic = new AngleArmDynamicCommand(m_angleArmSubsystem, this::dpadVerticalControl);
   private final AngleArmConstantSpeedCommand armUp = new AngleArmConstantSpeedCommand(m_angleArmSubsystem, 0.6);
@@ -89,8 +90,8 @@ public class RobotContainer {
   // Intake Outtake Section
   public IntakeOuttakeCommand m_OuttakeCommand = new IntakeOuttakeCommand(Constants.outtakeSpeed, Constants.outtakeSpeed, m_InOuttakeSubsystem);
   public IntakeOuttakeCommand m_IntakeCommand = new IntakeOuttakeCommand(Constants.intakeSpeed, Constants.intakeSpeed, m_InOuttakeSubsystem);
-  public IntakeOuttakeCommand m_AlgaeFloorIntake = new IntakeOuttakeCommand(0, Constants.outtakeSpeed, m_InOuttakeSubsystem);
-  public IntakeOuttakeCommand m_AlgaeProcessorOuttake = new IntakeOuttakeCommand(0, Constants.intakeSpeed, m_InOuttakeSubsystem);
+  public IntakeOuttakeCommand m_AlgaeFloorIntake = new IntakeOuttakeCommand(0, Constants.intakeAlgae, m_InOuttakeSubsystem);
+  public IntakeOuttakeCommand m_AlgaeProcessorOuttake = new IntakeOuttakeCommand(0, Constants.outtakeAlgae, m_InOuttakeSubsystem);
   // public IntakeOuttakeCommand m_idleSpeed = new IntakeOuttakeCommand(Constants.intakeIdleSpeed, Constants.intakeIdleSpeed, m_InOuttakeSubsystem);
   public IntakeWithPieceDetectCommand m_IntakeWithPieceDetectCommand = new IntakeWithPieceDetectCommand(m_InOuttakeSubsystem, Constants.intakeSpeed, Constants.pieceDetectMinimumRunTime, Constants.pieceDetectMaximumRunTime);
 
@@ -101,7 +102,7 @@ public class RobotContainer {
     
     NamedCommands.registerCommand("angleArmremoveStand", new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationRemoveStand));
     NamedCommands.registerCommand("angleArmStart", new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationStart));
-    NamedCommands.registerCommand("coralouttake", new IntakeOuttakeCommand(Constants.outtakeSpeed,Constants.outtakeSpeed,m_InOuttakeSubsystem).withTimeout(1));
+    NamedCommands.registerCommand("coralouttake", new IntakeOuttakeCommand(Constants.outtakeSpeed,Constants.outtakeSpeed,m_InOuttakeSubsystem).withTimeout(0.3));
     // NamedCommands.registerCommand("coralintake", new IntakeOuttakeCommand(Constants.intakeSpeed,Constants.intakeSpeed,m_InOuttakeSubsystem).withTimeout(2));
     NamedCommands.registerCommand("coralintake", m_IntakeWithPieceDetectCommand);
     NamedCommands.registerCommand("angleArmStage1",new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationOuttakeCoral));
@@ -125,6 +126,7 @@ public class RobotContainer {
     autoChooser.addOption("red bottom auto", new PathPlannerAuto("red bottom auto"));
     autoChooser.addOption("blue bottom auto", new PathPlannerAuto("blue bottom auto"));
     autoChooser.addOption("left cycle auto", new PathPlannerAuto("left cycle auto"));
+    autoChooser.addOption("Right cycle auto", new PathPlannerAuto("Right cycle auto"));
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
 
@@ -156,8 +158,8 @@ public class RobotContainer {
     m_operatorController.b().onTrue(m_positionStage1);
     m_operatorController.y().onTrue(m_positionStage2);
     m_operatorController.x().onTrue(m_AlgaeProcess);
-    m_operatorController.povLeft().onTrue(m_positionHang);
-    m_operatorController.povRight().onTrue(m_positionStarting);
+    m_operatorController.povLeft().onTrue(m_positionStation);
+    m_operatorController.povRight().onTrue(m_positionL2);
 
      m_operatorController.leftBumper().whileTrue(m_OuttakeCommand); 
      m_operatorController.rightBumper().whileTrue(m_IntakeCommand); 
