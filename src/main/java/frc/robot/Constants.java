@@ -11,9 +11,11 @@ public final class Constants {
   public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : simMode;
   
   public static final double intakeSpeed = -1.0;
-  public static final double outtakeSpeed = 0.6;
+  public static final double outtakeSpeed = 0.85;
   public static final double intakeAlgae = 0.9;
   public static final double outtakeAlgae = -0.9;
+  public static final double outtakeSpeedAuto = 0.6;
+
   public static final double pieceDetectCurrentThreshold = 15.0;
   public static final double pieceDetectMinimumRunTime = 0.25;
   public static final double pieceDetectMaximumRunTime = 1.5;
@@ -69,7 +71,7 @@ public final class Constants {
 
     public static final double armRotationTolerance = 0.05;
 
-    public static final double armRotationIntakeCoral = 0.771484; //-0.226562;
+    public static final double armRotationIntakeCoral = 0.774170; //-0.226562;
     public static final double armRotationOuttakeCoral = 0.673828; //-0.320068;
     public static final double armRotationRemoveAlgae = 0.480225; //-0.527100;
     public static final double armRotationProcessAlgae = 0.705; //-0.291748;
@@ -78,7 +80,7 @@ public final class Constants {
     public static final double armRotationRemoveStand = 0.58;
     public static final double armRotationStart = 0.622803;
     public static final double armRotationStation = 0.61;
-    public static final double armRotationL2 = 0.643066;
+    public static final double armRotationL2 = 0.63;
 
 
 

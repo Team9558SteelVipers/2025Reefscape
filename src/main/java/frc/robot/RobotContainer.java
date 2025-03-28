@@ -106,7 +106,7 @@ public class RobotContainer {
     
     NamedCommands.registerCommand("angleArmremoveStand", new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationRemoveStand));
     NamedCommands.registerCommand("angleArmStart", new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationStart));
-    NamedCommands.registerCommand("coralouttake", new IntakeOuttakeCommand(Constants.outtakeSpeed,Constants.outtakeSpeed,m_InOuttakeSubsystem).withTimeout(0.3));
+    NamedCommands.registerCommand("coralouttake", new IntakeOuttakeCommand(Constants.outtakeSpeedAuto,Constants.outtakeSpeedAuto,m_InOuttakeSubsystem).withTimeout(0.3));
     // NamedCommands.registerCommand("coralintake", new IntakeOuttakeCommand(Constants.intakeSpeed,Constants.intakeSpeed,m_InOuttakeSubsystem).withTimeout(2));
     NamedCommands.registerCommand("coralintake", m_IntakeWithPieceDetectCommand);
     NamedCommands.registerCommand("angleArmStage1",new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationOuttakeCoral));
@@ -123,14 +123,14 @@ public class RobotContainer {
 
     resetPoseAngleCommand = new ResetPoseAngleCommand(drive);
 
-    autoChooser.addOption("red top auto", new PathPlannerAuto("red top auto"));
-    autoChooser.addOption("blue top auto", new PathPlannerAuto("blue top auto"));
-    autoChooser.addOption("red middle auto", new PathPlannerAuto("red middle auto"));
-    autoChooser.addOption("blue middle auto", new PathPlannerAuto("blue middle auto"));
-    autoChooser.addOption("red bottom auto", new PathPlannerAuto("red bottom auto"));
-    autoChooser.addOption("blue bottom auto", new PathPlannerAuto("blue bottom auto"));
+    autoChooser.addOption("middle auto", new PathPlannerAuto("middle auto"));
     autoChooser.addOption("left cycle auto", new PathPlannerAuto("left cycle auto"));
     autoChooser.addOption("Right cycle auto", new PathPlannerAuto("Right cycle auto"));
+    autoChooser.addOption("right close", new PathPlannerAuto("right close"));
+    autoChooser.addOption("left close", new PathPlannerAuto("left close"));
+    autoChooser.addOption("Right 3 Piece", new PathPlannerAuto("Right 3 Piece"));
+    autoChooser.addOption("Left 3 Piece", new PathPlannerAuto("Left 3 Piece"));
+
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
 

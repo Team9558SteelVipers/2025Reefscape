@@ -169,7 +169,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "right post cycle two gyro"
+                  "pathName": "right cycle three"
                 }
               },
               {
@@ -192,6 +192,18 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "coralouttake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "right gyro three"
           }
         }
       ]

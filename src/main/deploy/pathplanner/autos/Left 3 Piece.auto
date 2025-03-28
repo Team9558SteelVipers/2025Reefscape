@@ -36,7 +36,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "right close"
+                  "pathName": "Left Close"
                 }
               }
             ]
@@ -74,7 +74,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "right cycle one"
+                  "pathName": "left cycle one"
                 }
               }
             ]
@@ -93,7 +93,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "right post cycle one"
+                  "pathName": "left post cycle one"
                 }
               },
               {
@@ -131,7 +131,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "right cycle two"
+                  "pathName": "Left cycle two"
                 }
               },
               {
@@ -169,7 +169,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "right post cycle two gyro"
+                  "pathName": "left cycle three"
                 }
               },
               {
@@ -192,6 +192,18 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "coralouttake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "left gyro three"
           }
         }
       ]

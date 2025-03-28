@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.73125,
-        "y": 7.81775
+        "x": 0.9590163934426229,
+        "y": 7.507428278688524
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.51125,
-        "y": 7.23275
+        "x": 1.7390163934426233,
+        "y": 6.922428278688524
       },
       "isLocked": false,
       "linkedName": "end of left cycle two"

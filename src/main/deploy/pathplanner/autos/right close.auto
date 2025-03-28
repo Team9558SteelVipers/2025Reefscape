@@ -31,7 +31,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left Close"
+            "pathName": "right close"
           }
         },
         {
@@ -55,7 +55,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "blue top close gyro"
+            "pathName": "blue bottom gyro"
           }
         },
         {
@@ -68,6 +68,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "reefscape autos",
+  "folder": "Macomb Autos",
   "choreoAuto": false
 }
