@@ -130,6 +130,9 @@ public class RobotContainer {
     autoChooser.addOption("left close", new PathPlannerAuto("left close"));
     autoChooser.addOption("Right 3 Piece", new PathPlannerAuto("Right 3 Piece"));
     autoChooser.addOption("Left 3 Piece", new PathPlannerAuto("Left 3 Piece"));
+    autoChooser.addOption("LTest", new PathPlannerAuto("Test Auto 2"));
+
+    
 
 
     SmartDashboard.putData("Auto Chooser", autoChooser);

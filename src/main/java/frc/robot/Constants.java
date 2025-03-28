@@ -40,7 +40,7 @@ public final class Constants {
     public static final int MotorPortFL = 0;
     public static final int MotorPortFR = 0;
 
-    public static final double damperSpeedValue = 0.25;
+    public static final double damperSpeedValue = 0.35;
     public static final double amplifySpeedValue = 1.0;
     public static final double defaultSpeedValue = 0.75;
   }
