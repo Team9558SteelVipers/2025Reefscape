@@ -57,13 +57,13 @@ public boolean isEngaged() {
 
   //final boolean isOpening = JoLMotor.getMotorOutputPercent() > 0;
 
-  System.out.println("JoL: angle is " + angle + ", current draw is " + currentDraw);
+  // System.out.println("JoL: angle is " + angle + ", current draw is " + currentDraw);
 
   return atEngagedAngle && motorIsFacingResistance;
 }
 
 public double getJawsOfLifeAngle() {
-  return JoLMotor.getSelectedSensorPosition() / Constants.JoLMotorConstants.JoLTicksPerRevolution;
+  return JoLMotor.getSelectedSensorPosition();
 }
 
   /**

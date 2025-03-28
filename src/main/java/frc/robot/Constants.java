@@ -14,7 +14,7 @@ public final class Constants {
   public static final double outtakeSpeed = 0.85;
   public static final double intakeAlgae = 0.9;
   public static final double outtakeAlgae = -0.9;
-  public static final double outtakeSpeedAuto = 0.6;
+  public static final double outtakeSpeedAuto = 0.5;
 
   public static final double pieceDetectCurrentThreshold = 15.0;
   public static final double pieceDetectMinimumRunTime = 0.25;
@@ -49,14 +49,13 @@ public final class Constants {
   public final class JoLMotorConstants{
     public static final int JoLMotorPort = 14;
     public static final double JoLSpeed = 0.2;
-    public static final int JoLTicksPerRevolution = 4096;
-    public static final double JoLEngagedAngle = 0.675;
-    public static final double JoLDisengagedAngle = 0.55;
-    public static final double JolRestAngle = 0.83;
-    public static final double JoLAngleTolerance = 0.1;
+    public static final double JoLEngagedAngle = 2870;
+    public static final double JoLDisengagedAngle = 2262;
+    public static final double JolRestAngle = 3350;
+    public static final double JoLAngleTolerance = 200;
     public static final double JoLResistanceCurrentThreshold = 8.0;
 
-    public static final double JoLkP = 0.0;
+    public static final double JoLkP = 0.75;
     public static final double JoLkI = 0.0;
     public static final double JoLkD = 0.0;
   }

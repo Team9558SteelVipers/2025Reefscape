@@ -5,9 +5,15 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Straight Vertical"
+            "name": "angleArmremoveStand"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "coralouttake"
           }
         }
       ]

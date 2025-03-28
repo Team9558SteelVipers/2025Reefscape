@@ -39,7 +39,7 @@ public class JawsofLifePositionCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_engagedFeedbackConsumer.accept(false);
+    // m_engagedFeedbackConsumer.accept(false);
   }
 
   // Returns true when the command should end.

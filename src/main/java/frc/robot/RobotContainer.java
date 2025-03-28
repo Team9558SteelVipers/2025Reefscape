@@ -184,7 +184,7 @@ public class RobotContainer {
     m_driveController.leftTrigger().whileTrue(m_JawsOfLifeClose);
 
     m_driveController.povLeft().onTrue(m_JawsOfLifeClosePosition);
-    m_driveController.povLeft().onTrue(m_JawsOfLifeOpenPosition);
+    m_driveController.povRight().onTrue(m_JawsOfLifeOpenPosition);
 
     m_driveController.b().onTrue(unlockArmMotors);
     m_driveController.x().onTrue(lockArmMotors);
@@ -246,8 +246,8 @@ public class RobotContainer {
   }
   
   private void rumbleOperatorControllerIfEngaged(final boolean engaged) {
-      m_operatorController.setRumble(RumbleType.kBothRumble, engaged ? 0.5 : 0.0);
-      m_driveController.setRumble(RumbleType.kBothRumble, engaged ? 0.5 : 0.0);
+      m_operatorController.setRumble(RumbleType.kBothRumble, engaged ? 1.0 : 0.0);
+      m_driveController.setRumble(RumbleType.kBothRumble, engaged ? 1.0 : 0.0);
   }
 }
 
