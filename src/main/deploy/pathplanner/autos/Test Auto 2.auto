@@ -5,9 +5,33 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "angleArmStage1"
+          }
+        },
+        {
           "type": "path",
           "data": {
             "pathName": "blue middle"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "coralouttake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "outtakeremovealgae"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "blue middle backup"
           }
         }
       ]

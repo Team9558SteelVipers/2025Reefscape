@@ -107,6 +107,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("angleArmremoveStand", new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationRemoveStand));
     NamedCommands.registerCommand("angleArmStart", new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationStart));
     NamedCommands.registerCommand("coralouttake", new IntakeOuttakeCommand(Constants.outtakeSpeedAuto,Constants.outtakeSpeedAuto,m_InOuttakeSubsystem).withTimeout(0.3));
+    NamedCommands.registerCommand("outtakeremovealgae", new IntakeOuttakeCommand(Constants.removeAlgaeSpeed,Constants.removeAlgaeSpeed,m_InOuttakeSubsystem).withTimeout(1));
     // NamedCommands.registerCommand("coralintake", new IntakeOuttakeCommand(Constants.intakeSpeed,Constants.intakeSpeed,m_InOuttakeSubsystem).withTimeout(2));
     NamedCommands.registerCommand("coralintake", m_IntakeWithPieceDetectCommand);
     NamedCommands.registerCommand("angleArmStage1",new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationOuttakeCoral));
@@ -132,7 +133,7 @@ public class RobotContainer {
     autoChooser.addOption("Left 3 Piece", new PathPlannerAuto("Left 3 Piece"));
     autoChooser.addOption("LTest", new PathPlannerAuto("Test Auto 2"));
 
-    
+
 
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
