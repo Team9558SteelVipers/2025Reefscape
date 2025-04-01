@@ -113,6 +113,7 @@ public class RobotContainer {
     // NamedCommands.registerCommand("coralintake", new IntakeOuttakeCommand(Constants.intakeSpeed,Constants.intakeSpeed,m_InOuttakeSubsystem).withTimeout(2));
     NamedCommands.registerCommand("coralintake", m_IntakeWithPieceDetectCommand);
     NamedCommands.registerCommand("angleArmStage1",new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationOuttakeCoral));
+    NamedCommands.registerCommand("angleArmL2",new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationL2));
     NamedCommands.registerCommand("angleArmStation",new AngleArmPositionCommand(m_angleArmSubsystem,  ArmAngleConstants.armRotationStation));
 
     drive =
@@ -133,6 +134,7 @@ public class RobotContainer {
     autoChooser.addOption("left close", new PathPlannerAuto("left close"));
     autoChooser.addOption("Right 3 Piece", new PathPlannerAuto("Right 3 Piece"));
     autoChooser.addOption("Left 3 Piece", new PathPlannerAuto("Left 3 Piece"));
+    autoChooser.addOption("Left L2 Auto", new PathPlannerAuto("Left L2 Auto"));
     autoChooser.addOption("LTest", new PathPlannerAuto("Test Auto 2"));
 
 
