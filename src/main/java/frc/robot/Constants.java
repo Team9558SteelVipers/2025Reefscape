@@ -71,16 +71,16 @@ public final class Constants {
 
     public static final double armRotationTolerance = 0.05;
 
-    public static final double armRotationIntakeCoral = 0.774170; //-0.226562;
-    public static final double armRotationOuttakeCoral = 0.673828; //-0.320068;
-    public static final double armRotationRemoveAlgae = 0.480225; //-0.527100;
-    public static final double armRotationProcessAlgae = 0.705; //-0.291748;
-    public static final double armRotationClimb = 0.580078; //-0.419189;
-    public static final double armRotationHang = 0.674072;
-    public static final double armRotationRemoveStand = 0.58;
-    public static final double armRotationStart = 0.622803;
-    public static final double armRotationStation = 0.61;
-    public static final double armRotationL2 = 0.635;
+    public static final double armRotationIntakeCoral = 0.0; // 0.774170;
+    public static final double armRotationOuttakeCoral = 0.100342; // 0.673828;
+    public static final double armRotationRemoveAlgae = 0.293945; // 0.480225;
+    public static final double armRotationProcessAlgae = 0.06917; // 0.705;
+    public static final double armRotationClimb = 0.194092; // 0.580078;
+    public static final double armRotationHang = 0.100098; // 0.674072;
+    public static final double armRotationRemoveStand = 0.19417; // 0.58;
+    public static final double armRotationStart = 0.151367; // 0.622803;
+    public static final double armRotationStation = 0.16417; // 0.61;
+    public static final double armRotationL2 = 0.13917; // 0.635;
 
 
 

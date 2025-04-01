@@ -15,6 +15,9 @@ import frc.robot.Constants;
 import frc.robot.Constants.ArmAngleConstants;
 
 import com.ctre.phoenix6.controls.VoltageOut;
+import com.ctre.phoenix.sensors.CANCoderConfiguration;
+import com.ctre.phoenix.sensors.CANCoderConfiguration;
+import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix6.configs.FeedbackConfigs;
 import com.ctre.phoenix6.configs.MagnetSensorConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
@@ -29,6 +32,7 @@ import com.ctre.phoenix6.signals.FeedbackSensorSourceValue;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.signals.SensorDirectionValue;
 
 public class AngleArmSubsystem extends SubsystemBase {
   TalonFX rightArmMotor;
@@ -43,7 +47,9 @@ public class AngleArmSubsystem extends SubsystemBase {
     armCANcoder = new CANcoder(ArmAngleConstants.armCANcoderPort);
 
     final MagnetSensorConfigs cancoderConfigs = new MagnetSensorConfigs()
-      .withAbsoluteSensorDiscontinuityPoint(1);
+      .withAbsoluteSensorDiscontinuityPoint(0.5)
+      .withSensorDirection(SensorDirectionValue.Clockwise_Positive)
+      .withMagnetOffset(-0.223145);
 
     armCANcoder.getConfigurator().apply(cancoderConfigs);
 
@@ -70,7 +76,7 @@ public class AngleArmSubsystem extends SubsystemBase {
       .withRemoteCANcoder(armCANcoder);
 
     final MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs()
-      .withInverted(InvertedValue.Clockwise_Positive)
+      .withInverted(InvertedValue.CounterClockwise_Positive)
       .withNeutralMode(NeutralModeValue.Brake);
 
     final TalonFXConfiguration configuration = new TalonFXConfiguration()
@@ -100,7 +106,7 @@ public class AngleArmSubsystem extends SubsystemBase {
   }
 
   public void setArmSpeedDynamic(double speed) {
-    leftArmMotor.set(ArmAngleConstants.damperSpeedValue*(-speed));
+    leftArmMotor.set(ArmAngleConstants.damperSpeedValue*speed);
   }
   
 

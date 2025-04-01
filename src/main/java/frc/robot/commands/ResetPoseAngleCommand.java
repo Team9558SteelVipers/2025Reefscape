@@ -30,7 +30,7 @@ public class ResetPoseAngleCommand extends InstantCommand {
 
     final Rotation2d startRotation = 
       DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue ? 
-        new Rotation2d(Math.PI) : new Rotation2d();
+        new Rotation2d(Math.PI) : new Rotation2d(0);
 
     m_drive.setPose(new Pose2d(m_drive.getPose().getTranslation(), startRotation));
   }
