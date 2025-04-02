@@ -3,45 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.16875,
-        "y": 4.103
+        "x": 7.5855,
+        "y": 4.0055
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.4765,
-        "y": 4.01525
+        "x": 6.0840000000000005,
+        "y": 5.4875
       },
       "isLocked": false,
-      "linkedName": "end of right p1 cycle"
+      "linkedName": "middle start"
     },
     {
       "anchor": {
-        "x": 2.028,
-        "y": 1.4509999999999992
+        "x": 5.537999999999999,
+        "y": 4.955
       },
       "prevControl": {
-        "x": 2.5742916655112786,
-        "y": 1.8661816657885701
-      },
-      "nextControl": {
-        "x": 1.29675,
-        "y": 0.8952499999999987
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 0.78975,
-        "y": 0.8269999999999993
-      },
-      "prevControl": {
-        "x": 1.0140000000000002,
-        "y": 1.0707499999999994
+        "x": 6.07175,
+        "y": 5.5024999999999995
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "end of right cycle two"
+      "linkedName": "end of middle left"
     }
   ],
   "rotationTargets": [],
@@ -58,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -128.65980825409008
+    "rotation": -120.19162296095769
   },
   "reversed": false,
-  "folder": "right",
+  "folder": "middle",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

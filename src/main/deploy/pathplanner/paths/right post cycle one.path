@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.9350409836065574,
-        "y": 0.5665471311475403
+        "x": 0.9945,
+        "y": 0.66125
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.9727909836065574,
-        "y": 1.71704713114754
+        "x": 3.0322499999999994,
+        "y": 1.8117499999999995
       },
       "isLocked": false,
       "linkedName": "end of right cycle one"
@@ -32,12 +32,12 @@
     },
     {
       "anchor": {
-        "x": 3.198,
-        "y": 4.03475
+        "x": 3.16875,
+        "y": 4.103
       },
       "prevControl": {
-        "x": 2.198,
-        "y": 4.03475
+        "x": 2.16875,
+        "y": 4.103
       },
       "nextControl": null,
       "isLocked": false,

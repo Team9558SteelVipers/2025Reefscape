@@ -12,7 +12,7 @@
         "y": 4.030993852459016
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "middle start"
     },
     {
       "anchor": {
@@ -45,7 +45,7 @@
     "rotation": 180.0
   },
   "reversed": false,
-  "folder": "reefscape paths",
+  "folder": "middle",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

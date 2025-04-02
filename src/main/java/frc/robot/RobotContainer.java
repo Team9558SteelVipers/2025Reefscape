@@ -128,13 +128,12 @@ public class RobotContainer {
     resetPoseAngleCommand = new ResetPoseAngleCommand(drive);
 
     autoChooser.addOption("middle auto", new PathPlannerAuto("middle auto"));
-    autoChooser.addOption("left cycle auto", new PathPlannerAuto("left cycle auto"));
-    autoChooser.addOption("Right cycle auto", new PathPlannerAuto("Right cycle auto"));
-    autoChooser.addOption("right close", new PathPlannerAuto("right close"));
-    autoChooser.addOption("left close", new PathPlannerAuto("left close"));
     autoChooser.addOption("Right 3 Piece", new PathPlannerAuto("Right 3 Piece"));
     autoChooser.addOption("Left 3 Piece", new PathPlannerAuto("Left 3 Piece"));
-    autoChooser.addOption("Left L2 Auto", new PathPlannerAuto("Left L2 Auto"));
+    autoChooser.addOption("Left L2 Auto", new PathPlannerAuto("Left L2 Auto"));    
+    autoChooser.addOption("Right First Piece L2", new PathPlannerAuto("Right First Piece L2")); 
+    autoChooser.addOption("Left First Piece L2", new PathPlannerAuto("Left First Piece L2")); 
+    autoChooser.addOption("Middle Left Auto", new PathPlannerAuto("Middle Left Auto")); 
     autoChooser.addOption("LTest", new PathPlannerAuto("Test Auto 2"));
 
 
@@ -193,6 +192,7 @@ public class RobotContainer {
 
     m_driveController.povLeft().onTrue(m_JawsOfLifeClosePosition);
     m_driveController.povRight().onTrue(m_JawsOfLifeOpenPosition);
+
 
     m_driveController.b().onTrue(unlockArmMotors);
     m_driveController.x().onTrue(lockArmMotors);

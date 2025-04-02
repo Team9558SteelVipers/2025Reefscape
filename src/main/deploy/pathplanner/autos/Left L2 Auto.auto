@@ -33,6 +33,24 @@
           "data": {
             "name": "coralouttake"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "angleArmStation"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Left L2 Cycle One"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "coralintake"
+          }
         }
       ]
     }

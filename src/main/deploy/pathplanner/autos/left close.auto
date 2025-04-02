@@ -68,6 +68,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "Macomb Autos",
+  "folder": null,
   "choreoAuto": false
 }

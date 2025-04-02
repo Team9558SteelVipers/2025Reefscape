@@ -147,7 +147,7 @@ public class Drive extends SubsystemBase {
       this::getChassisSpeeds,
       this::runVelocity,
       new PPHolonomicDriveController(
-        new PIDConstants(14.0, 0.0, 0.0),
+        new PIDConstants(15.0, 0.0, 0.0),
         new PIDConstants(5.0, 0.0, 0.0)
       ),
       PP_CONFIG,

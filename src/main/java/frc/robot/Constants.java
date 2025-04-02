@@ -14,7 +14,7 @@ public final class Constants {
   public static final double outtakeSpeed = 0.78;
   public static final double intakeAlgae = 0.9;
   public static final double outtakeAlgae = -0.9;
-  public static final double outtakeSpeedAuto = 0.5;
+  public static final double outtakeSpeedAuto = 1.0;
   public static final double removeAlgaeSpeed = 0.9;
 
   public static final double pieceDetectCurrentThreshold = 15.0;
@@ -79,8 +79,9 @@ public final class Constants {
     public static final double armRotationHang = 0.100098; // 0.674072;
     public static final double armRotationRemoveStand = 0.19417; // 0.58;
     public static final double armRotationStart = 0.151367; // 0.622803;
-    public static final double armRotationStation = 0.16417; // 0.61;
+    public static final double armRotationStation = 0.17; // 0.16417; // 0.61;
     public static final double armRotationL2 = 0.13917; // 0.635;
+    public static final double armAutoL2Station = 0.170654;
 
 
 

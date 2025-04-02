@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.8360655737704916,
-        "y": 2.8801741803278698
+        "x": 3.9,
+        "y": 2.9817499999999995
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.4189270379357195,
-        "y": 2.7808341249139783
+        "x": 3.482861464165228,
+        "y": 2.882409944586108
       },
       "isLocked": false,
       "linkedName": "end of right cycle three"

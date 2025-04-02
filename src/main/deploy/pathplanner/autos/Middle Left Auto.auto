@@ -19,25 +19,13 @@
         {
           "type": "named",
           "data": {
-            "name": "angleArmStage1"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
+            "name": "angleArmL2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "right close"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
+            "pathName": "middle left"
           }
         },
         {
@@ -47,27 +35,15 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "blue bottom gyro"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
+            "pathName": "middle left gyro"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Macomb Autos",
   "choreoAuto": false
 }

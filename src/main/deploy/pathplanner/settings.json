@@ -3,9 +3,10 @@
   "robotLength": 0.927,
   "holonomicMode": true,
   "pathFolders": [
-    "right",
+    "middle",
     "left",
-    "reefscape paths"
+    "reefscape paths",
+    "right"
   ],
   "autoFolders": [
     "Macomb Autos",
