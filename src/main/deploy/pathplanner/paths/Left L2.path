@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.466337298913704,
-        "y": 6.246982344969578
+        "x": 6.454717550788945,
+        "y": 6.082018107652795
       },
       "isLocked": false,
       "linkedName": "blue top start"
@@ -20,8 +20,8 @@
         "y": 4.94
       },
       "prevControl": {
-        "x": 6.426990506333853,
-        "y": 5.735798976578461
+        "x": 6.313682839481871,
+        "y": 5.846463634585445
       },
       "nextControl": null,
       "isLocked": false,

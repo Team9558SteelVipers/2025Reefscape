@@ -19,25 +19,13 @@
         {
           "type": "named",
           "data": {
-            "name": "angleArmStage1"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
+            "name": "angleArmL2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Left Close"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
+            "pathName": "Middle Right"
           }
         },
         {
@@ -47,27 +35,15 @@
           }
         },
         {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "blue top close gyro"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
+            "pathName": "Middle Right Gyro"
           }
         }
       ]
     }
   },
   "resetOdom": true,
-  "folder": "reefscape autos",
+  "folder": "Macomb Autos",
   "choreoAuto": false
 }

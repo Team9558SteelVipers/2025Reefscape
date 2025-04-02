@@ -134,6 +134,7 @@ public class RobotContainer {
     autoChooser.addOption("Right First Piece L2", new PathPlannerAuto("Right First Piece L2")); 
     autoChooser.addOption("Left First Piece L2", new PathPlannerAuto("Left First Piece L2")); 
     autoChooser.addOption("Middle Left Auto", new PathPlannerAuto("Middle Left Auto")); 
+    autoChooser.addOption("Middle Right Auto", new PathPlannerAuto("Middle Right Auto")); 
     autoChooser.addOption("LTest", new PathPlannerAuto("Test Auto 2"));
 
 

@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5653688524590166,
-        "y": 5.614729508196719
+        "x": 2.7451844262295078,
+        "y": 5.493493852459016
       },
       "isLocked": false,
       "linkedName": "end of left cycle two"
@@ -20,8 +20,8 @@
         "y": 5.157838114754097
       },
       "prevControl": {
-        "x": 3.0712086025315175,
-        "y": 6.61743995011644
+        "x": 3.308606557377049,
+        "y": 6.248719262295082
       },
       "nextControl": null,
       "isLocked": false,
