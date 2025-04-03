@@ -14,7 +14,7 @@ public final class Constants {
   public static final double outtakeSpeed = 0.78;
   public static final double intakeAlgae = 0.9;
   public static final double outtakeAlgae = -0.9;
-  public static final double outtakeSpeedAuto = 1.0;
+  public static final double outtakeSpeedAuto = 0.5;
   public static final double removeAlgaeSpeed = 0.9;
 
   public static final double pieceDetectCurrentThreshold = 15.0;
