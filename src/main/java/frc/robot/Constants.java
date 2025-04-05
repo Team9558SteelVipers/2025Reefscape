@@ -50,11 +50,11 @@ public final class Constants {
   public final class JoLMotorConstants{
     public static final int JoLMotorPort = 14;
     public static final double JoLSpeed = 0.2;
-    public static final double JoLEngagedAngle = 2870;
-    public static final double JoLDisengagedAngle = 2262;
-    public static final double JolRestAngle = 3350;
-    public static final double JoLAngleTolerance = 200;
-    public static final double JoLResistanceCurrentThreshold = 8.0;
+    public static final double JoLEngagedAngle = 680; // 2760; 2890
+    public static final double JoLDisengagedAngle = 0; // 2310; 2262
+    public static final double JolRestAngle = 1040;
+    public static final double JoLAngleTolerance = 40;
+    public static final double JoLResistanceCurrentThreshold = 5.0;
 
     public static final double JoLkP = 0.75;
     public static final double JoLkI = 0.0;
@@ -79,7 +79,7 @@ public final class Constants {
     public static final double armRotationHang = 0.100098; // 0.674072;
     public static final double armRotationRemoveStand = 0.19417; // 0.58;
     public static final double armRotationStart = 0.151367; // 0.622803;
-    public static final double armRotationStation = 0.17; // 0.16417; // 0.61;
+    public static final double armRotationStation = 0.16417; // 0.17  // 0.61;
     public static final double armRotationL2 = 0.13917; // 0.635;
     public static final double armAutoL2Station = 0.170654;
 

@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import javax.lang.model.util.ElementScanner14;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.FeedbackDevice;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -17,7 +19,8 @@ public class JawsOfLifeSubsystem extends SubsystemBase {
   public JawsOfLifeSubsystem() {
     // JoLMotor.getConfigurator().apply(pidconfig);
     //apply PID to motor
-    JoLMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Absolute);
+    JoLMotor.configSelectedFeedbackSensor(FeedbackDevice.CTRE_MagEncoder_Relative);
+    JoLMotor.setSelectedSensorPosition(0);
     
     JoLMotor.config_kP(0, Constants.JoLMotorConstants.JoLkP);
     JoLMotor.config_kI(0, Constants.JoLMotorConstants.JoLkI);
@@ -48,16 +51,23 @@ public void JawsOfLifeSpeed(double speed){
 }
 
 public boolean isEngaged() {
-
+  boolean motorIsFacingResistance;
   final double angle = getJawsOfLifeAngle();
   final boolean atEngagedAngle = MathUtil.isNear(Constants.JoLMotorConstants.JoLEngagedAngle, angle, Constants.JoLMotorConstants.JoLAngleTolerance);
   
   final double currentDraw = JoLMotor.getStatorCurrent();
-  final boolean motorIsFacingResistance = (currentDraw > Constants.JoLMotorConstants.JoLResistanceCurrentThreshold);
+  if (currentDraw > Constants.JoLMotorConstants.JoLResistanceCurrentThreshold) {
+    motorIsFacingResistance = true;
+  } else if (currentDraw < -Constants.JoLMotorConstants.JoLResistanceCurrentThreshold){
+    motorIsFacingResistance = true;
+  } else {
+    motorIsFacingResistance = false;
+  }
+  // final boolean motorIsFacingResistance = (currentDraw > Constants.JoLMotorConstants.JoLResistanceCurrentThreshold);
 
   //final boolean isOpening = JoLMotor.getMotorOutputPercent() > 0;
 
-  // System.out.println("JoL: angle is " + angle + ", current draw is " + currentDraw);
+  System.out.println("JoL: angle is " + angle + ", current draw is " + currentDraw);
 
   return atEngagedAngle && motorIsFacingResistance;
 }

@@ -70,8 +70,8 @@ public class RobotContainer {
   // Jol Section
   private final JawsofLifeCommand m_JawsOfLifeOpen = new JawsofLifeCommand(m_JoLsubsystem, Constants.JoLMotorConstants.JoLSpeed, this::rumbleOperatorControllerIfEngaged);
   private final JawsofLifeCommand m_JawsOfLifeClose = new JawsofLifeCommand(m_JoLsubsystem, -Constants.JoLMotorConstants.JoLSpeed, this::rumbleOperatorControllerIfEngaged);
-  private final JawsofLifePositionCommand m_JawsOfLifeClosePosition = new JawsofLifePositionCommand(m_JoLsubsystem, Constants.JoLMotorConstants.JoLDisengagedAngle, this::rumbleOperatorControllerIfEngaged);
-  private final JawsofLifePositionCommand m_JawsOfLifeOpenPosition = new JawsofLifePositionCommand(m_JoLsubsystem, Constants.JoLMotorConstants.JoLEngagedAngle, this::rumbleOperatorControllerIfEngaged);
+  //private final JawsofLifePositionCommand m_JawsOfLifeClosePosition = new JawsofLifePositionCommand(m_JoLsubsystem, Constants.JoLMotorConstants.JoLDisengagedAngle, this::rumbleOperatorControllerIfEngaged);
+  //private final JawsofLifePositionCommand m_JawsOfLifeOpenPosition = new JawsofLifePositionCommand(m_JoLsubsystem, Constants.JoLMotorConstants.JoLEngagedAngle, this::rumbleOperatorControllerIfEngaged);
 
   // Arm Section
   private final AngleArmPositionCommand m_positionFloor = new AngleArmPositionCommand(m_angleArmSubsystem, ArmAngleConstants.armRotationIntakeCoral);
@@ -191,8 +191,8 @@ public class RobotContainer {
     m_driveController.rightTrigger().whileTrue(m_JawsOfLifeOpen);
     m_driveController.leftTrigger().whileTrue(m_JawsOfLifeClose);
 
-    m_driveController.povLeft().onTrue(m_JawsOfLifeClosePosition);
-    m_driveController.povRight().onTrue(m_JawsOfLifeOpenPosition);
+    //m_driveController.povLeft().onTrue(m_JawsOfLifeClosePosition);
+    //m_driveController.povRight().onTrue(m_JawsOfLifeOpenPosition);
 
 
     m_driveController.b().onTrue(unlockArmMotors);
